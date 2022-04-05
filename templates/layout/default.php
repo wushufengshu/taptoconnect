@@ -31,6 +31,7 @@
     <!-- ===============================================-->
     <!--    Stylesheets-->
     <!-- ===============================================--> 
+    <?= $this->Html->css('legend.css'); ?>
 
     <?= $this->Html->css('https://fonts.gstatic.com', ['rel' => 'preconnect']) ?>
     <?= $this->Html->css('https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:300,400,500,600,700,800,900&amp;display=swap') ?>

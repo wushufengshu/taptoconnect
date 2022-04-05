@@ -1,47 +1,59 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\User $user
+ * @var \App\Model\Entity\User[]|\Cake\Collection\CollectionInterface $users
  */
 ?>
-<div class="row">
-    <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $user->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $user->id), 'class' => 'side-nav-item']
-            ) ?>
-            <?= $this->Html->link(__('List Users'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-        </div>
-    </aside>
-    <div class="column-responsive column-80">
-        <div class="users form content">
-            <?= $this->Form->create($user) ?>
-            <fieldset>
-                <legend><?= __('Edit User') ?></legend>
-                <?php
-                    echo $this->Form->control('firstname');
-                    echo $this->Form->control('lastname');
-                    echo $this->Form->control('middlename');
-                    echo $this->Form->control('address');
-                    echo $this->Form->control('user_desc');
-                    echo $this->Form->control('email');
-                    echo $this->Form->control('contactno');
-                    echo $this->Form->control('website');
-                    echo $this->Form->control('username');
-                    echo $this->Form->control('password');
-                    echo $this->Form->control('activated');
-                    echo $this->Form->control('image');
-                    echo $this->Form->control('created_by');
-                    echo $this->Form->control('modified_by');
-                    echo $this->Form->control('trashed', ['empty' => true]);
-                    echo $this->Form->control('deleted_by');
-                ?>
-            </fieldset>
-            <?= $this->Form->button(__('Submit')) ?>
-            <?= $this->Form->end() ?>
-        </div>
-    </div>
-</div>
+        <div class="card mb-3">
+            <div class="card-header">
+              <div class="row flex-between-end">
+                <div class="col-auto align-self-center">
+                  <h5 class="mb-0" data-anchor="data-anchor">Edit User</h5>
+                </div>
+              </div>
+            </div>
+            <div class="card-body bg-light">
+              <div class="tab-content">
+                <div class="tab-pane preview-tab-pane active" role="tabpanel" aria-labelledby="tab-dom-872001c1-fbf7-4ca6-84a9-1e6de71adf6d" id="dom-872001c1-fbf7-4ca6-84a9-1e6de71adf6d">
+                    <?= $this->Form->create($user, array('class' => 'row g-3 needs-validation')) ?>
+                    <div class="col-md-4">
+                      <?php echo $this->Form->control('firstname',array('class' => 'form-control','placeholder' => 'Enter Firstname')); ?>
+                    </div>
+                    <div class="col-md-4">
+                      <?php echo $this->Form->control('lastname',array('class' => 'form-control','placeholder' => 'Enter Lastname')); ?>
+                    </div>
+                    <div class="col-md-4">
+                      <?php echo $this->Form->control('middlename',array('class' => 'form-control','placeholder' => 'Enter Middlename')); ?>
+                    </div>
+                    <div class="col-md-4">
+                      <?php echo $this->Form->control('address',array('class' => 'form-control','placeholder' => 'Enter Address')); ?>
+                    </div>
+                    <div class="col-md-4">
+                      <?php echo $this->Form->control('user_desc',array('class' => 'form-control','placeholder' => 'Enter User Description')); ?>
+                    </div>
+                    <div class="col-md-4">
+                      <?php echo $this->Form->control('website',array('class' => 'form-control','placeholder' => 'Enter Website')); ?>
+                    </div>
+                    <div class="col-md-3">
+                      <?php echo $this->Form->control('email',array('class' => 'form-control','placeholder' => 'Enter Email')); ?>
+                    </div>
+                    <div class="col-md-3">
+                      <?php echo $this->Form->control('contactno',array('class' => 'form-control','placeholder' => 'Enter Contact No')); ?>
+                    </div>
+                    <div class="col-md-3">
+                      <?php echo $this->Form->control('username',array('class' => 'form-control','placeholder' => 'Enter Username')); ?>
+                    </div>
+                    <div class="col-md-3">
+                      <?php echo $this->Form->control('password',array('class' => 'form-control','placeholder' => 'Enter Password')); ?>
+                    </div>
+
+                    <div class="col-12">
+                      <?= $this->Form->button(__('Update'),array('class' => 'btn btn-success')) ?>
+                      <a href="<?php echo $this->Url->build(('/users')); ?>" class="btn btn-warning">Cancel</a>
+                    </div>
+                  <?= $this->Form->end() ?>
+
+                </div>
+              </div>
+            </div>
+          </div>
