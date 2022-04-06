@@ -11,6 +11,11 @@ namespace App\Controller;
  */
 class MeetingsController extends AppController
 {
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->Authorization->skipAuthorization();
+    }
     /**
      * Index method
      *

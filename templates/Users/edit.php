@@ -16,14 +16,17 @@
               <div class="tab-content">
                 <div class="tab-pane preview-tab-pane active" role="tabpanel" aria-labelledby="tab-dom-872001c1-fbf7-4ca6-84a9-1e6de71adf6d" id="dom-872001c1-fbf7-4ca6-84a9-1e6de71adf6d">
                     <?= $this->Form->create($user, array('class' => 'row g-3 needs-validation')) ?>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <?php echo $this->Form->control('firstname',array('class' => 'form-control','placeholder' => 'Enter Firstname')); ?>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <?php echo $this->Form->control('lastname',array('class' => 'form-control','placeholder' => 'Enter Lastname')); ?>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <?php echo $this->Form->control('middlename',array('class' => 'form-control','placeholder' => 'Enter Middlename')); ?>
+                    </div>
+                    <div class="col-md-3">
+                      <?php echo $this->Form->control('birth_date',array('class' => 'form-control','placeholder' => 'Enter Date of Birth')); ?>
                     </div>
                     <div class="col-md-4">
                       <?php echo $this->Form->control('address',array('class' => 'form-control','placeholder' => 'Enter Address')); ?>
