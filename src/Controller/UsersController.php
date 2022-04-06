@@ -73,7 +73,23 @@ class UsersController extends AppController
             'contain' => ['Meetings', 'MusicVideo', 'SocialMedia'],
         ]);
 
-        $this->set(compact('user'));
+        $socials = $this->Users->SocialMedia
+        ->find('all')
+        ->where(['user_id' => $id]);
+
+        $music_videos = $this->Users->MusicVideo
+        ->find('all')
+        ->where(['user_id' => $id]);
+
+        $meetings = $this->Users->Meetings
+        ->find('all')
+        ->select(['id','user_id','meeting_date','meeting_name','time_from','time_to','organized_by','meeting_place',
+        'month' => 'DATE_FORMAT(meeting_date,"%b")',
+        'day' => 'DATE_FORMAT(meeting_date,"%d")'
+        ])
+        ->where(['user_id' => $id]);
+
+        $this->set(compact('user','socials','meetings','music_videos'));
     }
 
     /**

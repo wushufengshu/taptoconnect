@@ -1,221 +1,138 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\User $user
- */
-?>
-<div class="row">
-    <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Html->link(__('Edit User'), ['action' => 'edit', $user->id], ['class' => 'side-nav-item']) ?>
-            <?= $this->Form->postLink(__('Delete User'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id), 'class' => 'side-nav-item']) ?>
-            <?= $this->Html->link(__('List Users'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-            <?= $this->Html->link(__('New User'), ['action' => 'add'], ['class' => 'side-nav-item']) ?>
-        </div>
-    </aside>
-    <div class="column-responsive column-80">
-        <div class="users view content">
-            <h3><?= h($user->id) ?></h3>
-            <table>
-                <tr>
-                    <th><?= __('Firstname') ?></th>
-                    <td><?= h($user->firstname) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Lastname') ?></th>
-                    <td><?= h($user->lastname) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Middlename') ?></th>
-                    <td><?= h($user->middlename) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Email') ?></th>
-                    <td><?= h($user->email) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Contactno') ?></th>
-                    <td><?= h($user->contactno) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Username') ?></th>
-                    <td><?= h($user->username) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Id') ?></th>
-                    <td><?= $this->Number->format($user->id) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Activated') ?></th>
-                    <td><?= $this->Number->format($user->activated) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Created By') ?></th>
-                    <td><?= $this->Number->format($user->created_by) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Modified By') ?></th>
-                    <td><?= $this->Number->format($user->modified_by) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Deleted By') ?></th>
-                    <td><?= $this->Number->format($user->deleted_by) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Created') ?></th>
-                    <td><?= h($user->created) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Modified') ?></th>
-                    <td><?= h($user->modified) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Trashed') ?></th>
-                    <td><?= h($user->trashed) ?></td>
-                </tr>
-            </table>
-            <div class="text">
-                <strong><?= __('Address') ?></strong>
-                <blockquote>
-                    <?= $this->Text->autoParagraph(h($user->address)); ?>
-                </blockquote>
+          <div class="card mb-3">
+            <div class="card-header position-relative min-vh-25 mb-7">
+              <div class="bg-holder rounded-3 rounded-bottom-0" style="background-image:url(../../assets/img/generic/ubivelox1.png);">
+              </div>
+              <!--/.bg-holder-->
+
+              <div class="avatar avatar-5xl avatar-profile"><img class="rounded-circle img-thumbnail shadow-sm" src="../../assets/img/team/<?= h($user->image); ?>" width="200" alt="" /></div>
             </div>
-            <div class="text">
-                <strong><?= __('User Desc') ?></strong>
-                <blockquote>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-8">
+                  <h4 class="mb-1"> <?= h($user->firstname." ".$user->middlename." ".$user->lastname) ?><span data-bs-toggle="tooltip" data-bs-placement="right" title="Verified"><small class="fa fa-check-circle text-primary" data-fa-transform="shrink-4 down-2"></small></span>
+                  </h4>
+                  <h5 class="fs-0 fw-normal"><?= h($user->email."-".$user->contactno) ?></h5>
+                  <p class="text-500"><?= $this->Text->autoParagraph(h($user->address)); ?></p>
+                  <a href="<?php echo "http://".$user->website; ?>" target="_blank"><?= $this->Text->autoParagraph(h($user->website)); ?></a>
+                  <!--<button class="btn btn-falcon-default btn-sm px-3 ms-2" type="button">Message</button>-->
+                  <div class="border-dashed-bottom my-4 d-lg-none"></div>
+                </div>
+                <div class="col ps-2 ps-lg-3">
+                <?php 
+                foreach ($socials as $key => $value) {
+                    $social_link = $value->social_link;
+                ?>
+                <a class="d-flex align-items-center mb-2" href="<?php echo "http://".$social_link; ?>" target="_blank"><i class="fa fa-link"></i>&nbsp;
+                    <div class="flex-1">
+                      <h6 class="mb-0"><?= h($social_link) ?></h6>
+                    </div>
+                  </a>
+                <?php
+                }
+                ?>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row g-0">
+            <div class="col-lg-12 pe-lg-2">
+              <div class="card mb-3">
+                <div class="card-header bg-light">
+                  <h5 class="mb-0">User Information</h5>
+                </div>
+                <div class="card-body text-justify">
+                  <div class="collapse show" id="profile-intro">
                     <?= $this->Text->autoParagraph(h($user->user_desc)); ?>
-                </blockquote>
-            </div>
-            <div class="text">
-                <strong><?= __('Website') ?></strong>
-                <blockquote>
-                    <?= $this->Text->autoParagraph(h($user->website)); ?>
-                </blockquote>
-            </div>
-            <div class="text">
-                <strong><?= __('Image') ?></strong>
-                <blockquote>
-                    <?= $this->Text->autoParagraph(h($user->image)); ?>
-                </blockquote>
-            </div>
-            <div class="related">
-                <h4><?= __('Related Meetings') ?></h4>
-                <?php if (!empty($user->meetings)) : ?>
-                <div class="table-responsive">
-                    <table>
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('User Id') ?></th>
-                            <th><?= __('Meeting Date') ?></th>
-                            <th><?= __('Created') ?></th>
-                            <th><?= __('Created By') ?></th>
-                            <th><?= __('Modified') ?></th>
-                            <th><?= __('Modified By') ?></th>
-                            <th><?= __('Trashed') ?></th>
-                            <th><?= __('Deleted By') ?></th>
-                            <th class="actions"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($user->meetings as $meetings) : ?>
-                        <tr>
-                            <td><?= h($meetings->id) ?></td>
-                            <td><?= h($meetings->user_id) ?></td>
-                            <td><?= h($meetings->meeting_date) ?></td>
-                            <td><?= h($meetings->created) ?></td>
-                            <td><?= h($meetings->created_by) ?></td>
-                            <td><?= h($meetings->modified) ?></td>
-                            <td><?= h($meetings->modified_by) ?></td>
-                            <td><?= h($meetings->trashed) ?></td>
-                            <td><?= h($meetings->deleted_by) ?></td>
-                            <td class="actions">
-                                <?= $this->Html->link(__('View'), ['controller' => 'Meetings', 'action' => 'view', $meetings->id]) ?>
-                                <?= $this->Html->link(__('Edit'), ['controller' => 'Meetings', 'action' => 'edit', $meetings->id]) ?>
-                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'Meetings', 'action' => 'delete', $meetings->id], ['confirm' => __('Are you sure you want to delete # {0}?', $meetings->id)]) ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
+                  </div>
                 </div>
-                <?php endif; ?>
-            </div>
-            <div class="related">
-                <h4><?= __('Related Music Video') ?></h4>
-                <?php if (!empty($user->music_video)) : ?>
-                <div class="table-responsive">
-                    <table>
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('User Id') ?></th>
-                            <th><?= __('Music Video Link') ?></th>
-                            <th><?= __('Created') ?></th>
-                            <th><?= __('Created By') ?></th>
-                            <th><?= __('Modified') ?></th>
-                            <th><?= __('Modified By') ?></th>
-                            <th><?= __('Trashed') ?></th>
-                            <th><?= __('Deleted By') ?></th>
-                            <th class="actions"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($user->music_video as $musicVideo) : ?>
-                        <tr>
-                            <td><?= h($musicVideo->id) ?></td>
-                            <td><?= h($musicVideo->user_id) ?></td>
-                            <td><?= h($musicVideo->music_video_link) ?></td>
-                            <td><?= h($musicVideo->created) ?></td>
-                            <td><?= h($musicVideo->created_by) ?></td>
-                            <td><?= h($musicVideo->modified) ?></td>
-                            <td><?= h($musicVideo->modified_by) ?></td>
-                            <td><?= h($musicVideo->trashed) ?></td>
-                            <td><?= h($musicVideo->deleted_by) ?></td>
-                            <td class="actions">
-                                <?= $this->Html->link(__('View'), ['controller' => 'MusicVideo', 'action' => 'view', $musicVideo->id]) ?>
-                                <?= $this->Html->link(__('Edit'), ['controller' => 'MusicVideo', 'action' => 'edit', $musicVideo->id]) ?>
-                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'MusicVideo', 'action' => 'delete', $musicVideo->id], ['confirm' => __('Are you sure you want to delete # {0}?', $musicVideo->id)]) ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
+                <div class="card-footer bg-light p-0 border-top">
+                  <button class="btn btn-link d-block w-100 btn-intro-collapse" type="button" data-bs-toggle="collapse" data-bs-target="#profile-intro" aria-expanded="true" aria-controls="profile-intro">Show <span class="less">less<span class="fas fa-chevron-up ms-2 fs--2"></span></span><span class="full">full<span class="fas fa-chevron-down ms-2 fs--2"></span></span></button>
                 </div>
-                <?php endif; ?>
-            </div>
-            <div class="related">
-                <h4><?= __('Related Social Media') ?></h4>
-                <?php if (!empty($user->social_media)) : ?>
-                <div class="table-responsive">
-                    <table>
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('User Id') ?></th>
-                            <th><?= __('Social Link') ?></th>
-                            <th><?= __('Created') ?></th>
-                            <th><?= __('Created By') ?></th>
-                            <th><?= __('Modified') ?></th>
-                            <th><?= __('Modified By') ?></th>
-                            <th><?= __('Trashed') ?></th>
-                            <th><?= __('Deleted By') ?></th>
-                            <th class="actions"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($user->social_media as $socialMedia) : ?>
-                        <tr>
-                            <td><?= h($socialMedia->id) ?></td>
-                            <td><?= h($socialMedia->user_id) ?></td>
-                            <td><?= h($socialMedia->social_link) ?></td>
-                            <td><?= h($socialMedia->created) ?></td>
-                            <td><?= h($socialMedia->created_by) ?></td>
-                            <td><?= h($socialMedia->modified) ?></td>
-                            <td><?= h($socialMedia->modified_by) ?></td>
-                            <td><?= h($socialMedia->trashed) ?></td>
-                            <td><?= h($socialMedia->deleted_by) ?></td>
-                            <td class="actions">
-                                <?= $this->Html->link(__('View'), ['controller' => 'SocialMedia', 'action' => 'view', $socialMedia->id]) ?>
-                                <?= $this->Html->link(__('Edit'), ['controller' => 'SocialMedia', 'action' => 'edit', $socialMedia->id]) ?>
-                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'SocialMedia', 'action' => 'delete', $socialMedia->id], ['confirm' => __('Are you sure you want to delete # {0}?', $socialMedia->id)]) ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
+              </div>
+
+              <div class="card mb-3 mb-lg-0">
+                  <div class="card-header bg-light">
+                    <h5 class="mb-0">Meetings</h5>
+                  </div>
+                  <div class="card-body fs--1">
+                    <?php 
+                    foreach ($meetings as $key => $value) {
+                        $month = $value->month;
+                        $day = $value->day;
+
+                        $meeting_name = $value->meeting_name;
+                        $time_from = $value->time_from;
+                        $time_to = $value->time_to;
+                        $organized_by = $value->organized_by;
+                        $meeting_place = $value->meeting_place;
+                    ?>
+                    <div class="d-flex btn-reveal-trigger">
+                      <div class="calendar"><span class="calendar-month"><?= h($month) ?></span><span class="calendar-day"><?= h($day) ?></span></div>
+                      <div class="flex-1 position-relative ps-3">
+                        <h6 class="fs-0 mb-0"><?= h($meeting_name) ?></h6>
+                        <p class="mb-1">Organized by <?= h($organized_by) ?></p>
+                        <p class="text-1000 mb-0">Time: <?= h($time_from) ?></p>
+                        <p class="text-1000 mb-0">Duration: <?= h($time_from) ?> - <?= h($time_to) ?></p>Place: <?= h($meeting_place) ?>
+                        <div class="border-dashed-bottom my-3"></div>
+                      </div>
+                    </div>
+                    <?php
+                    }
+                    ?>
+                    
+                  </div>
+                  <div class="card-footer bg-light p-0 border-top"><a class="btn btn-link d-block w-100" href="#">All Meetings<span class="fas fa-chevron-right ms-1 fs--2"></span></a></div>
                 </div>
-                <?php endif; ?>
+
+              <div class="card mb-3">
+                <div class="card-header bg-light d-flex justify-content-between">
+                  <h5 class="mb-0">Social Media</h5><a class="font-sans-serif" href="#">All Social Media</a>
+                </div>
+                <div class="card-body fs--1 pb-0">
+                  <div class="row">
+                    <?php 
+                    foreach ($socials as $key => $value) {
+                        $s_social_link = $value->social_link;
+                    ?>
+                    <div class="col-sm-6 mb-3">
+                      <div class="d-flex position-relative align-items-center mb-2"><i class="fa fa-link"></i>&nbsp;
+                        <div class="flex-1">
+                          <h6 class="fs-0 mb-0"><a class="stretched-link" href="<?php echo "http://".$s_social_link; ?>" target="_blank"><?= h($s_social_link) ?></a></h6>
+                          <!--<p class="mb-1">2 followers</p>-->
+                        </div>
+                      </div>
+                    </div>
+                    <?php
+                    }
+                    ?>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card mb-3">
+                <div class="card-header bg-light d-flex justify-content-between">
+                  <h5 class="mb-0">Music & Video Links</h5><a class="font-sans-serif" href="#">All Music & Video Links</a>
+                </div>
+                <div class="card-body fs--1 pb-0">
+                  <div class="row">
+                    <?php 
+                    foreach ($music_videos as $key => $value) {
+                        $music_video_link = $value->music_video_link;
+                    ?>
+                    <div class="col-sm-6 mb-3">
+                      <div class="d-flex position-relative align-items-center mb-2"><i class="fa fa-link"></i>&nbsp;
+                        <div class="flex-1">
+                          <h6 class="fs-0 mb-0"><a class="stretched-link" href="<?php echo "http://".$music_video_link; ?>" target="_blank"><?= h($music_video_link) ?></a></h6>
+                          <!--<p class="mb-1">2 followers</p>-->
+                        </div>
+                      </div>
+                    </div>
+                    <?php
+                    }
+                    ?>
+                  </div>
+                </div>
+              </div>
+
             </div>
-        </div>
-    </div>
-</div>
+          </div>

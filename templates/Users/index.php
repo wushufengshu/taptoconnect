@@ -22,7 +22,7 @@
             <div class="card-body pt-0">
               <div class="tab-content">
                 <div class="tab-pane preview-tab-pane active" role="tabpanel" aria-labelledby="tab-dom-864f5a02-4c23-4e2f-888a-06238311a2e3" id="dom-864f5a02-4c23-4e2f-888a-06238311a2e3">
-                  <div id="tableExample2" data-list='{"valueNames":["firstname","lastname","middlename","email","contactno","username","activated","created"],"page":5,"pagination":true}'>
+                  <div id="tableExample2" data-list='{"valueNames":["name","email","contactno","username","activated","created"],"page":5,"pagination":true}'>
                     <div class="table-responsive scrollbar">
                     <dl>
                       <dt class="green"></dt>
@@ -31,12 +31,10 @@
                       <dt class="red"></dt>
                       <dd>No Yet Activated</dd>
                     </dl>
-                      <table class="table table-bordered table-striped fs--1 mb-0">
+                      <table class="table table-bordered table-hover fs--1 mb-0">
                         <thead class="bg-200 text-900">
                           <tr>
-                            <th class="sort" data-sort="firstname">First Name</th>
-                            <th class="sort" data-sort="lastname">Last Name</th>
-                            <th class="sort" data-sort="middlename">Middle Name</th>
+                            <th class="sort" data-sort="name">Name</th>
                             <th class="sort" data-sort="email">Email</th>
                             <th class="sort" data-sort="contactno">Contact No</th>
                             <th class="sort" data-sort="username">Username</th>
@@ -61,9 +59,7 @@
                               }
                             ?>
                           <tr class="<?php echo $tr_class; ?>">
-                            <td class="firstname"><?= h($user->firstname) ?></td>
-                            <td class="lastname"><?= h($user->lastname) ?></td>
-                            <td class="middlename"><?= h($user->middlename) ?></td>
+                            <td class="name"><?= h($user->firstname." ".$user->middlename." ".$user->lastname) ?></td>
                             <td class="email"><?= h($user->email) ?></td>
                             <td class="contactno"><?= h($user->contactno) ?></td>
                             <td class="username"><?= h($user->username) ?></td>
