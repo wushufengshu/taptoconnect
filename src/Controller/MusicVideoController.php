@@ -59,7 +59,12 @@ class MusicVideoController extends AppController
             }
             $this->Flash->error(__('The music video could not be saved. Please, try again.'));
         }
-        $users = $this->MusicVideo->Users->find('list', ['limit' => 200])->all();
+        //$users = $this->MusicVideo->Users->find('list', ['limit' => 200])->all();
+        $users = $this->MusicVideo->Users->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'firstname'
+        ]);
+
         $this->set(compact('musicVideo', 'users'));
     }
 
@@ -84,7 +89,12 @@ class MusicVideoController extends AppController
             }
             $this->Flash->error(__('The music video could not be saved. Please, try again.'));
         }
-        $users = $this->MusicVideo->Users->find('list', ['limit' => 200])->all();
+        //$users = $this->MusicVideo->Users->find('list', ['limit' => 200])->all();
+        $users = $this->MusicVideo->Users->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'firstname'
+        ]);
+        
         $this->set(compact('musicVideo', 'users'));
     }
 

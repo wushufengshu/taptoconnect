@@ -66,9 +66,13 @@
                             <td class="activated"><?php echo $status; ?></td>
                             <td class="created"><?= h($user->created) ?></td>
                             <td class="actions">
-                                <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
-                                <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id]) ?>
-                                <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>
+                                <?= $this->Html->link(__('<font color="blue" size="3px"><i class="far fa-eye"></i></font>'), ['action' => 'view', $user->id], [ 'escape' => false]) ?>
+                                <?= $this->Html->link(__('<font color="green" size="3px"><i class="far fa-edit"></i></font>'), ['action' => 'edit', $user->id], [ 'escape' => false]) ?>
+                                <?= $this->Form->postLink(__('<font color="red" size="3px"><i class="far fa-trash-alt"></i></font>'), ['action' => 'delete', $user->id], 
+                                [
+                                'confirm' => __('Are you sure you want to delete # {0}?', $user->id),
+                                'escape' => false //'escape' => false - convert plain text to html
+                                ]) ?>
                             </td>
                            </tr>
                         <?php endforeach; ?>

@@ -1,56 +1,69 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\MusicVideo[]|\Cake\Collection\CollectionInterface $musicVideo
+ * @var \App\Model\Entity\User[]|\Cake\Collection\CollectionInterface $users
  */
 ?>
-<div class="musicVideo index content">
-    <?= $this->Html->link(__('New Music Video'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= __('Music Video') ?></h3>
-    <div class="table-responsive">
-        <table>
-            <thead>
-                <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('user_id') ?></th>
-                    <th><?= $this->Paginator->sort('created') ?></th>
-                    <th><?= $this->Paginator->sort('created_by') ?></th>
-                    <th><?= $this->Paginator->sort('modified') ?></th>
-                    <th><?= $this->Paginator->sort('modified_by') ?></th>
-                    <th><?= $this->Paginator->sort('trashed') ?></th>
-                    <th><?= $this->Paginator->sort('deleted_by') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($musicVideo as $musicVideo): ?>
-                <tr>
-                    <td><?= $this->Number->format($musicVideo->id) ?></td>
-                    <td><?= $musicVideo->has('user') ? $this->Html->link($musicVideo->user->id, ['controller' => 'Users', 'action' => 'view', $musicVideo->user->id]) : '' ?></td>
-                    <td><?= h($musicVideo->created) ?></td>
-                    <td><?= $this->Number->format($musicVideo->created_by) ?></td>
-                    <td><?= h($musicVideo->modified) ?></td>
-                    <td><?= $this->Number->format($musicVideo->modified_by) ?></td>
-                    <td><?= h($musicVideo->trashed) ?></td>
-                    <td><?= $this->Number->format($musicVideo->deleted_by) ?></td>
-                    <td class="actions">
-                        <?= $this->Html->link(__('View'), ['action' => 'view', $musicVideo->id]) ?>
-                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $musicVideo->id]) ?>
-                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $musicVideo->id], ['confirm' => __('Are you sure you want to delete # {0}?', $musicVideo->id)]) ?>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
-    </div>
-</div>
+        <?= $this->Flash->render() ?>
+        <div class="card mb-3">
+            <div class="card-header">
+              <div class="row flex-between-end">
+                <div class="col-auto align-self-center">
+                  <h5 class="mb-0" data-anchor="data-anchor">Music & Video List</h5>
+                  <p class="mb-0 pt-1 mt-2 mb-0"></p>
+                </div>
+                <div class="col-auto ms-auto">
+                  <div class="nav nav-pills nav-pills-falcon flex-grow-1 mt-2" role="tablist">
+                    <?= $this->Html->link(__('New Music & Video Link'), ['action' => 'add'], ['class' => 'button float-right btn btn-sm active']) ?>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body pt-0">
+              <div class="tab-content">
+                <div class="tab-pane preview-tab-pane active" role="tabpanel" aria-labelledby="tab-dom-864f5a02-4c23-4e2f-888a-06238311a2e3" id="dom-864f5a02-4c23-4e2f-888a-06238311a2e3">
+                  <div id="tableExample2" data-list='{"valueNames":["name","musicvideo","created"],"page":5,"pagination":true}'>
+                    <div class="table-responsive scrollbar">
+
+                      <table class="table table-bordered table-hover fs--1 mb-0">
+                        <thead class="bg-200 text-900">
+                          <tr>
+                            <th class="sort" data-sort="name">User Owner</th>
+                            <th class="sort" data-sort="musicvideo">Music Video Link</th>
+                            <th class="sort" data-sort="created">Date Created</th>
+                            <th class="actions"><?= __('Actions') ?></th>
+                          </tr>
+                        </thead>
+                        <tbody class="list">
+                          <?php foreach ($musicVideo as $musicVideo): ?>
+                          <tr>
+                            <td class="name"><?= h($musicVideo->user->firstname." ".$musicVideo->user->lastname) ?></td>
+                            <td class="musicvideo"><?= h($musicVideo->music_video_link) ?></td>
+                            <td class="created"><?= h($musicVideo->created) ?></td>
+                            <td class="actions">
+                                <?= $this->Html->link(__('<font color="blue" size="3px"><i class="far fa-eye"></i></font>'), ['action' => 'view', $musicVideo->id], [ 'escape' => false]) ?>
+                                <?= $this->Html->link(__('<font color="green" size="3px"><i class="far fa-edit"></i></font>'), ['action' => 'edit', $musicVideo->id], [ 'escape' => false]) ?>
+                                <?= $this->Form->postLink(__('<font color="red" size="3px"><i class="far fa-trash-alt"></i></font>'), ['action' => 'delete', $musicVideo->id], 
+                                [
+                                'confirm' => __('Are you sure you want to delete # {0}?', $musicVideo->id),
+                                'escape' => false //'escape' => false - convert plain text to html
+                                ]) ?>
+                            </td>
+                           </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="d-flex justify-content-center mt-3">
+                      <button class="btn btn-sm btn-falcon-default me-1" type="button" title="Previous" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
+                      <ul class="pagination mb-0"></ul>
+                      <button class="btn btn-sm btn-falcon-default ms-1" type="button" title="Next" data-list-pagination="next"><span class="fas fa-chevron-right"> </span></button>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane code-tab-pane" role="tabpanel" aria-labelledby="tab-dom-49c45fc1-d94c-41a0-aadb-9c63374711dd" id="dom-49c45fc1-d94c-41a0-aadb-9c63374711dd">
+                  
+                </div>
+              </div>
+            </div>
+          </div>
