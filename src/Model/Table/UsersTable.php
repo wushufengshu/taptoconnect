@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -11,6 +12,7 @@ use Cake\Validation\Validator;
 /**
  * Users Model
  *
+ * @property \App\Model\Table\RolesTable&\Cake\ORM\Association\BelongsTo $Roles
  * @property \App\Model\Table\MeetingsTable&\Cake\ORM\Association\HasMany $Meetings
  * @property \App\Model\Table\MusicVideoTable&\Cake\ORM\Association\HasMany $MusicVideo
  * @property \App\Model\Table\SocialMediaTable&\Cake\ORM\Association\HasMany $SocialMedia
@@ -92,6 +94,10 @@ class UsersTable extends Table
             ->scalar('middlename')
             ->maxLength('middlename', 50)
             ->allowEmptyString('middlename');
+
+        $validator
+            ->date('birth_date')
+            ->allowEmptyDate('birth_date');
 
         $validator
             ->scalar('address')

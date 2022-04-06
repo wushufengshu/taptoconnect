@@ -6,7 +6,6 @@ namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
-use Authorization\IdentityInterface;
 
 /**
  * User Entity
@@ -16,6 +15,7 @@ use Authorization\IdentityInterface;
  * @property string $firstname
  * @property string $lastname
  * @property string|null $middlename
+ * @property \Cake\I18n\FrozenDate|null $birth_date
  * @property string|null $address
  * @property string|null $user_desc
  * @property string $email
@@ -32,6 +32,7 @@ use Authorization\IdentityInterface;
  * @property \Cake\I18n\FrozenTime|null $trashed
  * @property int|null $deleted_by
  *
+ * @property \App\Model\Entity\Role $role
  * @property \App\Model\Entity\Meeting[] $meetings
  * @property \App\Model\Entity\MusicVideo[] $music_video
  * @property \App\Model\Entity\SocialMedia[] $social_media
@@ -52,6 +53,7 @@ class User extends Entity
         'firstname' => true,
         'lastname' => true,
         'middlename' => true,
+        'birth_date' => true,
         'address' => true,
         'user_desc' => true,
         'email' => true,
@@ -67,6 +69,7 @@ class User extends Entity
         'modified_by' => true,
         'trashed' => true,
         'deleted_by' => true,
+        'role' => true,
         'meetings' => true,
         'music_video' => true,
         'social_media' => true,

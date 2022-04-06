@@ -33,6 +33,8 @@
     <!-- ===============================================-->
     <?= $this->Html->css('legend.css'); ?>
 
+    <link href="/vendors/flatpickr/flatpickr.min.css" rel="stylesheet">
+    <link href="/vendors/dropzone/dropzone.min.css" rel="stylesheet">
     <?= $this->Html->css('https://fonts.gstatic.com', ['rel' => 'preconnect']) ?>
     <?= $this->Html->css('https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:300,400,500,600,700,800,900&amp;display=swap') ?>
     <?= $this->Html->css('vendors/overlayscrollbars/OverlayScrollbars.min.css') ?>
