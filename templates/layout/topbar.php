@@ -1,15 +1,15 @@
 <nav class="navbar navbar-light navbar-glass navbar-top navbar-expand">
 
     <button class="btn navbar-toggler-humburger-icon navbar-toggler me-1 me-sm-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-    <a class="navbar-brand me-1 me-sm-3" href="../index.html">
-        <div class="d-flex align-items-center"><img class="me-2" src="../assets/img/icons/spot-illustrations/falcon.png" alt="" width="40" /><span class="font-sans-serif">falcon</span>
+    <a class="navbar-brand me-1 me-sm-3" href="/index.html">
+        <div class="d-flex align-items-center"><img class="me-2" src="/assets/img/icons/spot-illustrations/falcon.png" alt="" width="40" /><span class="font-sans-serif">falcon</span>
         </div>
     </a>
     <ul class="navbar-nav align-items-center d-none d-lg-block">
         <li class="nav-item">
             <div class="search-box" data-list='{"valueNames":["title"]}'>
                 <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                    <input class="form-control search-input fuzzy-search" type="search" placeholder="Search..." aria-label="Search" />
+                    <input class="form-control search-input fuzzy-search" type="search" placeholder="Search." aria-label="Search" />
                     <span class="fas fa-search search-box-icon"></span>
 
                 </form>
@@ -18,14 +18,14 @@
                 </div>
                 <div class="dropdown-menu border font-base start-0 mt-2 py-0 overflow-hidden w-100">
                     <div class="scrollbar list py-3" style="max-height: 24rem;">
-                        <h6 class="dropdown-header fw-medium text-uppercase px-card fs--2 pt-0 pb-2">Recently Browsed</h6><a class="dropdown-item fs--1 px-card py-1 hover-primary" href="../app/events/event-detail.html">
+                        <h6 class="dropdown-header fw-medium text-uppercase px-card fs--2 pt-0 pb-2">Recently Browsed</h6><a class="dropdown-item fs--1 px-card py-1 hover-primary" href="/app/events/event-detail.html">
                             <div class="d-flex align-items-center">
                                 <span class="fas fa-circle me-2 text-300 fs--2"></span>
 
                                 <div class="fw-normal title">Pages <span class="fas fa-chevron-right mx-1 text-500 fs--2" data-fa-transform="shrink-2"></span> Events</div>
                             </div>
                         </a>
-                        <a class="dropdown-item fs--1 px-card py-1 hover-primary" href="../app/e-commerce/customers.html">
+                        <a class="dropdown-item fs--1 px-card py-1 hover-primary" href="/app/e-commerce/customers.html">
                             <div class="d-flex align-items-center">
                                 <span class="fas fa-circle me-2 text-300 fs--2"></span>
 
@@ -34,17 +34,17 @@
                         </a>
 
                         <hr class="bg-200 dark__bg-900" />
-                        <h6 class="dropdown-header fw-medium text-uppercase px-card fs--2 pt-0 pb-2">Suggested Filter</h6><a class="dropdown-item px-card py-1 fs-0" href="../app/e-commerce/customers.html">
+                        <h6 class="dropdown-header fw-medium text-uppercase px-card fs--2 pt-0 pb-2">Suggested Filter</h6><a class="dropdown-item px-card py-1 fs-0" href="/app/e-commerce/customers.html">
                             <div class="d-flex align-items-center"><span class="badge fw-medium text-decoration-none me-2 badge-soft-warning">customers:</span>
                                 <div class="flex-1 fs--1 title">All customers list</div>
                             </div>
                         </a>
-                        <a class="dropdown-item px-card py-1 fs-0" href="../app/events/event-detail.html">
+                        <a class="dropdown-item px-card py-1 fs-0" href="/app/events/event-detail.html">
                             <div class="d-flex align-items-center"><span class="badge fw-medium text-decoration-none me-2 badge-soft-success">events:</span>
                                 <div class="flex-1 fs--1 title">Latest events in current month</div>
                             </div>
                         </a>
-                        <a class="dropdown-item px-card py-1 fs-0" href="../app/e-commerce/product/product-grid.html">
+                        <a class="dropdown-item px-card py-1 fs-0" href="/app/e-commerce/product/product-grid.html">
                             <div class="d-flex align-items-center"><span class="badge fw-medium text-decoration-none me-2 badge-soft-info">products:</span>
                                 <div class="flex-1 fs--1 title">Most popular products</div>
                             </div>
@@ -53,7 +53,7 @@
                         <hr class="bg-200 dark__bg-900" />
                         <h6 class="dropdown-header fw-medium text-uppercase px-card fs--2 pt-0 pb-2">Files</h6><a class="dropdown-item px-card py-2" href="#!">
                             <div class="d-flex align-items-center">
-                                <div class="file-thumbnail me-2"><img class="border h-100 w-100 fit-cover rounded-3" src="../assets/img/products/3-thumb.png" alt="" /></div>
+                                <div class="file-thumbnail me-2"><img class="border h-100 w-100 fit-cover rounded-3" src="/assets/img/products/3-thumb.png" alt="" /></div>
                                 <div class="flex-1">
                                     <h6 class="mb-0 title">iPhone</h6>
                                     <p class="fs--2 mb-0 d-flex"><span class="fw-semi-bold">Antony</span><span class="fw-medium text-600 ms-2">27 Sep at 10:30 AM</span></p>
@@ -62,7 +62,7 @@
                         </a>
                         <a class="dropdown-item px-card py-2" href="#!">
                             <div class="d-flex align-items-center">
-                                <div class="file-thumbnail me-2"><img class="img-fluid" src="../assets/img/icons/zip.png" alt="" /></div>
+                                <div class="file-thumbnail me-2"><img class="img-fluid" src="/assets/img/icons/zip.png" alt="" /></div>
                                 <div class="flex-1">
                                     <h6 class="mb-0 title">Falcon v1.8.2</h6>
                                     <p class="fs--2 mb-0 d-flex"><span class="fw-semi-bold">John</span><span class="fw-medium text-600 ms-2">30 Sep at 12:30 PM</span></p>
@@ -71,10 +71,10 @@
                         </a>
 
                         <hr class="bg-200 dark__bg-900" />
-                        <h6 class="dropdown-header fw-medium text-uppercase px-card fs--2 pt-0 pb-2">Members</h6><a class="dropdown-item px-card py-2" href="../pages/user/profile.html">
+                        <h6 class="dropdown-header fw-medium text-uppercase px-card fs--2 pt-0 pb-2">Members</h6><a class="dropdown-item px-card py-2" href="/pages/user/profile.html">
                             <div class="d-flex align-items-center">
                                 <div class="avatar avatar-l status-online me-2">
-                                    <img class="rounded-circle" src="../assets/img/team/1.jpg" alt="" />
+                                    <img class="rounded-circle" src="/assets/img/team/1.jpg" alt="" />
 
                                 </div>
                                 <div class="flex-1">
@@ -83,10 +83,10 @@
                                 </div>
                             </div>
                         </a>
-                        <a class="dropdown-item px-card py-2" href="../pages/user/profile.html">
+                        <a class="dropdown-item px-card py-2" href="/pages/user/profile.html">
                             <div class="d-flex align-items-center">
                                 <div class="avatar avatar-l me-2">
-                                    <img class="rounded-circle" src="../assets/img/team/2.jpg" alt="" />
+                                    <img class="rounded-circle" src="/assets/img/team/2.jpg" alt="" />
 
                                 </div>
                                 <div class="flex-1">
@@ -95,10 +95,10 @@
                                 </div>
                             </div>
                         </a>
-                        <a class="dropdown-item px-card py-2" href="../pages/user/profile.html">
+                        <a class="dropdown-item px-card py-2" href="/pages/user/profile.html">
                             <div class="d-flex align-items-center">
                                 <div class="avatar avatar-l me-2">
-                                    <img class="rounded-circle" src="../assets/img/team/3.jpg" alt="" />
+                                    <img class="rounded-circle" src="/assets/img/team/3.jpg" alt="" />
 
                                 </div>
                                 <div class="flex-1">
@@ -127,7 +127,7 @@
             </div>
         </li>
         <li class="nav-item d-none d-sm-block">
-            <a class="nav-link px-0 notification-indicator notification-indicator-warning notification-indicator-fill fa-icon-wait" href="../app/e-commerce/shopping-cart.html"><span class="fas fa-shopping-cart" data-fa-transform="shrink-7" style="font-size: 33px;"></span><span class="notification-indicator-number">1</span></a>
+            <a class="nav-link px-0 notification-indicator notification-indicator-warning notification-indicator-fill fa-icon-wait" href="/app/e-commerce/shopping-cart.html"><span class="fas fa-shopping-cart" data-fa-transform="shrink-7" style="font-size: 33px;"></span><span class="notification-indicator-number">1</span></a>
 
         </li>
         <li class="nav-item dropdown">
@@ -149,7 +149,7 @@
                                 <a class="notification notification-flush notification-unread" href="#!">
                                     <div class="notification-avatar">
                                         <div class="avatar avatar-2xl me-3">
-                                            <img class="rounded-circle" src="../assets/img/team/1-thumb.png" alt="" />
+                                            <img class="rounded-circle" src="/assets/img/team/1-thumb.png" alt="" />
 
                                         </div>
                                     </div>
@@ -181,7 +181,7 @@
                                 <a class="notification notification-flush" href="#!">
                                     <div class="notification-avatar">
                                         <div class="avatar avatar-2xl me-3">
-                                            <img class="rounded-circle" src="../assets/img/icons/weather-sm.jpg" alt="" />
+                                            <img class="rounded-circle" src="/assets/img/icons/weather-sm.jpg" alt="" />
 
                                         </div>
                                     </div>
@@ -197,7 +197,7 @@
                                 <a class="border-bottom-0 notification-unread  notification notification-flush" href="#!">
                                     <div class="notification-avatar">
                                         <div class="avatar avatar-xl me-3">
-                                            <img class="rounded-circle" src="../assets/img/logos/oxford.png" alt="" />
+                                            <img class="rounded-circle" src="/assets/img/logos/oxford.png" alt="" />
 
                                         </div>
                                     </div>
@@ -213,7 +213,7 @@
                                 <a class="border-bottom-0 notification notification-flush" href="#!">
                                     <div class="notification-avatar">
                                         <div class="avatar avatar-xl me-3">
-                                            <img class="rounded-circle" src="../assets/img/team/10.jpg" alt="" />
+                                            <img class="rounded-circle" src="/assets/img/team/10.jpg" alt="" />
 
                                         </div>
                                     </div>
@@ -227,7 +227,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer text-center border-top"><a class="card-link d-block" href="../app/social/notifications.html">View all</a></div>
+                    <div class="card-footer text-center border-top"><a class="card-link d-block" href="/app/social/notifications.html">View all</a></div>
                 </div>
             </div>
 
@@ -250,65 +250,65 @@
                     <div class="scrollbar-overlay nine-dots-dropdown">
                         <div class="card-body px-3">
                             <div class="row text-center gx-0 gy-0">
-                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="../pages/user/profile.html" target="_blank">
-                                        <div class="avatar avatar-2xl"> <img class="rounded-circle" src="../assets/img/team/3.jpg" alt="" /></div>
+                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="/pages/user/profile.html" target="_blank">
+                                        <div class="avatar avatar-2xl"> <img class="rounded-circle" src="/assets/img/team/3.jpg" alt="" /></div>
                                         <p class="mb-0 fw-medium text-800 text-truncate fs--2">Account</p>
                                     </a></div>
-                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="https://themewagon.com/" target="_blank"><img class="rounded" src="../assets/img/nav-icons/themewagon.png" alt="" width="40" height="40" />
+                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="https://themewagon.com/" target="_blank"><img class="rounded" src="/assets/img/nav-icons/themewagon.png" alt="" width="40" height="40" />
                                         <p class="mb-0 fw-medium text-800 text-truncate fs--2 pt-1">Themewagon</p>
                                     </a></div>
-                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="https://mailbluster.com/" target="_blank"><img class="rounded" src="../assets/img/nav-icons/mailbluster.png" alt="" width="40" height="40" />
+                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="https://mailbluster.com/" target="_blank"><img class="rounded" src="/assets/img/nav-icons/mailbluster.png" alt="" width="40" height="40" />
                                         <p class="mb-0 fw-medium text-800 text-truncate fs--2 pt-1">Mailbluster</p>
                                     </a></div>
-                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="../assets/img/nav-icons/google.png" alt="" width="40" height="40" />
+                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="/assets/img/nav-icons/google.png" alt="" width="40" height="40" />
                                         <p class="mb-0 fw-medium text-800 text-truncate fs--2 pt-1">Google</p>
                                     </a></div>
-                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="../assets/img/nav-icons/spotify.png" alt="" width="40" height="40" />
+                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="/assets/img/nav-icons/spotify.png" alt="" width="40" height="40" />
                                         <p class="mb-0 fw-medium text-800 text-truncate fs--2 pt-1">Spotify</p>
                                     </a></div>
-                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="../assets/img/nav-icons/steam.png" alt="" width="40" height="40" />
+                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="/assets/img/nav-icons/steam.png" alt="" width="40" height="40" />
                                         <p class="mb-0 fw-medium text-800 text-truncate fs--2 pt-1">Steam</p>
                                     </a></div>
-                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="../assets/img/nav-icons/github-light.png" alt="" width="40" height="40" />
+                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="/assets/img/nav-icons/github-light.png" alt="" width="40" height="40" />
                                         <p class="mb-0 fw-medium text-800 text-truncate fs--2 pt-1">Github</p>
                                     </a></div>
-                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="../assets/img/nav-icons/discord.png" alt="" width="40" height="40" />
+                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="/assets/img/nav-icons/discord.png" alt="" width="40" height="40" />
                                         <p class="mb-0 fw-medium text-800 text-truncate fs--2 pt-1">Discord</p>
                                     </a></div>
-                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="../assets/img/nav-icons/xbox.png" alt="" width="40" height="40" />
+                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="/assets/img/nav-icons/xbox.png" alt="" width="40" height="40" />
                                         <p class="mb-0 fw-medium text-800 text-truncate fs--2 pt-1">xbox</p>
                                     </a></div>
-                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="../assets/img/nav-icons/trello.png" alt="" width="40" height="40" />
+                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="/assets/img/nav-icons/trello.png" alt="" width="40" height="40" />
                                         <p class="mb-0 fw-medium text-800 text-truncate fs--2 pt-1">Kanban</p>
                                     </a></div>
-                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="../assets/img/nav-icons/hp.png" alt="" width="40" height="40" />
+                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="/assets/img/nav-icons/hp.png" alt="" width="40" height="40" />
                                         <p class="mb-0 fw-medium text-800 text-truncate fs--2 pt-1">Hp</p>
                                     </a></div>
                                 <div class="col-12">
                                     <hr class="my-3 mx-n3 bg-200" />
                                 </div>
-                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="../assets/img/nav-icons/linkedin.png" alt="" width="40" height="40" />
+                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="/assets/img/nav-icons/linkedin.png" alt="" width="40" height="40" />
                                         <p class="mb-0 fw-medium text-800 text-truncate fs--2 pt-1">Linkedin</p>
                                     </a></div>
-                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="../assets/img/nav-icons/twitter.png" alt="" width="40" height="40" />
+                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="/assets/img/nav-icons/twitter.png" alt="" width="40" height="40" />
                                         <p class="mb-0 fw-medium text-800 text-truncate fs--2 pt-1">Twitter</p>
                                     </a></div>
-                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="../assets/img/nav-icons/facebook.png" alt="" width="40" height="40" />
+                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="/assets/img/nav-icons/facebook.png" alt="" width="40" height="40" />
                                         <p class="mb-0 fw-medium text-800 text-truncate fs--2 pt-1">Facebook</p>
                                     </a></div>
-                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="../assets/img/nav-icons/instagram.png" alt="" width="40" height="40" />
+                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="/assets/img/nav-icons/instagram.png" alt="" width="40" height="40" />
                                         <p class="mb-0 fw-medium text-800 text-truncate fs--2 pt-1">Instagram</p>
                                     </a></div>
-                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="../assets/img/nav-icons/pinterest.png" alt="" width="40" height="40" />
+                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="/assets/img/nav-icons/pinterest.png" alt="" width="40" height="40" />
                                         <p class="mb-0 fw-medium text-800 text-truncate fs--2 pt-1">Pinterest</p>
                                     </a></div>
-                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="../assets/img/nav-icons/slack.png" alt="" width="40" height="40" />
+                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="/assets/img/nav-icons/slack.png" alt="" width="40" height="40" />
                                         <p class="mb-0 fw-medium text-800 text-truncate fs--2 pt-1">Slack</p>
                                     </a></div>
-                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="../assets/img/nav-icons/deviantart.png" alt="" width="40" height="40" />
+                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="#!" target="_blank"><img class="rounded" src="/assets/img/nav-icons/deviantart.png" alt="" width="40" height="40" />
                                         <p class="mb-0 fw-medium text-800 text-truncate fs--2 pt-1">Deviantart</p>
                                     </a></div>
-                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="../app/events/event-detail.html" target="_blank">
+                                <div class="col-4"><a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-center text-decoration-none" href="/app/events/event-detail.html" target="_blank">
                                         <div class="avatar avatar-2xl">
                                             <div class="avatar-name rounded-circle bg-soft-primary text-primary"><span class="fs-2">E</span></div>
                                         </div>
@@ -324,7 +324,7 @@
         </li>
         <li class="nav-item dropdown"><a class="nav-link pe-0 ps-2" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <div class="avatar avatar-xl">
-                    <img class="rounded-circle" src="../assets/img/team/3-thumb.png" alt="" />
+                    <img class="rounded-circle" src="/assets/img/team/3-thumb.png" alt="" />
 
                 </div>
             </a>
@@ -334,12 +334,12 @@
 
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#!">Set status</a>
-                    <a class="dropdown-item" href="../pages/user/profile.html">Profile &amp; account</a>
+                    <a class="dropdown-item" href="/pages/user/profile.html">Profile &amp; account</a>
                     <a class="dropdown-item" href="#!">Feedback</a>
 
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="../pages/user/settings.html">Settings</a>
-                    <a class="dropdown-item" href="../pages/authentication/card/logout.html">Logout</a>
+                    <a class="dropdown-item" href="/pages/user/settings.html">Settings</a>
+                    <a class="dropdown-item" href="/pages/authentication/card/logout.html">Logout</a>
                 </div>
             </div>
         </li>
