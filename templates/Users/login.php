@@ -8,6 +8,7 @@
     <div class="col-sm-10 col-md-6 px-sm-0 align-self-center mx-auto py-5">
         <div class="row justify-content-center g-0">
             <div class="col-lg-9 col-xl-8 col-xxl-6">
+                <?= $this->Flash->render() ?>
                 <div class="card">
                     <div class="card-header bg-circle-shape bg-shape text-center p-2"><a class="font-sans-serif fw-bolder fs-4 z-index-1 position-relative link-light light" href="#">tap to connect</a></div>
                     <div class="card-body p-4">
@@ -20,8 +21,6 @@
 
                         <?= $this->Form->create() ?>
                         <div class="mb-3">
-                            <!-- <label class="form-label" for="split-login-email">Email address</label>
-                                <input class="form-control" id="split-login-email" type="email" /> -->
                             <?= $this->Form->control('username', [
                                 'required' => true, 'class' => 'form-control', 'id' => 'split-login-username', 'label' => [
                                     'for' => 'split-login-username',

@@ -23,6 +23,8 @@ use Authentication\PasswordHasher\DefaultPasswordHasher;
  * @property string|null $website
  * @property string $username
  * @property string|null $password
+ * @property string|null $gender
+ * @property string|null $pronouns
  * @property int $activated
  * @property string|null $image
  * @property \Cake\I18n\FrozenTime|null $created
@@ -32,7 +34,7 @@ use Authentication\PasswordHasher\DefaultPasswordHasher;
  * @property \Cake\I18n\FrozenTime|null $trashed
  * @property int|null $deleted_by
  *
- * @property \App\Model\Entity\Role $role
+ * @property \App\Model\Entity\UserRole $user_role
  * @property \App\Model\Entity\Meeting[] $meetings
  * @property \App\Model\Entity\MusicVideo[] $music_video
  * @property \App\Model\Entity\SocialMedia[] $social_media
@@ -61,6 +63,8 @@ class User extends Entity
         'website' => true,
         'username' => true,
         'password' => true,
+        'gender' => true,
+        'pronouns' => true,
         'activated' => true,
         'image' => true,
         'created' => true,
@@ -69,7 +73,7 @@ class User extends Entity
         'modified_by' => true,
         'trashed' => true,
         'deleted_by' => true,
-        'role' => true,
+        'user_role' => true,
         'meetings' => true,
         'music_video' => true,
         'social_media' => true,

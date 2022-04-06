@@ -12,7 +12,6 @@ use Cake\Validation\Validator;
 /**
  * Users Model
  *
- * @property \App\Model\Table\RolesTable&\Cake\ORM\Association\BelongsTo $Roles
  * @property \App\Model\Table\MeetingsTable&\Cake\ORM\Association\HasMany $Meetings
  * @property \App\Model\Table\MusicVideoTable&\Cake\ORM\Association\HasMany $MusicVideo
  * @property \App\Model\Table\SocialMediaTable&\Cake\ORM\Association\HasMany $SocialMedia
@@ -51,7 +50,7 @@ class UsersTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('UserRoles', [
+        $this->belongsTo('Roles', [
             'foreignKey' => 'role_id',
             'joinType' => 'INNER',
         ]);
@@ -134,6 +133,16 @@ class UsersTable extends Table
             ->allowEmptyString('password');
 
         $validator
+            ->scalar('gender')
+            ->maxLength('gender', 255)
+            ->allowEmptyString('gender');
+
+        $validator
+            ->scalar('pronouns')
+            ->maxLength('pronouns', 255)
+            ->allowEmptyString('pronouns');
+
+        $validator
             ->integer('activated')
             ->notEmptyString('activated');
 
@@ -171,7 +180,7 @@ class UsersTable extends Table
     {
         $rules->add($rules->isUnique(['email']), ['errorField' => 'email']);
         $rules->add($rules->isUnique(['username']), ['errorField' => 'username']);
-        $rules->add($rules->existsIn('role_id', 'UserRoles'), ['errorField' => 'role_id']);
+        $rules->add($rules->existsIn('role_id', 'Roles'), ['errorField' => 'role_id']);
 
         return $rules;
     }
