@@ -63,7 +63,7 @@
                             <td class="email"><?= h($user->email) ?></td>
                             <td class="contactno"><?= h($user->contactno) ?></td>
                             <td class="username"><?= h($user->username) ?></td>
-                            <td class="activated"><?php echo $status; ?></td>
+                            <td class="activated"><a href="#" style="text-decoration: none;" data-bs-toggle="modal" data-bs-target="#update_modal<?php echo $user->id; ?>"><?php echo $status; ?></a></td>
                             <td class="created"><?= h($user->created) ?></td>
                             <td class="actions">
                                 <?= $this->Html->link(__('<font color="blue" size="3px"><i class="far fa-eye"></i></font>'), ['action' => 'view', $user->id], [ 'escape' => false]) ?>
@@ -75,6 +75,36 @@
                                 ]) ?>
                             </td>
                            </tr>
+                            <div class="modal fade" id="update_modal<?php echo $user->id; ?>" tabindex="-1" role="dialog" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
+                                <div class="modal-content position-relative">
+                                  <!--
+                                  <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
+                                    <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  -->
+                                  <div class="modal-body p-0">
+                                    <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
+                                      <center>
+                                        <h4 class="mb-1" id="modalExampleDemoLabel">ACTIVATE/DEACTIVATE ACCOUNT</h4>
+                                        <label class="col-form-label" for="recipient-name"><h5><?= h($user->firstname." ".$user->middlename." ".$user->lastname) ?></h5>
+                                      </label>
+                                      </center>
+                                    </div>
+                                      <?= $this->Form->create($user,['method' => 'post','enctype' => 'multipart/form-data']) ?>
+                                      <input name="userid" class="form-control" id="recipient-name" type="hidden" value="<?php echo $user->id; ?>" />
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancel</button>
+
+                                    <?= $this->Form->button(__('Deactivate'), ['class' => 'btn btn-warning','type' => 'submit','name' => 'deactivate']) ?>
+
+                                    <?= $this->Form->button(__('Activate'), ['class' => 'btn btn-success','type' => 'submit','name' => 'activate']) ?>
+                                    <?= $this->Form->end() ?>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                         <?php endforeach; ?>
                         </tbody>
                       </table>
@@ -92,3 +122,4 @@
               </div>
             </div>
           </div>
+

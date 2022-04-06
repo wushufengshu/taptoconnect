@@ -79,6 +79,32 @@ class UsersController extends AppController
     {
         $users = $this->paginate($this->Users);
 
+        if(isset($_POST['activate'])){
+            $activateUser = $this->Users->query();
+            $activateUser->update()
+            ->set([
+                    'activated' => 1])
+            ->where([
+                    'id' => $_POST['userid']])
+            ->execute();
+
+            $this->Flash->success(__('User Account has been activated!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
+        if(isset($_POST['deactivate'])){
+            $activateUser = $this->Users->query();
+            $activateUser->update()
+            ->set([
+                    'activated' => 0])
+            ->where([
+                    'id' => $_POST['userid']])
+            ->execute();
+
+            $this->Flash->success(__('User Account has been deactivated!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
         $this->set(compact('users'));
     }
 
@@ -179,4 +205,5 @@ class UsersController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+    
 }
