@@ -125,6 +125,7 @@ class UsersController extends AppController
         $user = $this->Users->newEmptyEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
+            $user->role_id = 1;
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 

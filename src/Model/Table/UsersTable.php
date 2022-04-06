@@ -51,7 +51,7 @@ class UsersTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Roles', [
+        $this->belongsTo('UserRoles', [
             'foreignKey' => 'role_id',
             'joinType' => 'INNER',
         ]);
@@ -171,7 +171,7 @@ class UsersTable extends Table
     {
         $rules->add($rules->isUnique(['email']), ['errorField' => 'email']);
         $rules->add($rules->isUnique(['username']), ['errorField' => 'username']);
-        $rules->add($rules->existsIn('role_id', 'Roles'), ['errorField' => 'role_id']);
+        $rules->add($rules->existsIn('role_id', 'UserRoles'), ['errorField' => 'role_id']);
 
         return $rules;
     }
