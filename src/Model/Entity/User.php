@@ -1,15 +1,18 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
+use Authorization\IdentityInterface;
 
 /**
  * User Entity
  *
  * @property int $id
+ * @property int $role_id
  * @property string $firstname
  * @property string $lastname
  * @property string|null $middlename
@@ -45,6 +48,7 @@ class User extends Entity
      * @var array
      */
     protected $_accessible = [
+        'role_id' => true,
         'firstname' => true,
         'lastname' => true,
         'middlename' => true,
@@ -76,11 +80,17 @@ class User extends Entity
     protected $_hidden = [
         'password',
     ];
-    
-    protected function _setPassword(string $password) : ?string
+
+    protected function _setPassword(string $password): ?string
     {
         if (strlen($password) > 0) {
             return (new DefaultPasswordHasher())->hash($password);
+        }
+    }
+    public function isAdmin($identity)
+    {
+        if ($identity->role_id === 1) {
+            return true;
         }
     }
 }

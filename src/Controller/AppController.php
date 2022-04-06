@@ -30,12 +30,18 @@ use Cake\Controller\Controller;
  */
 class AppController extends Controller
 {
+    public function beforeRender(\Cake\Event\EventInterface $event)
+    {
+        parent::beforeRender($event);
+        $this->set('identity', $this->request->getAttribute('identity'));
+        // dd($result = $this->Authentication->getResult());
+    }
     public function beforeFilter(\Cake\Event\EventInterface $event)
     {
         parent::beforeFilter($event);
         // for all controllers in our application, make index and view
         // actions public, skipping the authentication check
-        $this->Authentication->addUnauthenticatedActions(['index', 'view']);
+        // $this->Authentication->addUnauthenticatedActions(['index', 'view']);
     }
     /**
      * Initialization hook method.
@@ -59,5 +65,18 @@ class AppController extends Controller
          */
         //$this->loadComponent('FormProtection');
         $this->loadComponent('Authentication.Authentication');
+        $this->loadComponent('Authorization.Authorization');
+    }
+
+
+    public function isAdmin($user)
+    {
+        // Admin can access every action
+        if (isset($user['role']) && $user['role_id'] === 1) {
+            return true;
+        }
+
+        // Default deny
+        return false;
     }
 }

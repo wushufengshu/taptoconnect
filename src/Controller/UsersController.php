@@ -12,12 +12,34 @@ namespace App\Controller;
  */
 class UsersController extends AppController
 {
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->Authorization->skipAuthorization();
+    }
+
     public function beforeFilter(\Cake\Event\EventInterface $event)
     {
         parent::beforeFilter($event);
         // Configure the login action to not require authentication, preventing
         // the infinite redirect loop issue 
-        $this->Authentication->addUnauthenticatedActions(['login', 'add']);
+        $this->Authentication->addUnauthenticatedActions(['login', 'register']);
+    }
+
+    public function register()
+    {
+        $this->Authorization->skipAuthorization();
+        $user = $this->Users->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $user = $this->Users->patchEntity($user, $this->request->getData());
+            if ($this->Users->save($user)) {
+                $this->Flash->success(__('The user has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+        }
+        $this->set(compact('user'));
     }
 
     public function login()
@@ -28,7 +50,7 @@ class UsersController extends AppController
         if ($result->isValid()) {
             // redirect to /articles after login success
             $redirect = $this->request->getQuery('redirect', [
-                'controller' => 'Articles',
+                'controller' => 'Users',
                 'action' => 'index',
             ]);
 
@@ -74,22 +96,23 @@ class UsersController extends AppController
         ]);
 
         $socials = $this->Users->SocialMedia
-        ->find('all')
-        ->where(['user_id' => $id]);
+            ->find('all')
+            ->where(['user_id' => $id]);
 
         $music_videos = $this->Users->MusicVideo
-        ->find('all')
-        ->where(['user_id' => $id]);
+            ->find('all')
+            ->where(['user_id' => $id]);
 
         $meetings = $this->Users->Meetings
-        ->find('all')
-        ->select(['id','user_id','meeting_date','meeting_name','time_from','time_to','organized_by','meeting_place',
-        'month' => 'DATE_FORMAT(meeting_date,"%b")',
-        'day' => 'DATE_FORMAT(meeting_date,"%d")'
-        ])
-        ->where(['user_id' => $id]);
+            ->find('all')
+            ->select([
+                'id', 'user_id', 'meeting_date', 'meeting_name', 'time_from', 'time_to', 'organized_by', 'meeting_place',
+                'month' => 'DATE_FORMAT(meeting_date,"%b")',
+                'day' => 'DATE_FORMAT(meeting_date,"%d")'
+            ])
+            ->where(['user_id' => $id]);
 
-        $this->set(compact('user','socials','meetings','music_videos'));
+        $this->set(compact('user', 'socials', 'meetings', 'music_videos'));
     }
 
     /**
