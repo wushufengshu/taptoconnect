@@ -1,38 +1,53 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Meeting $meeting
- * @var string[]|\Cake\Collection\CollectionInterface $users
+ * @var \App\Model\Entity\User[]|\Cake\Collection\CollectionInterface $users
  */
 ?>
-<div class="row">
-    <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $meeting->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $meeting->id), 'class' => 'side-nav-item']
-            ) ?>
-            <?= $this->Html->link(__('List Meetings'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-        </div>
-    </aside>
-    <div class="column-responsive column-80">
-        <div class="meetings form content">
-            <?= $this->Form->create($meeting) ?>
-            <fieldset>
-                <legend><?= __('Edit Meeting') ?></legend>
-                <?php
-                    echo $this->Form->control('user_id', ['options' => $users]);
-                    echo $this->Form->control('meeting_date');
-                    echo $this->Form->control('created_by');
-                    echo $this->Form->control('modified_by');
-                    echo $this->Form->control('trashed', ['empty' => true]);
-                    echo $this->Form->control('deleted_by');
-                ?>
-            </fieldset>
-            <?= $this->Form->button(__('Submit')) ?>
-            <?= $this->Form->end() ?>
-        </div>
-    </div>
-</div>
+        <div class="card mb-3">
+            <div class="card-header">
+              <div class="row flex-between-end">
+                <div class="col-auto align-self-center">
+                  <h5 class="mb-0" data-anchor="data-anchor">Update Meeting</h5>
+                </div>
+              </div>
+            </div>
+            <div class="card-body bg-light">
+              <div class="tab-content">
+                <div class="tab-pane preview-tab-pane active" role="tabpanel" aria-labelledby="tab-dom-872001c1-fbf7-4ca6-84a9-1e6de71adf6d" id="dom-872001c1-fbf7-4ca6-84a9-1e6de71adf6d">
+                    <?= $this->Form->create($meeting, array('class' => 'row g-3 needs-validation')) ?>
+                    <div class="col-md-3">
+                      <?php echo $this->Form->control('user_id',['class' => 'form-control'], ['options' => $users]); ?>
+                    </div>
+                    <div class="col-md-3">
+                      <?php  echo $this->Form->control('meeting_date', ['class' => 'form-control','type' => 'date']); ?>
+                    </div>
+                    <div class="col-md-3">
+                      <?php  echo $this->Form->control('time_from', ['class' => 'form-control']); ?>
+                    </div>
+                    <div class="col-md-3">
+                      <?php  echo $this->Form->control('time_to', ['class' => 'form-control']); ?>
+                    </div>
+
+                    <div class="col-md-12">
+                      <?php  echo $this->Form->control('meeting_name', ['class' => 'form-control']); ?>
+                    </div>
+
+                    <div class="col-md-6">
+                      <?php  echo $this->Form->control('organized_by', ['class' => 'form-control']); ?>
+                    </div>
+
+                    <div class="col-md-6">
+                      <?php  echo $this->Form->control('meeting_place', ['class' => 'form-control']); ?>
+                    </div>
+
+                    <div class="col-12">
+                      <?= $this->Form->button(__('Update'),array('class' => 'btn btn-success')) ?>
+                      <a href="<?php echo $this->Url->build(('/meetings')); ?>" class="btn btn-warning">Cancel</a>
+                    </div>
+                  <?= $this->Form->end() ?>
+
+                </div>
+              </div>
+            </div>
+          </div>

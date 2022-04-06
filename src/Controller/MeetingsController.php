@@ -52,6 +52,7 @@ class MeetingsController extends AppController
         $meeting = $this->Meetings->newEmptyEntity();
         if ($this->request->is('post')) {
             $meeting = $this->Meetings->patchEntity($meeting, $this->request->getData());
+            //dd($meeting);
             if ($this->Meetings->save($meeting)) {
                 $this->Flash->success(__('The meeting has been saved.'));
 
@@ -59,7 +60,12 @@ class MeetingsController extends AppController
             }
             $this->Flash->error(__('The meeting could not be saved. Please, try again.'));
         }
-        $users = $this->Meetings->Users->find('list', ['limit' => 200])->all();
+        //$users = $this->Meetings->Users->find('list', ['limit' => 200])->all();
+        $users = $this->Meetings->Users->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'firstname'
+        ]);
+
         $this->set(compact('meeting', 'users'));
     }
 
@@ -84,7 +90,12 @@ class MeetingsController extends AppController
             }
             $this->Flash->error(__('The meeting could not be saved. Please, try again.'));
         }
-        $users = $this->Meetings->Users->find('list', ['limit' => 200])->all();
+        //$users = $this->Meetings->Users->find('list', ['limit' => 200])->all();
+        $users = $this->Meetings->Users->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'firstname'
+        ]);
+        
         $this->set(compact('meeting', 'users'));
     }
 

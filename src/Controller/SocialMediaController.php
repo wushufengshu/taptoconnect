@@ -59,7 +59,12 @@ class SocialMediaController extends AppController
             }
             $this->Flash->error(__('The social media could not be saved. Please, try again.'));
         }
-        $users = $this->SocialMedia->Users->find('list', ['limit' => 200])->all();
+        //$users = $this->SocialMedia->Users->find('list', ['limit' => 200])->all();
+        $users = $this->SocialMedia->Users->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'firstname'
+        ]);
+
         $this->set(compact('socialMedia', 'users'));
     }
 
@@ -84,7 +89,12 @@ class SocialMediaController extends AppController
             }
             $this->Flash->error(__('The social media could not be saved. Please, try again.'));
         }
-        $users = $this->SocialMedia->Users->find('list', ['limit' => 200])->all();
+        //$users = $this->SocialMedia->Users->find('list', ['limit' => 200])->all();
+        $users = $this->SocialMedia->Users->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'firstname'
+        ]);
+        
         $this->set(compact('socialMedia', 'users'));
     }
 

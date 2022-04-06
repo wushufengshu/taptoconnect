@@ -1,62 +1,42 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\SocialMedia $socialMedia
- */
-?>
-<div class="row">
-    <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Html->link(__('Edit Social Media'), ['action' => 'edit', $socialMedia->id], ['class' => 'side-nav-item']) ?>
-            <?= $this->Form->postLink(__('Delete Social Media'), ['action' => 'delete', $socialMedia->id], ['confirm' => __('Are you sure you want to delete # {0}?', $socialMedia->id), 'class' => 'side-nav-item']) ?>
-            <?= $this->Html->link(__('List Social Media'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-            <?= $this->Html->link(__('New Social Media'), ['action' => 'add'], ['class' => 'side-nav-item']) ?>
-        </div>
-    </aside>
-    <div class="column-responsive column-80">
-        <div class="socialMedia view content">
-            <h3><?= h($socialMedia->id) ?></h3>
-            <table>
-                <tr>
-                    <th><?= __('User') ?></th>
-                    <td><?= $socialMedia->has('user') ? $this->Html->link($socialMedia->user->id, ['controller' => 'Users', 'action' => 'view', $socialMedia->user->id]) : '' ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Id') ?></th>
-                    <td><?= $this->Number->format($socialMedia->id) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Created By') ?></th>
-                    <td><?= $this->Number->format($socialMedia->created_by) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Modified By') ?></th>
-                    <td><?= $this->Number->format($socialMedia->modified_by) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Deleted By') ?></th>
-                    <td><?= $this->Number->format($socialMedia->deleted_by) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Created') ?></th>
-                    <td><?= h($socialMedia->created) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Modified') ?></th>
-                    <td><?= h($socialMedia->modified) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Trashed') ?></th>
-                    <td><?= h($socialMedia->trashed) ?></td>
-                </tr>
-            </table>
-            <div class="text">
-                <strong><?= __('Social Link') ?></strong>
-                <blockquote>
-                    <?= $this->Text->autoParagraph(h($socialMedia->social_link)); ?>
-                </blockquote>
-            </div>
-        </div>
-    </div>
+<div class="table-responsive scrollbar">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">User Owner</th>
+        <th scope="col">Social Link</th>
+        <th scope="col">Date Created</th>
+        <th scope="col">Date Modified</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="hover-actions-trigger">
+        <td class="align-middle text-nowrap">
+          <div class="d-flex align-items-center">
+            <div class="ms-2"><?= $socialMedia->has('user') ? $this->Html->link($socialMedia->user->firstname." ".$socialMedia->user->lastname, ['controller' => 'Users', 'action' => 'view', $socialMedia->user->id]) : '' ?></div>
+          </div>
+        </td>
+        <td class="align-middle text-nowrap"><?= $this->Text->autoParagraph(h($socialMedia->social_link)); ?></td>
+        <td class="align-middle text-nowrap"><?= h($socialMedia->created) ?></td>
+        <td class="align-middle text-nowrap"><?= h($socialMedia->modified) ?></td>
+        <td class="w-auto">
+          <div class="btn-group btn-group hover-actions end-0 me-4">
+
+            <?= $this->Html->link(__('<font color="green" size="3px"><i class="far fa-edit"></i></font>'), ['action' => 'edit', $socialMedia->id], [ 'escape' => false, 'class' => 'btn btn-light pe-2','data-bs-toggle' => 'tooltip','data-bs-placement' => 'top', 'title' => 'Edit']) ?>
+            <?= $this->Form->postLink(__('<font color="red" size="3px"><i class="far fa-trash-alt"></i></font>'), ['action' => 'delete', $socialMedia->id], 
+                    [
+                    'confirm' => __('Are you sure you want to delete # {0}?', $socialMedia->id),
+                    'escape' => false, //'escape' => false - convert plain text to html
+                    'class' => 'btn btn-light pe-2',
+                    'data-bs-toggle' => 'tooltip',
+                    'data-bs-placement' => 'top', 
+                    'title' => 'Delete'
+                    ]) 
+            ?>
+          </div>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
 </div>

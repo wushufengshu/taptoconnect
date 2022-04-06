@@ -66,9 +66,28 @@ class MeetingsTable extends Table
             ->allowEmptyString('id', null, 'create');
 
         $validator
-            ->dateTime('meeting_date')
             ->requirePresence('meeting_date', 'create')
             ->notEmptyDateTime('meeting_date');
+
+        $validator
+            ->scalar('meeting_name')
+            ->notEmptyString('meeting_name');
+
+        $validator
+            ->requirePresence('time_from', 'create')
+            ->notEmptyTime('time_from');
+
+        $validator
+            ->requirePresence('time_to', 'create')
+            ->notEmptyTime('time_to');
+
+        $validator
+            ->scalar('organized_by')
+            ->notEmptyString('organized_by');
+
+        $validator
+            ->scalar('meeting_place')
+            ->notEmptyString('meeting_place');
 
         $validator
             ->integer('created_by')

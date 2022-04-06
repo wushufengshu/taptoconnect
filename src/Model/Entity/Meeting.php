@@ -34,6 +34,11 @@ class Meeting extends Entity
     protected $_accessible = [
         'user_id' => true,
         'meeting_date' => true,
+        'meeting_name' => true,
+        'time_from' => true,
+        'time_to' => true,
+        'organized_by' => true,
+        'meeting_place' => true,
         'created' => true,
         'created_by' => true,
         'modified' => true,
