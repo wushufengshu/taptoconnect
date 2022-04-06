@@ -30,7 +30,7 @@
 
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/pages/user/settings.html">Settings</a>
-                    <a class="dropdown-item" href="/pages/authentication/card/logout.html">Logout</a>
+                    <?php echo $this->Html->link("Logout", ['controller' => 'Users', 'action' => 'logout'], ['class' => 'dropdown-item']); ?>
                 </div>
             </div>
         </li>
