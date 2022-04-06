@@ -16,17 +16,35 @@
               <div class="tab-content">
                 <div class="tab-pane preview-tab-pane active" role="tabpanel" aria-labelledby="tab-dom-872001c1-fbf7-4ca6-84a9-1e6de71adf6d" id="dom-872001c1-fbf7-4ca6-84a9-1e6de71adf6d">
                     <?= $this->Form->create($user, array('class' => 'row g-3 needs-validation')) ?>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
+                      <label>Pronouns</label>
+                      <select name="pronouns" class="form-control">
+                        <option value="">Select Pronouns</option>
+                        <option value="He/Him">He/Him</option>
+                        <option value="She/Hers">She/Hers</option>
+                        <option value="They/Them">They/Them</option>
+                      </select>
+                      <small>he/him, she/hers, they/them</small>
+                    </div>
+                    <div class="col-md-4">
                       <?php echo $this->Form->control('firstname',array('class' => 'form-control','placeholder' => 'Enter Firstname')); ?>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                       <?php echo $this->Form->control('lastname',array('class' => 'form-control','placeholder' => 'Enter Lastname')); ?>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                       <?php echo $this->Form->control('middlename',array('class' => 'form-control','placeholder' => 'Enter Middlename')); ?>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                       <?php echo $this->Form->control('birth_date',array('class' => 'form-control','placeholder' => 'Enter Date of Birth')); ?>
+                    </div>
+                    <div class="col-md-4">
+                      <label>Gender</label>
+                      <select name="gender" class="form-control">
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                      </select>
                     </div>
                     <div class="col-md-4">
                       <?php echo $this->Form->control('address',array('class' => 'form-control','placeholder' => 'Enter Address')); ?>
