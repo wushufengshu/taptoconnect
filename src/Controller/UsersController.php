@@ -28,21 +28,30 @@ class UsersController extends AppController
 
     public function register()
     {
-        $this->Authorization->skipAuthorization();
-        $user = $this->Users->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
-            // dd($user);
-            $save = $this->Users->save($user);
-            if (!$save) {
-                // $this->Flash->success(__('The user has been saved.'));
+        // $this->Authorization->skipAuthorization();
 
-                // return $this->redirect(['action' => 'register']);
-                $this->Flash->error(__('The user could not be saved. Please, try again.'));
+
+        $user = $this->Users->newEmptyEntity();
+        if ($this->request->is('ajax')) {
+            $this->layout = 'ajax';
+            $user = $this->Users->patchEntity($user, $this->request->getData());
+            // $user->birth_date = date('Y-m-d', strtotime($this->request->getData('birth_date')));
+            $user->token = $this->Common->generateToken(50);
+            if ($user = $this->Users->save($user)) {
+                $msg = 1;
+                // $this->Flash->error(__('Could not create account. Please try again'));
+            } else {
+                $msg = 2;
+                $this->Flash->error(__('Could not create account. Please try again'));
             }
+
+            $response = $this->response->withType('application/json')
+                ->withStringBody(json_encode(['data' => $user, 'msg' => $msg]));
+            return $response;
         }
         $this->set(compact('user'));
     }
+
 
     public function login()
     {
@@ -116,32 +125,31 @@ class UsersController extends AppController
 
     public function profile()
     {
-         
+
         $this->Authorization->skipAuthorization();
-        
+
         // $user = $this->Users->get($id, [
         //     'contain' => [],
         // ]); 
-        $user = $this->Users->get($this->Authentication->getIdentity()->getIdentifier() ); 
- 
+        $user = $this->Users->get($this->Authentication->getIdentity()->getIdentifier());
+
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());  
+            $user = $this->Users->patchEntity($user, $this->request->getData());
 
             $image = $this->request->getData('image_file');
-            $fileName = $image->getClientFilename(); 
+            $fileName = $image->getClientFilename();
             // dd($image);
             $user->image = $fileName;
             if ($this->Users->save($user)) {
 
                 if (!$user->getErrors()) {
                     // never trust anything in `$image` if you haven't properly validated it!!!
-    
-                    if(!is_dir(WWW_ROOT.'img/uploads/profilepicture'.DS.$user->id))
-                    mkdir(WWW_ROOT.'img/uploads/profilepicture'.DS.$user->id);
-    
-                    if($fileName){
-                        $image->moveTo(WWW_ROOT . 'img/uploads/profilepicture'. DS .$user->id.'/'. DS . $fileName);
-                    
+
+                    if (!is_dir(WWW_ROOT . 'img/uploads/profilepicture' . DS . $user->id))
+                        mkdir(WWW_ROOT . 'img/uploads/profilepicture' . DS . $user->id);
+
+                    if ($fileName) {
+                        $image->moveTo(WWW_ROOT . 'img/uploads/profilepicture' . DS . $user->id . '/' . DS . $fileName);
                     }
                 }
 
@@ -154,8 +162,8 @@ class UsersController extends AppController
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
             $this->Common->dblogger([
                 //change depending on action
-                'message' => 'Unable to update profile' ,
-                'request' => $this->request, 
+                'message' => 'Unable to update profile',
+                'request' => $this->request,
             ]);
         }
         $userRole = $this->Users->UserRoles->find('list', ['limit' => 200])->all();

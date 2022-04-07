@@ -151,6 +151,10 @@ class UsersTable extends Table
             ->allowEmptyFile('image');
 
         $validator
+            ->scalar('token')
+            ->requirePresence('token', 'create')
+            ->notEmptyString('token');
+        $validator
             ->integer('created_by')
             ->allowEmptyString('created_by');
 
@@ -180,6 +184,7 @@ class UsersTable extends Table
     {
         $rules->add($rules->isUnique(['email']), ['errorField' => 'email']);
         $rules->add($rules->isUnique(['username']), ['errorField' => 'username']);
+        $rules->add($rules->isUnique(['token']), ['errorField' => 'token']);
         $rules->add($rules->existsIn('role_id', 'UserRoles'), ['errorField' => 'role_id']);
 
         return $rules;

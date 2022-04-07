@@ -67,6 +67,7 @@ class User extends Entity
         'pronouns' => true,
         'activated' => true,
         'image' => true,
+        'token' => true,
         'created' => true,
         'created_by' => true,
         'modified' => true,

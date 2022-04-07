@@ -7,17 +7,21 @@
                 <ul class="nav justify-content-between nav-wizard">
                     <li class="nav-item"><a class="nav-link active fw-semi-bold" href="#bootstrap-wizard-tab1" data-bs-toggle="tab" data-wizard-step="data-wizard-step"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-lock"></span></span></span><span class="d-none d-md-block mt-1 fs--1">Account</span></a></li>
                     <li class="nav-item"><a class="nav-link fw-semi-bold" href="#bootstrap-wizard-tab2" data-bs-toggle="tab" data-wizard-step="data-wizard-step"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-user"></span></span></span><span class="d-none d-md-block mt-1 fs--1">Personal</span></a></li>
-                    <li class="nav-item"><a class="nav-link fw-semi-bold" href="#bootstrap-wizard-tab3" data-bs-toggle="tab" data-wizard-step="data-wizard-step"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-thumbs-up"></span></span></span><span class="d-none d-md-block mt-1 fs--1">Done</span></a></li>
+                    <li class="nav-item" class="disabled"><span class="nav-link fw-semi-bold" href="#bootstrap-wizard-tab3" data-bs-toggle="tab" data-wizard-step="data-wizard-step"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-thumbs-up"></span></span></span><span class="d-none d-md-block mt-1 fs--1">Done</span></span></li>
                 </ul>
             </div>
 
+            <?= $this->Flash->render() ?>
             <div class="card-body py-4" id="wizard-controller">
                 <div class="tab-content">
                     <div class="tab-pane active px-sm-3 px-md-5" role="tabpanel" aria-labelledby="bootstrap-wizard-tab1" id="bootstrap-wizard-tab1">
                         <form class="needs-validation" novalidate="novalidate">
+                            <input type="hidden" id="csrfToken" name='_csrfToken' value="<?= $this->request->getAttribute('csrfToken') ?>">
                             <div class="mb-3">
-                                <label class="form-label" for="bootstrap-wizard-wizard-username">Username*</label>
-                                <input class="form-control" name="username" placeholder="Username" required="required" id="bootstrap-wizard-wizard-username" data-wizard-validate-username="true" />
+                                <?php echo $this->Form->control('username', [
+                                    'class' => 'form-control', 'required' => 'required', 'placeholder' => 'Username', "id" => "bootstrap-wizard-wizard-username", "data-wizard-validate-username" => "true",
+                                    'label' => ['text' => 'Username *', 'for' => 'bootstrap-wizard-wizard-username', 'form-label']
+                                ]); ?>
                                 <div class="invalid-feedback">Please enter username</div>
                             </div>
                             <div class="mb-3">
@@ -36,65 +40,38 @@
                                     <input class="form-control" type="password" name="password" placeholder="Password" required="required" id="bootstrap-wizard-wizard-password" data-wizard-validate-password="true" />
                                     <div class="invalid-feedback">Please enter password</div>
                                 </div>
-                                <!-- <div class="mb-3">
-                                        <label class="form-label" for="bootstrap-wizard-wizard-confirm-password">Confirm Password*</label>
-                                        <input class="form-control" type="password" name="confirmPassword" placeholder="Confirm Password" required="required" id="bootstrap-wizard-wizard-confirm-password" data-wizard-validate-confirm-password="true" />
-                                        <div class="invalid-feedback">Passwords need to match</div>
-                                    </div>  -->
                             </div>
                         </form>
                     </div>
                     <div class="tab-pane px-sm-3 px-md-5" role="tabpanel" aria-labelledby="bootstrap-wizard-tab2" id="bootstrap-wizard-tab2">
                         <form class="needs-validation" novalidate2="novalidate">
-                            <div class="mb-3">
-                                <div class="row" data-dropzone="data-dropzone" data-options='{"maxFiles":1,"data":[{"name":"avatar.png","size":"54kb","url":"../../assets/img/team"}]}'>
-                                    <div class="fallback">
-                                        <input type="file" name="file" />
-                                    </div>
-                                    <div class="col-md-auto">
-                                        <div class="dz-preview dz-preview-single">
-                                            <div class="dz-preview-cover d-flex align-items-center justify-content-center mb-3 mb-md-0">
-                                                <div class="avatar avatar-4xl"><img class="rounded-circle" src="../../assets/img/team/avatar.png" alt="..." data-dz-thumbnail="data-dz-thumbnail" /></div>
-                                                <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress=""></span></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md">
-                                        <div class="dz-message dropzone-area px-2 py-3" data-dz-message="data-dz-message">
-                                            <div class="text-center"><img class="me-2" src="../../assets/img/icons/cloud-upload.svg" width="25" alt="" />Upload your profile picture
-                                                <p class="mb-0 fs--1 text-400">Upload a 300x300 jpg image with <br />a maximum size of 400KB</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="row mb-3">
 
                                 <div class="col-md-4">
-                                    <label class="form-label" for="bootstrap-wizard-wizard-firstname">First name* </label>
+                                    <label class="form-label" for="bootstrap-wizard-wizard-firstname">First name <span style="color:#e63757">*</span> </label>
                                     <input class="form-control" type="text" name="firstname" placeholder="First name" id="bootstrap-wizard-wizard-firstname" required="true" data-wizard-validate-firstname="true" />
                                     <div class="invalid-feedback">Please enter first name</div>
                                 </div>
 
                                 <div class="col-md-4">
                                     <label class="form-label" for="bootstrap-wizard-wizard-middlename">Middle name</label>
-                                    <input class="form-control" type="text" name="middlename" placeholder="Middle name" id="bootstrap-wizard-wizard-middlename" />
+                                    <input class="form-control" type="text" name="middlename" placeholder="Middle name" id="bootstrap-wizard-wizard-middlename" data-wizard-validate-middlename="true" />
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label class="form-label" for="bootstrap-wizard-wizard-lastname">Last name* </label>
+                                    <label class="form-label" for="bootstrap-wizard-wizard-lastname">Last name <span style="color:#e63757">*</span> </label>
                                     <input class="form-control" type="text" name="lastname" placeholder="Last name" id="bootstrap-wizard-wizard-lastname" required="true" data-wizard-validate-lastname="true" />
                                     <div class="invalid-feedback">Please enter last name</div>
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="bootstrap-wizard-wizard-phone">Contact number</label>
+                                <label class="form-label" for="bootstrap-wizard-wizard-phone">Contact number <span style="color:#e63757">*</span></label>
                                 <input class="form-control" type="text" name="contactno" placeholder="Contact number" id="bootstrap-wizard-wizard-contactno" required="true" data-wizard-validate-contactno="true" />
                                 <div class="invalid-feedback">Please enter contact number</div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="bootstrap-wizard-wizard-datepicker">Date of Birth</label>
-                                <input class="form-control datetimepicker" name="birth_date" type="text" placeholder="d/m/y" data-options='{"dateFormat":"d/m/y","disableMobile":true}' id="bootstrap-wizard-wizard-datepicker" data-wizard-validate-datepicker="true" />
+                                <input class="form-control datetimepicker" name="birth_date" type="text" placeholder="Y-m-d" data-options='{"dateFormat":"Y-m-d","disableMobile":true}' id="bootstrap-wizard-wizard-datepicker" data-wizard-validate-datepicker="true" />
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
@@ -121,12 +98,12 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label" for="bootstrap-wizard-wizard-address">Bio</label>
-                                <textarea class="form-control" name="user_desc" rows="4" id="bootstrap-wizard-wizard-user_desc"></textarea>
+                                <label class="form-label" for="bootstrap-wizard-wizard-user_desc">Bio</label>
+                                <textarea class="form-control" name="user_desc" rows="4" id="bootstrap-wizard-wizard-user_desc" data-wizard-validate-user_desc="true"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="bootstrap-wizard-wizard-address">Address</label>
-                                <textarea class="form-control" name="addresss" rows="4" id="bootstrap-wizard-wizard-address"></textarea>
+                                <textarea class="form-control" name="address" rows="4" id="bootstrap-wizard-wizard-address" data-wizard-validate-address="true"></textarea>
                             </div>
                         </form>
                     </div>
@@ -171,7 +148,6 @@
         </div>
     </div>
 </div>
-
 <script src="/jquery/jquery.min.js"></script>
 <script>
     /* -------------------------------------------------------------------------- */
@@ -221,6 +197,7 @@
     // });
 
 
+
     var wizardInit = function wizardInit() {
         var wizards = document.querySelectorAll('.theme-wizard');
         var tabPillEl = document.querySelectorAll('#pill-tab2 [data-bs-toggle="pill"]');
@@ -234,8 +211,26 @@
             // var inputConfirmPassword = wizard.querySelector('[data-wizard-validate-confirm-password]');
 
             var inputFirstname = wizard.querySelector('[data-wizard-validate-firstname]');
+            var inputMiddlename = wizard.querySelector('[data-wizard-validate-middlename]');
             var inputLastname = wizard.querySelector('[data-wizard-validate-lastname]');
             var inputContactno = wizard.querySelector('[data-wizard-validate-contactno]');
+            var inputBirthdate = wizard.querySelector('[data-wizard-validate-datepicker]');
+            var inputGender = '';
+            var inputPronouns = '';
+            $('#bootstrap-wizard-gender').change(() => {
+                inputGender = $('#bootstrap-wizard-gender').val();
+                if (inputGender == 'Select your pronouns ...' || inputGender == '') {
+                    inputGender = null;
+                }
+            });
+            $('#bootstrap-wizard-pronouns').change(() => {
+                inputPronouns = $('#bootstrap-wizard-pronouns').val();
+                if (inputPronouns == 'Select your pronouns ...' || inputPronouns == '') {
+                    inputPronouns = null;
+                }
+            });
+            var inputBio = wizard.querySelector('[data-wizard-validate-user_desc]');
+            var inputAddress = wizard.querySelector('[data-wizard-validate-address]');
 
             var form = wizard.querySelector('[novalidate]');
             var form2 = wizard.querySelector('[novalidate2]');
@@ -251,9 +246,9 @@
             };
 
             prevButton.classList.add('d-none'); // on button click tab change
-
+            // && validatePattern(emailPattern, inputEmail.value)
             nextButton.addEventListener('click', function() {
-                if ((!inputUsername.value || !(inputEmail.value && validatePattern(emailPattern, inputEmail.value)) || !inputPassword.value) && form.className.includes('needs-validation')) {
+                if ((!inputUsername.value || !(inputEmail.value) || !inputPassword.value) && form.className.includes('needs-validation')) {
                     form.classList.add('was-validated');
                 } else {
                     count += 1;
@@ -268,11 +263,48 @@
                 if ((!inputFirstname.value || !inputLastname.value || !inputContactno.value) && form2.className.includes('needs-validation')) {
                     form2.classList.add('was-validated');
                 } else {
-                    count += 1;
-                    var tab = new window.bootstrap.Tab(tabToggleButtonEl[count]);
-                    tab.show();
-                    nextButton.classList.add('d-none');
-                    saveButton.classList.remove('d-none');
+                    var ajaxdata = {
+                        username: inputUsername.value,
+                        email: inputEmail.value,
+                        password: inputPassword.value,
+                        firstname: inputFirstname.value,
+                        middlename: inputMiddlename.value,
+                        lastname: inputLastname.value,
+                        contactno: inputContactno.value,
+                        birth_date: inputBirthdate.value,
+                        gender: inputGender,
+                        pronouns: inputPronouns,
+                        user_desc: inputBio.value,
+                        address: inputAddress.value,
+                    };
+                    console.log(ajaxdata)
+                    $.ajax({
+                        method: "POST",
+                        url: "<?= $this->Url->build(['controller' => 'Users', 'action' => 'register']) ?>",
+                        type: "JSON",
+                        data: ajaxdata,
+                        headers: {
+                            'X-CSRF-Token': $("[name='_csrfToken']").val()
+                        },
+
+                        beforeSend: function() {},
+                        success: function(msg) {
+                            console.log(msg)
+                            if (msg.msg == 1) {
+                                count += 1;
+                                var tab = new window.bootstrap.Tab(tabToggleButtonEl[count]);
+                                tab.show();
+                            }
+
+                        },
+                        cache: false,
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            alert(thrownError);
+                        }
+                    })
+                    console.log(inputEmail);
+
+
                 }
             });
 
@@ -288,13 +320,17 @@
                 tabToggleButtonEl.forEach(function(item, index) {
                     /* eslint-disable */
                     item.addEventListener('show.bs.tab', function(e) {
-                        if ((!(inputEmail.value && validatePattern(emailPattern, inputEmail.value)) || !inputPassword.value) && form.className.includes('needs-validation')) {
+                        if ((!inputUsername || !(inputEmail.value) || !inputPassword.value) && form.className.includes('needs-validation')) {
                             e.preventDefault();
                             form.classList.add('was-validated');
                             return null;
                             /* eslint-enable */
                         }
-
+                        // if ((!inputFirstname.value || !inputLastname.value || !inputContactno.value) && form2.className.includes('needs-validation')) {
+                        //     // e.preventDefault();
+                        //     form2.classList.add('was-validated');
+                        //     return null;
+                        // }
                         count = index; // can't go back tab
 
                         if (count === tabToggleButtonEl.length - 1) {
