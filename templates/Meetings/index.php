@@ -22,7 +22,7 @@
             <div class="card-body pt-0">
               <div class="tab-content">
                 <div class="tab-pane preview-tab-pane active" role="tabpanel" aria-labelledby="tab-dom-864f5a02-4c23-4e2f-888a-06238311a2e3" id="dom-864f5a02-4c23-4e2f-888a-06238311a2e3">
-                  <div id="tableExample2" data-list='{"valueNames":["name","musicvideo","created"],"page":5,"pagination":true}'>
+                  <div id="tableExample2" data-list='{"valueNames":["name","musicvideo","created"],"page":100,"pagination":true}'>
                     <div class="table-responsive scrollbar">
 
                       <table class="table table-bordered table-hover fs--1 mb-0">
