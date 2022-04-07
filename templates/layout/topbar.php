@@ -23,13 +23,8 @@
             </a>
             <div class="dropdown-menu dropdown-menu-end py-0" aria-labelledby="navbarDropdownUser">
                 <div class="bg-white dark__bg-1000 rounded-2 py-2">
-
+                    <?php echo $this->Html->link("Profile & Account", ['controller' => 'Users', 'action' => 'profile'], ['class' => 'dropdown-item']); ?>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/pages/user/profile.html">Profile &amp; account</a>
-                    <a class="dropdown-item" href="#!">Feedback</a>
-
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/pages/user/settings.html">Settings</a>
                     <?php echo $this->Html->link("Logout", ['controller' => 'Users', 'action' => 'logout'], ['class' => 'dropdown-item']); ?>
                 </div>
             </div>

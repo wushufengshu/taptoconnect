@@ -114,6 +114,54 @@ class UsersController extends AppController
         $this->set(compact('users'));
     }
 
+    public function profile()
+    {
+         
+        $this->Authorization->skipAuthorization();
+        
+        // $user = $this->Users->get($id, [
+        //     'contain' => [],
+        // ]); 
+        $user = $this->Users->get($this->Authentication->getIdentity()->getIdentifier() ); 
+ 
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $user = $this->Users->patchEntity($user, $this->request->getData());  
+
+            $image = $this->request->getData('image_file');
+            $fileName = $image->getClientFilename(); 
+            // dd($image);
+            $user->image = $fileName;
+            if ($this->Users->save($user)) {
+
+                if (!$user->getErrors()) {
+                    // never trust anything in `$image` if you haven't properly validated it!!!
+    
+                    if(!is_dir(WWW_ROOT.'img/uploads/profilepicture'.DS.$user->id))
+                    mkdir(WWW_ROOT.'img/uploads/profilepicture'.DS.$user->id);
+    
+                    if($fileName){
+                        $image->moveTo(WWW_ROOT . 'img/uploads/profilepicture'. DS .$user->id.'/'. DS . $fileName);
+                    
+                    }
+                }
+
+                $this->Flash->success(__('The user has been saved.'));
+                $this->Authentication->setIdentity($user);
+                // dd($request->getAttribute('identity'));
+
+                return $this->redirect(['action' => 'profile']);
+            }
+            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+            $this->Common->dblogger([
+                //change depending on action
+                'message' => 'Unable to update profile' ,
+                'request' => $this->request, 
+            ]);
+        }
+        $userRole = $this->Users->UserRoles->find('list', ['limit' => 200])->all();
+        $this->set(compact('user', 'userRole'));
+    }
+
     /**
      * View method
      *
