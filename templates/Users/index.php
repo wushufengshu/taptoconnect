@@ -29,7 +29,7 @@
                       <dd>Activated</dd>
 
                       <dt class="red"></dt>
-                      <dd>No Yet Activated</dd>
+                      <dd>Deactivated</dd>
                     </dl>
                       <table class="table table-bordered table-hover fs--1 mb-0">
                         <thead class="bg-200 text-900">
@@ -38,7 +38,7 @@
                             <th class="sort" data-sort="email">Email</th>
                             <th class="sort" data-sort="contactno">Contact No</th>
                             <th class="sort" data-sort="username">Username</th>
-                            <th class="sort" data-sort="activated">Activated?</th>
+                            <th class="sort" data-sort="activated" align="center">Activate</th>
                             <th class="sort" data-sort="created">Date Created</th>
                             <th class="actions"><?= __('Actions') ?></th>
                           </tr>
@@ -48,11 +48,11 @@
                             <?php 
                               if($user->activated == 0){ //not yet activated
                                   $tr_class = "table-danger";
-                                  $status = "Not Yet Activated";
+                                  $status = "<font color='#F70000' size='4px'><i class='fas fa-power-off'></i></font>";
                               }
                               elseif($user->activated == 1){ //activated
                                   $tr_class = "table-success";
-                                  $status = "Activated";
+                                  $status = "<font color='#30C630' size='4px'><i class='fas fa-power-off'></i></font>";
                               }
                               else{
                                 $tr_class = '';
@@ -63,12 +63,12 @@
                             <td class="email"><?= h($user->email) ?></td>
                             <td class="contactno"><?= h($user->contactno) ?></td>
                             <td class="username"><?= h($user->username) ?></td>
-                            <td class="activated"><a href="#" style="text-decoration: none;" data-bs-toggle="modal" data-bs-target="#update_modal<?php echo $user->id; ?>"><?php echo $status; ?></a></td>
+                            <td class="activated" align="center"><a href="#" style="text-decoration: none;" data-bs-toggle="modal" data-bs-target="#update_modal<?php echo $user->id; ?>"><?php echo $status; ?></a></td>
                             <td class="created"><?= h($user->created) ?></td>
                             <td class="actions">
-                                <?= $this->Html->link(__('<font color="blue" size="3px"><i class="far fa-eye"></i></font>'), ['action' => 'view', $user->id], [ 'escape' => false]) ?>
-                                <?= $this->Html->link(__('<font color="green" size="3px"><i class="far fa-edit"></i></font>'), ['action' => 'edit', $user->id], [ 'escape' => false]) ?>
-                                <?= $this->Form->postLink(__('<font color="red" size="3px"><i class="far fa-trash-alt"></i></font>'), ['action' => 'delete', $user->id], 
+                                <?= $this->Html->link(__('<font color="blue" size="4px"><i class="far fa-eye"></i></font>'), ['action' => 'view', $user->id], [ 'escape' => false]) ?>
+                                <?= $this->Html->link(__('<font color="green" size="4px"><i class="far fa-edit"></i></font>'), ['action' => 'edit', $user->id], [ 'escape' => false]) ?>
+                                <?= $this->Form->postLink(__('<font color="red" size="4px"><i class="far fa-trash-alt"></i></font>'), ['action' => 'delete', $user->id], 
                                 [
                                 'confirm' => __('Are you sure you want to delete # {0}?', $user->id),
                                 'escape' => false //'escape' => false - convert plain text to html
@@ -86,8 +86,8 @@
                                   <div class="modal-body p-0">
                                     <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
                                       <center>
-                                        <h4 class="mb-1" id="modalExampleDemoLabel">ACTIVATE/DEACTIVATE ACCOUNT</h4>
-                                        <label class="col-form-label" for="recipient-name"><h5><?= h($user->firstname." ".$user->middlename." ".$user->lastname) ?></h5>
+                                        <h4 class="mb-1" id="modalExampleDemoLabel"><font color="#30C630">ACTIVATE</font>/<font color="#F70000">DEACTIVATE</font> ACCOUNT</h4>
+                                        <label class="col-form-label" for="recipient-name"><h5>For User: <?= h($user->firstname." ".$user->middlename." ".$user->lastname) ?></h5>
                                       </label>
                                       </center>
                                     </div>
@@ -95,9 +95,9 @@
                                       <input name="userid" class="form-control" id="recipient-name" type="hidden" value="<?php echo $user->id; ?>" />
                                   </div>
                                   <div class="modal-footer">
-                                    <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancel</button>
+                                    <button class="btn btn-warning" type="button" data-bs-dismiss="modal">Cancel</button>
 
-                                    <?= $this->Form->button(__('Deactivate'), ['class' => 'btn btn-warning','type' => 'submit','name' => 'deactivate']) ?>
+                                    <?= $this->Form->button(__('Deactivate'), ['class' => 'btn btn-danger','type' => 'submit','name' => 'deactivate']) ?>
 
                                     <?= $this->Form->button(__('Activate'), ['class' => 'btn btn-success','type' => 'submit','name' => 'activate']) ?>
                                     <?= $this->Form->end() ?>

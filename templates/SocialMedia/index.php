@@ -45,9 +45,9 @@
                             <td class="social_link"><?= h($socialMedia->social_link) ?></td>
                             <td class="created"><?= h($socialMedia->created) ?></td>
                             <td class="actions">
-                                <?= $this->Html->link(__('<font color="blue" size="3px"><i class="far fa-eye"></i></font>'), ['action' => 'view', $socialMedia->id], [ 'escape' => false]) ?>
-                                <?= $this->Html->link(__('<font color="green" size="3px"><i class="far fa-edit"></i></font>'), ['action' => 'edit', $socialMedia->id], [ 'escape' => false]) ?>
-                                <?= $this->Form->postLink(__('<font color="red" size="3px"><i class="far fa-trash-alt"></i></font>'), ['action' => 'delete', $socialMedia->id], 
+                                <?= $this->Html->link(__('<font color="blue" size="4px"><i class="far fa-eye"></i></font>'), ['action' => 'view', $socialMedia->id], [ 'escape' => false]) ?>
+                                <?= $this->Html->link(__('<font color="green" size="4px"><i class="far fa-edit"></i></font>'), ['action' => 'edit', $socialMedia->id], [ 'escape' => false]) ?>
+                                <?= $this->Form->postLink(__('<font color="red" size="4px"><i class="far fa-trash-alt"></i></font>'), ['action' => 'delete', $socialMedia->id], 
                                 [
                                 'confirm' => __('Are you sure you want to delete # {0}?', $socialMedia->id),
                                 'escape' => false //'escape' => false - convert plain text to html
