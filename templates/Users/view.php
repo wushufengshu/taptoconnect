@@ -21,8 +21,11 @@
                 <?php 
                 foreach ($socials as $key => $value) {
                     $social_link = $value->social_link;
+                    $image = $value->image;
                 ?>
-                <a class="d-flex align-items-center mb-2" href="<?php echo "http://".$social_link; ?>" target="_blank"><i class="fa fa-link"></i>&nbsp;
+                <a class="d-flex align-items-center mb-2" href="<?php echo "http://".$social_link; ?>" target="_blank"><!--<i class="fa fa-link"></i>-->
+                  <img class="align-self-center me-2" src="../../assets/img/logos/<?php echo $image; ?>" alt="Generic placeholder image" width="30" />
+                    &nbsp;
                     <div class="flex-1">
                       <h6 class="mb-0"><?= h($social_link) ?></h6>
                     </div>
@@ -93,9 +96,13 @@
                     <?php 
                     foreach ($socials as $key => $value) {
                         $s_social_link = $value->social_link;
+                        $s_image = $value->image;
                     ?>
                     <div class="col-sm-6 mb-3">
-                      <div class="d-flex position-relative align-items-center mb-2"><i class="fa fa-link"></i>&nbsp;
+                      <div class="d-flex position-relative align-items-center mb-2">
+                        <!--<i class="fa fa-link"></i>-->
+                        <img class="d-flex align-self-center me-2 rounded-3" src="../../assets/img/logos/<?php echo $s_image; ?>" alt="" width="50" />
+                        &nbsp;
                         <div class="flex-1">
                           <h6 class="fs-0 mb-0"><a class="stretched-link" href="<?php echo "http://".$s_social_link; ?>" target="_blank"><?= h($s_social_link) ?></a></h6>
                           <!--<p class="mb-1">2 followers</p>-->

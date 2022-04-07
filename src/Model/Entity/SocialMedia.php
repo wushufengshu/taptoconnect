@@ -33,6 +33,7 @@ class SocialMedia extends Entity
      */
     protected $_accessible = [
         'user_id' => true,
+        'social_list_id' => true,
         'social_link' => true,
         'created' => true,
         'created_by' => true,
@@ -41,5 +42,6 @@ class SocialMedia extends Entity
         'trashed' => true,
         'deleted_by' => true,
         'user' => true,
+        'social_list' => true,
     ];
 }

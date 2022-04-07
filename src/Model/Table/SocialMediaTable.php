@@ -51,6 +51,11 @@ class SocialMediaTable extends Table
             'foreignKey' => 'user_id',
             'joinType' => 'INNER',
         ]);
+
+        $this->belongsTo('SocialList', [
+            'foreignKey' => 'social_list_id',
+            'joinType' => 'INNER',
+        ]);
     }
 
     /**
@@ -64,6 +69,11 @@ class SocialMediaTable extends Table
         $validator
             ->integer('id')
             ->allowEmptyString('id', null, 'create');
+
+        $validator
+            ->integer('social_list_id')
+            ->requirePresence('social_list_id', 'create')
+            ->notEmptyString('social_list_id');
 
         $validator
             ->scalar('social_link')

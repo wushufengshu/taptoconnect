@@ -24,7 +24,7 @@ class SocialMediaController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Users'],
+            'contain' => ['Users','SocialList'],
         ];
         $socialMedia = $this->paginate($this->SocialMedia);
 
@@ -57,6 +57,7 @@ class SocialMediaController extends AppController
         $socialMedia = $this->SocialMedia->newEmptyEntity();
         if ($this->request->is('post')) {
             $socialMedia = $this->SocialMedia->patchEntity($socialMedia, $this->request->getData());
+
             if ($this->SocialMedia->save($socialMedia)) {
                 $this->Flash->success(__('The social media has been saved.'));
 
@@ -70,7 +71,10 @@ class SocialMediaController extends AppController
             'valueField' => 'firstname'
         ]);
 
-        $this->set(compact('socialMedia', 'users'));
+        $social_list = $this->SocialMedia->SocialList
+        ->find('all');
+
+        $this->set(compact('socialMedia', 'users','social_list'));
     }
 
     /**
@@ -99,8 +103,11 @@ class SocialMediaController extends AppController
             'keyField' => 'id',
             'valueField' => 'firstname'
         ]);
+
+        $social_list = $this->SocialMedia->SocialList
+        ->find('all');
         
-        $this->set(compact('socialMedia', 'users'));
+        $this->set(compact('socialMedia', 'users','social_list'));
     }
 
     /**

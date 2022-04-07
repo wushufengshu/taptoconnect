@@ -19,6 +19,19 @@
                     <div class="col-md-4">
                       <?php echo $this->Form->control('user_id',['class' => 'form-control'], ['options' => $users]); ?>
                     </div>
+                    <div class="col-md-4">
+                      <label>Social Name</label>
+                      <select name="social_list_id" class="form-control" required="">
+                        <option value="">Select Social Name</option>
+                        <?php 
+                        foreach ($social_list as $key => $value) {
+                        ?>
+                        <option value="<?php echo $value->id; ?>"><?php echo $value->social_name; ?></option>
+                        <?php
+                        }
+                        ?>
+                      </select>
+                    </div>
                     <div class="col-md-12">
                       <?php echo $this->Form->control('social_link',['class' => 'form-control']); ?>
                     </div>

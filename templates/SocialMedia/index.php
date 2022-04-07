@@ -22,14 +22,16 @@
             <div class="card-body pt-0">
               <div class="tab-content">
                 <div class="tab-pane preview-tab-pane active" role="tabpanel" aria-labelledby="tab-dom-864f5a02-4c23-4e2f-888a-06238311a2e3" id="dom-864f5a02-4c23-4e2f-888a-06238311a2e3">
-                  <div id="tableExample2" data-list='{"valueNames":["name","musicvideo","created"],"page":5,"pagination":true}'>
+                  <div id="tableExample2" data-list='{"valueNames":["name","social","social_link","created"],"page":5,"pagination":true}'>
                     <div class="table-responsive scrollbar">
 
                       <table class="table table-bordered table-hover fs--1 mb-0">
                         <thead class="bg-200 text-900">
                           <tr>
                             <th class="sort" data-sort="name">User Owner</th>
-                            <th class="sort" data-sort="musicvideo">Social Link</th>
+                            <th class="sort" data-sort="social">Social Name</th>
+                            <th class="sort" data-sort="social">Social Image</th>
+                            <th class="sort" data-sort="social_link">Social Link</th>
                             <th class="sort" data-sort="created">Date Created</th>
                             <th class="actions"><?= __('Actions') ?></th>
                           </tr>
@@ -38,7 +40,9 @@
                           <?php foreach ($socialMedia as $socialMedia): ?>
                           <tr>
                             <td class="name"><?= h($socialMedia->user->firstname." ".$socialMedia->user->lastname) ?></td>
-                            <td class="musicvideo"><?= h($socialMedia->social_link) ?></td>
+                            <td class="social"><?= h($socialMedia->social_list->social_name) ?></td>
+                            <td class="social"><?= h($socialMedia->social_list->image) ?></td>
+                            <td class="social_link"><?= h($socialMedia->social_link) ?></td>
                             <td class="created"><?= h($socialMedia->created) ?></td>
                             <td class="actions">
                                 <?= $this->Html->link(__('<font color="blue" size="3px"><i class="far fa-eye"></i></font>'), ['action' => 'view', $socialMedia->id], [ 'escape' => false]) ?>

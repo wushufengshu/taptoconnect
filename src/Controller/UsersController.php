@@ -123,6 +123,15 @@ class UsersController extends AppController
 
         $socials = $this->Users->SocialMedia
             ->find('all')
+            ->select(['id', 'user_id','social_list_id','social_link',
+            'image' => 'sl.image',
+            ])
+            ->join([
+            'table' => 'social_list',
+            'alias' => 'sl',
+            'type' => 'INNER',
+            'conditions' => 'sl.id = social_list_id',
+            ])
             ->where(['user_id' => $id]);
 
         $music_videos = $this->Users->MusicVideo
