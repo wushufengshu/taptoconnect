@@ -25,9 +25,12 @@
     <link rel="manifest" href="/assets/img/favicons/manifest.json">
     <meta name="msapplication-TileImage" content="/assets/img/favicons/mstile-150x150.png">
     <meta name="theme-color" content="#ffffff">
-    <?= $this->Html->script('falcon/config.js') ?>
-    <?= $this->Html->script('vendors/overlayscrollbars/OverlayScrollbars.min.js') ?>
 
+    <script src="/assets/js/config.js"></script>
+    <script src="/vendors/overlayscrollbars/OverlayScrollbars.min.js"></script>
+
+    <script src="../assets/js/config.js"></script>
+    <script src="../vendors/overlayscrollbars/OverlayScrollbars.min.js"></script>
     <!-- ===============================================-->
     <!--    Stylesheets-->
     <!-- ===============================================-->
@@ -35,14 +38,13 @@
 
     <link href="/vendors/flatpickr/flatpickr.min.css" rel="stylesheet">
     <link href="/vendors/dropzone/dropzone.min.css" rel="stylesheet">
-    <?= $this->Html->css('https://fonts.gstatic.com', ['rel' => 'preconnect']) ?>
-    <?= $this->Html->css('https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:300,400,500,600,700,800,900&amp;display=swap') ?>
-    <?= $this->Html->css('vendors/overlayscrollbars/OverlayScrollbars.min.css') ?>
-    <?= $this->Html->css('falcon/theme-rtl.min.css', ['id' => 'style-rtl']) ?>
-    <?= $this->Html->css('falcon/theme.min.css', ['id' => 'style-default']) ?>
-    <?= $this->Html->css('falcon/user-rtl.min.css', ['id' => 'user-style-rtl']) ?>
-    <?= $this->Html->css('falcon/user.min.css', ['id' => 'user-style-default']) ?>
-
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
+    <link href="/vendors/overlayscrollbars/OverlayScrollbars.min.css" rel="stylesheet">
+    <link href="/assets/css/theme-rtl.min.css" rel="stylesheet" id="style-rtl">
+    <link href="/assets/css/theme.min.css" rel="stylesheet" id="style-default">
+    <link href="/assets/css/user-rtl.min.css" rel="stylesheet" id="user-style-rtl">
+    <link href="/assets/css/user.min.css" rel="stylesheet" id="user-style-default">
     <script>
         var isRTL = JSON.parse(localStorage.getItem('isRTL'));
         if (isRTL) {

@@ -32,12 +32,14 @@ class UsersController extends AppController
         $user = $this->Users->newEmptyEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
-            if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
+            // dd($user);
+            $save = $this->Users->save($user);
+            if (!$save) {
+                // $this->Flash->success(__('The user has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                // return $this->redirect(['action' => 'register']);
+                $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
         $this->set(compact('user'));
     }
@@ -79,27 +81,31 @@ class UsersController extends AppController
     {
         $users = $this->paginate($this->Users);
 
-        if(isset($_POST['activate'])){
+        if (isset($_POST['activate'])) {
             $activateUser = $this->Users->query();
             $activateUser->update()
-            ->set([
-                    'activated' => 1])
-            ->where([
-                    'id' => $_POST['userid']])
-            ->execute();
+                ->set([
+                    'activated' => 1
+                ])
+                ->where([
+                    'id' => $_POST['userid']
+                ])
+                ->execute();
 
             $this->Flash->success(__('User Account has been activated!'));
             return $this->redirect(['action' => 'index']);
         }
 
-        if(isset($_POST['deactivate'])){
+        if (isset($_POST['deactivate'])) {
             $activateUser = $this->Users->query();
             $activateUser->update()
-            ->set([
-                    'activated' => 0])
-            ->where([
-                    'id' => $_POST['userid']])
-            ->execute();
+                ->set([
+                    'activated' => 0
+                ])
+                ->where([
+                    'id' => $_POST['userid']
+                ])
+                ->execute();
 
             $this->Flash->success(__('User Account has been deactivated!'));
             return $this->redirect(['action' => 'index']);
@@ -123,14 +129,15 @@ class UsersController extends AppController
 
         $socials = $this->Users->SocialMedia
             ->find('all')
-            ->select(['id', 'user_id','social_list_id','social_link',
-            'image' => 'sl.image',
+            ->select([
+                'id', 'user_id', 'social_list_id', 'social_link',
+                'image' => 'sl.image',
             ])
             ->join([
-            'table' => 'social_list',
-            'alias' => 'sl',
-            'type' => 'INNER',
-            'conditions' => 'sl.id = social_list_id',
+                'table' => 'social_list',
+                'alias' => 'sl',
+                'type' => 'INNER',
+                'conditions' => 'sl.id = social_list_id',
             ])
             ->where(['user_id' => $id]);
 
@@ -214,5 +221,4 @@ class UsersController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
-    
 }
