@@ -68,50 +68,48 @@
     <!-- ===============================================-->
     <!--    Main Content-->
     <!-- ===============================================-->
-    <!-- <? //php if (isset($identity) && $identity->role_id === 1) { 
-            ?> -->
-    <main class="main" id="top">
-        <div class="container" data-layout="container">
-            <?= $this->Html->script('falconfluid') ?>
-            <nav class="navbar navbar-light navbar-vertical navbar-expand-xl">
-                <script>
-                    var navbarStyle = localStorage.getItem("navbarStyle");
-                    if (navbarStyle && navbarStyle !== 'transparent') {
-                        document.querySelector('.navbar-vertical').classList.add(`navbar-${navbarStyle}`);
-                    }
-                </script>
-                <?php include("sidebar.php"); ?>
-            </nav>
-            <div class="content">
-                <?php include("topbar.php"); ?>
+    <?php if ($identity) {
+    ?>
+        <main class="main" id="top">
+            <div class="container" data-layout="container">
+                <?= $this->Html->script('falconfluid') ?>
+                <nav class="navbar navbar-light navbar-vertical navbar-expand-xl">
+                    <script>
+                        var navbarStyle = localStorage.getItem("navbarStyle");
+                        if (navbarStyle && navbarStyle !== 'transparent') {
+                            document.querySelector('.navbar-vertical').classList.add(`navbar-${navbarStyle}`);
+                        }
+                    </script>
+                    <?php include("sidebar.php"); ?>
+                </nav>
+                <div class="content">
+                    <?php include("topbar.php"); ?>
 
-                <?= $this->Flash->render() ?>
-                <?= $this->fetch('content') ?>
+                    <?= $this->Flash->render() ?>
+                    <?= $this->fetch('content') ?>
 
 
-                <?php include("footer.php"); ?>
+                    <?php include("footer.php"); ?>
+
+                </div>
 
             </div>
+        </main>
 
-        </div>
-    </main>
+    <?php } else {
+    ?>
 
-    <!-- <? // php } else { 
-            ?> -->
-
-    <!-- <main class="main" id="top">
-        <div class="container" data-layout="container">
-            <? //= $this->Html->script('falconfluid') 
-            ?>
+        <main class="main" id="top">
+            <div class="container" data-layout="container">
+                <?= $this->Html->script('falconfluid') ?>
 
 
-            <? //= $this->fetch('content') 
-            ?>
-        </div>
-    </main> -->
+                <?= $this->fetch('content') ?>
+            </div>
+        </main>
 
-    <!-- <? // php } 
-            ?> -->
+    <?php }
+    ?>
     <!-- ===============================================-->
     <!--    End of Main Content-->
     <!-- ===============================================-->

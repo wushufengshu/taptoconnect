@@ -24,6 +24,7 @@
 
 use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\RouteBuilder;
+use Authentication\IdentityInterface;
 
 return static function (RouteBuilder $routes) {
     /*
@@ -51,13 +52,14 @@ return static function (RouteBuilder $routes) {
          * its action called 'display', and we pass a param to select the view file
          * to use (in this case, templates/Pages/home.php)...
          */
-        $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+        $builder->connect('/', ['controller' => 'Users', 'action' => 'token']);
 
         /*
          * ...and connect the rest of 'Pages' controller's URLs.
          */
         $builder->connect('/pages/*', 'Pages::display');
 
+        // $builder->connect('/', ['controller' => 'Users', 'action' => 'view', 'id']);
         /*
          * Connect catchall routes for all controllers.
          *
