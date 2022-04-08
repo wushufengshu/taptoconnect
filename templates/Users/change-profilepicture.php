@@ -37,16 +37,38 @@
             <div class="col-lg-12 pe-lg-2">
               <div class="card mb-3">
                 <div class="card-header">
-                  <h5 class="mb-0">Update Profile Information</h5>
+                  <h5 class="mb-0">Update Profile</h5>
                   <br>
+                  <?= $this->Html->link(__('Change password'), ['action' => 'change-password'], ['class' => 'button float-right btn btn-success float-right  ']) ?>
 
-                  <?= $this->Html->link(__('Change Profile Picture'), ['action' => 'changeprofilepicture'], ['class' => 'button float-right btn btn-success float-right  ']) ?>
-
-                  <?= $this->Html->link(__('Change password'), ['action' => 'changepassword'], ['class' => 'button float-right btn btn-success float-right  ']) ?>
+                  <?= $this->Html->link(__('Change Profile Picture'), ['action' => 'change-profilepicture'], ['class' => 'button float-right btn btn-success float-right  ']) ?>
                 </div>
                 <div class="card-body bg-light">
                   <!--<form class="row g-3">-->
                   <?= $this->Form->create($user,  ['type' => 'file','class' => 'row g-3', 'url' => ['controller'=> 'Users', 'action' => 'profile']]) ?>
+                    <div class="col-lg-12">
+                    <?php 
+                              $imageclass = 'rounded-circle align-self-center mr-3';
+                              $imagestyle = 'height:5rem;width:5rem;object-fit: cover;';
+                              if(!$user->image){      
+                                  echo $this->Html->image('avatar.png', ['class' => $imageclass, 'style' => $imagestyle,'alt'=>'User img', 'id' => 'imageRender' ]); 
+
+                              }else{
+                                  echo $this->Html->image('uploads/profilepicture/'.$user->id.'/'.$user->image, ['class' => $imageclass, 'style' => $imagestyle,'alt'=>'User img', 'id' => 'imageRender' ]);   
+                              
+                              }
+                    ?>
+                    <div class="custom-file mt-3">
+                      <?= $this->Form->control('image_file', ['type' => 'file','class' => 'custom-file-input','id' => 'customFile', 'placeholder' => 'Image', 'label'=> false , 
+                                      "accept"=>"image/png, image/gif, image/jpeg"
+                                      ]); ?> 
+                      <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+                    <span class="text-danger">
+                        <small>
+                            <b> Only accepts .png, .jpg, .jpeg. File size must not exceed 5MB</b> </small>
+                        </span>
+                    </div>
 
                     <div class="col-lg-4">
                       <label class="form-label" for="first-name">Pronouns</label>
@@ -114,3 +136,17 @@
               </div>
             </div>
           </div>
+
+      <script>
+        document.getElementById("customFile").onchange = function () {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                // get loaded data and render thumbnail.
+                document.getElementById("imageRender").src = e.target.result;
+            };
+
+            // read the image file as a data URL.
+            reader.readAsDataURL(this.files[0]);
+        };
+      </script>
