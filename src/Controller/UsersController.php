@@ -200,6 +200,44 @@ class UsersController extends AppController
         $this->set(compact('user', 'userRole'));
     }
 
+    public function changepassword ($id = null)
+    {
+        $this->Authorization->skipAuthorization();
+
+        $setid = $this->Authentication->getIdentity()->getIdentifier(); 
+        if($id){
+            $loggedinuser = $this->Authentication->getIdentity()->getOriginalData(); 
+            $this->Authorization->authorize($loggedinuser, 'changepassword ');
+            $setid = $id;
+        }
+
+
+        $user =  $this->Users->get($setid); 
+
+       
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $requestData = $this->request->getData();   
+            if(password_verify($requestData['currentpassword'], $user->password)){ 
+                if($requestData['newpassword'] === $requestData['retypepassword']){
+                    
+                    $user = $this->Users->patchEntity($user, ['password' => $this->request->getData('newpassword')]);  
+                    if ($this->Users->save($user)) {
+                        $this->Flash->success(__('Password changed successfully'));
+        
+                        return $this->redirect(['action' => 'profile']);
+                    }  
+                    $this->Flash->error(__('The password could not be saved. Please, try again.'));
+                }else{
+                    $this->Flash->error(__('New and retype password does not match. Please, try again'));
+                }
+
+            }else{ 
+                $this->Flash->error(__('Entered old password doesn\'t matched old password from the database'));
+            } 
+        } 
+        $this->set(compact('user'));
+    }
+
     /**
      * View method
      *
