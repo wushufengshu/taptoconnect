@@ -155,7 +155,8 @@ class UsersController extends AppController
         $this->set(compact('user', 'userRole'));
     }
 
-    public function changeprofilepicture(){
+    public function changeprofilepicture()
+    {
         $this->Authorization->skipAuthorization();
 
         // $user = $this->Users->get($id, [
@@ -200,41 +201,40 @@ class UsersController extends AppController
         $this->set(compact('user', 'userRole'));
     }
 
-    public function changepassword ($id = null)
+    public function changepassword($id = null)
     {
         $this->Authorization->skipAuthorization();
 
-        $setid = $this->Authentication->getIdentity()->getIdentifier(); 
-        if($id){
-            $loggedinuser = $this->Authentication->getIdentity()->getOriginalData(); 
+        $setid = $this->Authentication->getIdentity()->getIdentifier();
+        if ($id) {
+            $loggedinuser = $this->Authentication->getIdentity()->getOriginalData();
             $this->Authorization->authorize($loggedinuser, 'changepassword ');
             $setid = $id;
         }
 
 
-        $user =  $this->Users->get($setid); 
+        $user =  $this->Users->get($setid);
 
-       
+
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $requestData = $this->request->getData();   
-            if(password_verify($requestData['currentpassword'], $user->password)){ 
-                if($requestData['newpassword'] === $requestData['retypepassword']){
-                    
-                    $user = $this->Users->patchEntity($user, ['password' => $this->request->getData('newpassword')]);  
+            $requestData = $this->request->getData();
+            if (password_verify($requestData['currentpassword'], $user->password)) {
+                if ($requestData['newpassword'] === $requestData['retypepassword']) {
+
+                    $user = $this->Users->patchEntity($user, ['password' => $this->request->getData('newpassword')]);
                     if ($this->Users->save($user)) {
                         $this->Flash->success(__('Password changed successfully'));
-        
+
                         return $this->redirect(['action' => 'profile']);
-                    }  
+                    }
                     $this->Flash->error(__('The password could not be saved. Please, try again.'));
-                }else{
+                } else {
                     $this->Flash->error(__('New and retype password does not match. Please, try again'));
                 }
-
-            }else{ 
+            } else {
                 $this->Flash->error(__('Entered old password doesn\'t matched old password from the database'));
-            } 
-        } 
+            }
+        }
         $this->set(compact('user'));
     }
 
@@ -245,12 +245,9 @@ class UsersController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
-    {
-        $user = $this->Users->get($id, [
-            'contain' => ['Meetings', 'MusicVideo', 'SocialMedia'],
-        ]);
 
+    public function getUserData($id)
+    {
         $socials = $this->Users->SocialMedia
             ->find('all')
             ->select([
@@ -278,9 +275,42 @@ class UsersController extends AppController
             ])
             ->where(['user_id' => $id]);
 
-        $this->set(compact('user', 'socials', 'meetings', 'music_videos'));
+        return [$socials, $music_videos, $meetings];
     }
+    public function view($id = null)
+    {
+        $user = $this->Users->get($id, [
+            'contain' => ['Meetings', 'MusicVideo', 'SocialMedia'],
+        ]);
 
+        //get data from function getUserData() returns $array
+        $data = $this->getUserData($id);
+        $socials = $data[0];
+        $music_videos = $data[1];
+        $meetings = $data[2];
+
+
+        $this->set(compact('user', 'socials', 'meetings', 'music_videos'));
+        $this->set(compact('user'));
+    }
+    public function token($token = null)
+    {
+        $this->view = 'view';
+        $userbytoken = $this->Users->findByToken($token)->first();
+        $user = $this->Users->get($userbytoken->id, [
+            'contain' => ['Meetings', 'MusicVideo'],
+        ]);
+
+        //get data from function $array
+        $data = $this->getUserData($user->id);
+        $socials = $data[0];
+        $music_videos = $data[1];
+        $meetings = $data[2];
+
+
+        $this->set(compact('user', 'socials', 'meetings', 'music_videos'));
+        $this->render('/Users/view');
+    }
     /**
      * Add method
      *

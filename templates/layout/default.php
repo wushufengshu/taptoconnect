@@ -29,8 +29,8 @@
     <script src="/assets/js/config.js"></script>
     <script src="/vendors/overlayscrollbars/OverlayScrollbars.min.js"></script>
 
-    <script src="../assets/js/config.js"></script>
-    <script src="../vendors/overlayscrollbars/OverlayScrollbars.min.js"></script>
+    <script src="/assets/js/config.js"></script>
+    <script src="/vendors/overlayscrollbars/OverlayScrollbars.min.js"></script>
     <!-- ===============================================-->
     <!--    Stylesheets-->
     <!-- ===============================================-->
@@ -68,45 +68,50 @@
     <!-- ===============================================-->
     <!--    Main Content-->
     <!-- ===============================================-->
-    <?php if (isset($identity) && $identity->role_id === 1) { ?>
-        <main class="main" id="top">
-            <div class="container" data-layout="container">
-                <?= $this->Html->script('falconfluid') ?>
-                <nav class="navbar navbar-light navbar-vertical navbar-expand-xl">
-                    <script>
-                        var navbarStyle = localStorage.getItem("navbarStyle");
-                        if (navbarStyle && navbarStyle !== 'transparent') {
-                            document.querySelector('.navbar-vertical').classList.add(`navbar-${navbarStyle}`);
-                        }
-                    </script>
-                    <?php include("sidebar.php"); ?>
-                </nav>
-                <div class="content">
-                    <?php include("topbar.php"); ?>
+    <!-- <? //php if (isset($identity) && $identity->role_id === 1) { 
+            ?> -->
+    <main class="main" id="top">
+        <div class="container" data-layout="container">
+            <?= $this->Html->script('falconfluid') ?>
+            <nav class="navbar navbar-light navbar-vertical navbar-expand-xl">
+                <script>
+                    var navbarStyle = localStorage.getItem("navbarStyle");
+                    if (navbarStyle && navbarStyle !== 'transparent') {
+                        document.querySelector('.navbar-vertical').classList.add(`navbar-${navbarStyle}`);
+                    }
+                </script>
+                <?php include("sidebar.php"); ?>
+            </nav>
+            <div class="content">
+                <?php include("topbar.php"); ?>
 
-                    <?= $this->Flash->render() ?>
-                    <?= $this->fetch('content') ?>
-
-
-                    <?php include("footer.php"); ?>
-
-                </div>
-
-            </div>
-        </main>
-
-    <?php } else { ?>
-
-        <main class="main" id="top">
-            <div class="container" data-layout="container">
-                <?= $this->Html->script('falconfluid') ?>
-
-
+                <?= $this->Flash->render() ?>
                 <?= $this->fetch('content') ?>
-            </div>
-        </main>
 
-    <?php } ?>
+
+                <?php include("footer.php"); ?>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- <? // php } else { 
+            ?> -->
+
+    <!-- <main class="main" id="top">
+        <div class="container" data-layout="container">
+            <? //= $this->Html->script('falconfluid') 
+            ?>
+
+
+            <? //= $this->fetch('content') 
+            ?>
+        </div>
+    </main> -->
+
+    <!-- <? // php } 
+            ?> -->
     <!-- ===============================================-->
     <!--    End of Main Content-->
     <!-- ===============================================-->
