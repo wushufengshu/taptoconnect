@@ -60,6 +60,11 @@ class UsersController extends AppController
         // regardless of POST or GET, redirect if user is logged in
         if ($result->isValid()) {
             // redirect to /articles after login success
+            // dd($result->getData()->role_id);
+            if ($result->getData()->role_id == 2) {
+
+                $redirect = $this->redirect('/');
+            }
             $redirect = $this->request->getQuery('redirect', [
                 'controller' => 'Users',
                 'action' => 'index',
@@ -291,6 +296,11 @@ class UsersController extends AppController
     }
     public function token($token = null)
     {
+        // dd($this->request->getPath());
+        if (!$token && $this->request->getPath() == '/') {
+            // dd($this->Authentication->getIdentity()->getOriginalData()->token);
+            $token = $this->Authentication->getIdentity()->getOriginalData()->token;
+        }
         $this->view = 'view';
         $userbytoken = $this->Users->findByToken($token)->first();
         $user = $this->Users->get($userbytoken->id, [
