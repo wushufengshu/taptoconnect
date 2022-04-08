@@ -57,10 +57,13 @@ class MusicVideoController extends AppController
         $musicVideo = $this->MusicVideo->newEmptyEntity();
         if ($this->request->is('post')) {
             $musicVideo = $this->MusicVideo->patchEntity($musicVideo, $this->request->getData());
+
+            $musicVideo->user_id = $this->Authentication->getIdentity()->getIdentifier();
+
             if ($this->MusicVideo->save($musicVideo)) {
                 $this->Flash->success(__('The music video has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'Users','action' => 'view/'.$this->Authentication->getIdentity()->getIdentifier()]);
             }
             $this->Flash->error(__('The music video could not be saved. Please, try again.'));
         }
@@ -87,10 +90,13 @@ class MusicVideoController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $musicVideo = $this->MusicVideo->patchEntity($musicVideo, $this->request->getData());
+
+            $musicVideo->user_id = $this->Authentication->getIdentity()->getIdentifier();
+            
             if ($this->MusicVideo->save($musicVideo)) {
                 $this->Flash->success(__('The music video has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'Users','action' => 'view/'.$this->Authentication->getIdentity()->getIdentifier()]);
             }
             $this->Flash->error(__('The music video could not be saved. Please, try again.'));
         }
@@ -120,6 +126,6 @@ class MusicVideoController extends AppController
             $this->Flash->error(__('The music video could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['controller' => 'Users','action' => 'view/'.$this->Authentication->getIdentity()->getIdentifier()]);
     }
 }

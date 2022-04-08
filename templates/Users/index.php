@@ -14,7 +14,7 @@
                 </div>
                 <div class="col-auto ms-auto">
                   <div class="nav nav-pills nav-pills-falcon flex-grow-1 mt-2" role="tablist">
-                    <?= $this->Html->link(__('New User'), ['action' => 'add'], ['class' => 'button float-right btn btn-sm active']) ?>
+                    <!--<?= $this->Html->link(__('New User'), ['action' => 'add'], ['class' => 'button float-right btn btn-sm active']) ?>-->
                   </div>
                 </div>
               </div>
@@ -40,7 +40,7 @@
                             <th class="sort" data-sort="username">Username</th>
                             <th class="sort" data-sort="activated" align="center">Activate</th>
                             <th class="sort" data-sort="created">Date Created</th>
-                            <th class="actions"><?= __('Actions') ?></th>
+                            <!--<th class="actions"><?= __('Action') ?></th>-->
                           </tr>
                         </thead>
                         <tbody class="list">
@@ -65,15 +65,11 @@
                             <td class="username"><?= h($user->username) ?></td>
                             <td class="activated" align="center"><a href="#" style="text-decoration: none;" data-bs-toggle="modal" data-bs-target="#update_modal<?php echo $user->id; ?>"><?php echo $status; ?></a></td>
                             <td class="created"><?= h($user->created) ?></td>
+                            <!--
                             <td class="actions">
                                 <?= $this->Html->link(__('<font color="blue" size="4px"><i class="far fa-eye"></i></font>'), ['action' => 'view', $user->id], [ 'escape' => false]) ?>
-                                <?= $this->Html->link(__('<font color="green" size="4px"><i class="far fa-edit"></i></font>'), ['action' => 'edit', $user->id], [ 'escape' => false]) ?>
-                                <?= $this->Form->postLink(__('<font color="red" size="4px"><i class="far fa-trash-alt"></i></font>'), ['action' => 'delete', $user->id], 
-                                [
-                                'confirm' => __('Are you sure you want to delete # {0}?', $user->id),
-                                'escape' => false //'escape' => false - convert plain text to html
-                                ]) ?>
                             </td>
+                            -->
                            </tr>
                             <div class="modal fade" id="update_modal<?php echo $user->id; ?>" tabindex="-1" role="dialog" aria-hidden="true">
                               <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">

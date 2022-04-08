@@ -126,8 +126,6 @@ class UsersController extends AppController
     public function profile()
     {
 
-        $this->Authorization->skipAuthorization();
-
         // $user = $this->Users->get($id, [
         //     'contain' => [],
         // ]); 
@@ -157,7 +155,6 @@ class UsersController extends AppController
 
     public function changeprofilepicture()
     {
-        $this->Authorization->skipAuthorization();
 
         // $user = $this->Users->get($id, [
         //     'contain' => [],
@@ -203,7 +200,6 @@ class UsersController extends AppController
 
     public function changepassword($id = null)
     {
-        $this->Authorization->skipAuthorization();
 
         $setid = $this->Authentication->getIdentity()->getIdentifier();
         if ($id) {

@@ -58,10 +58,12 @@ class SocialMediaController extends AppController
         if ($this->request->is('post')) {
             $socialMedia = $this->SocialMedia->patchEntity($socialMedia, $this->request->getData());
 
+            $socialMedia->user_id = $this->Authentication->getIdentity()->getIdentifier();
+
             if ($this->SocialMedia->save($socialMedia)) {
                 $this->Flash->success(__('The social media has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'Users','action' => 'view/'.$this->Authentication->getIdentity()->getIdentifier()]);
             }
             $this->Flash->error(__('The social media could not be saved. Please, try again.'));
         }
@@ -94,7 +96,7 @@ class SocialMediaController extends AppController
             if ($this->SocialMedia->save($socialMedia)) {
                 $this->Flash->success(__('The social media has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'Users','action' => 'view/'.$this->Authentication->getIdentity()->getIdentifier()]);
             }
             $this->Flash->error(__('The social media could not be saved. Please, try again.'));
         }
@@ -127,6 +129,6 @@ class SocialMediaController extends AppController
             $this->Flash->error(__('The social media could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['controller' => 'Users','action' => 'view/'.$this->Authentication->getIdentity()->getIdentifier()]);
     }
 }

@@ -75,46 +75,6 @@ $dashb = lcfirst($this->request->getParam('action'));
                     </div>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="<?php echo $this->Url->build(('/meetings')); ?>" role="button" data-bs-toggle="" aria-expanded="false" class="nav-link  
-            <?php
-            if ($currentPath == 'meetings') {
-                echo 'active';
-            }
-            ?>">
-                    <div class="d-flex align-items-center">
-                        <span class="nav-link-icon"><span class="fab fa-meetup"></span></span>
-                        <span class="nav-link-text ps-1">Meetings</span>
-                    </div>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="<?php echo $this->Url->build(('/socialMedia')); ?>" role="button" data-bs-toggle="" aria-expanded="false" class="nav-link  
-            <?php
-            if ($currentPath == 'socialMedia') {
-                echo 'active';
-            }
-            ?>">
-                    <div class="d-flex align-items-center">
-                        <span class="nav-link-icon"><span class="fas fa-share-alt"></span></span>
-                        <span class="nav-link-text ps-1">Social Media</span>
-                    </div>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a href="<?php echo $this->Url->build(('/musicVideo')); ?>" role="button" data-bs-toggle="" aria-expanded="false" class="nav-link  
-            <?php
-            if ($currentPath == 'musicVideo') {
-                echo 'active';
-            }
-            ?>">
-                    <div class="d-flex align-items-center">
-                        <span class="nav-link-icon"><span class="fas fa-music"></span></span>
-                        <span class="nav-link-text ps-1">Music Video</span>
-                    </div>
-                </a>
-            </li>
 
         </ul>
 

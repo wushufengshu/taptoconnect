@@ -65,7 +65,7 @@
                       <div class="form-group"> 
                             <?= $this->Form->button(__('Update'), ['class' => 'btn btn-primary']) ?>
                              
-                           <?php echo $this->Html->link("Cancel", ['controller' => 'Users', 'action' => 'profile'], ['class' => 'btn btn-warning']); ?>
+                           <a href="<?php echo $this->Url->build(('/users/profile/'.$identity->id)); ?>" class="btn btn-warning">Cancel</a>
                        </div>
                     </div>
                   <!--</form>-->

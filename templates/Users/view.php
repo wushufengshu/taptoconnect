@@ -4,7 +4,19 @@
               </div>
               <!--/.bg-holder-->
 
-              <div class="avatar avatar-5xl avatar-profile"><img class="rounded-circle img-thumbnail shadow-sm" src="../../assets/img/team/<?= h($user->image); ?>" width="200" alt="" /></div>
+              <div class="avatar avatar-5xl avatar-profile">
+                <!--
+                <img class="rounded-circle img-thumbnail shadow-sm" src="../../assets/img/team/<?= h($user->image); ?>" width="200" alt="" />
+                -->
+                <?php  
+                        $imagestyle = 'width:200;';
+                        if(!$user->image){      
+                          echo $this->Html->image('avatar.png', ['style' => $imagestyle,'class' => 'rounded-circle img-thumbnail shadow-sm','alt'=>'User img' ]); 
+                        }else{
+                          echo $this->Html->image('uploads/profilepicture/'.$user->id.'/'.$user->image, ['style' => $imagestyle,'class' => 'rounded-circle img-thumbnail shadow-sm','alt'=>'User img' ]);   
+                        }
+                ?>
+              </div>
             </div>
             <div class="card-body">
               <div class="row">
@@ -15,27 +27,58 @@
                   <p class="text-500"><?= $this->Text->autoParagraph(h($user->address)); ?></p>
                   <a href="<?php echo "http://".$user->website; ?>" target="_blank"><?= $this->Text->autoParagraph(h($user->website)); ?></a>
                   <!--<button class="btn btn-falcon-default btn-sm px-3 ms-2" type="button">Message</button>-->
+
+                  <?= $this->Html->link(__('Add Meeting'), ['controller' => 'Meetings','action' => 'add'], ['class' => 'btn btn-falcon-default btn-sm px-3 ms-2']) ?>
+
+                  <?= $this->Html->link(__('Add Social Media'), ['controller' => 'SocialMedia','action' => 'add'], ['class' => 'btn btn-falcon-default btn-sm px-3 ms-2']) ?>
+
+                  <?= $this->Html->link(__('Add Music & Video'), ['controller' => 'MusicVideo','action' => 'add'], ['class' => 'btn btn-falcon-default btn-sm px-3 ms-2']) ?>
+
                   <div class="border-dashed-bottom my-4 d-lg-none"></div>
-                </div>
-                <div class="col ps-2 ps-lg-3">
-                <?php 
-                foreach ($socials as $key => $value) {
-                    $social_link = $value->social_link;
-                    $image = $value->image;
-                ?>
-                <a class="d-flex align-items-center mb-2" href="<?php echo "http://".$social_link; ?>" target="_blank"><!--<i class="fa fa-link"></i>-->
-                  <img class="align-self-center me-2" src="../../assets/img/logos/<?php echo $image; ?>" alt="Generic placeholder image" width="30" />
-                    &nbsp;
-                    <div class="flex-1">
-                      <h6 class="mb-0"><?= h($social_link) ?></h6>
-                    </div>
-                  </a>
-                <?php
-                }
-                ?>
                 </div>
               </div>
             </div>
+
+            <div class="card mb-3">
+                <div class="card-header bg-light d-flex justify-content-between">
+                  <h5 class="mb-0">Social Media</h5><a class="font-sans-serif" href="#">All Social Media</a>
+                </div>
+                <div class="card-body fs--1 pb-0">
+                  <div class="row">
+                    <?php 
+                    foreach ($socials as $key => $value) {
+                        $s_id = $value->id;
+                        $s_social_link = $value->social_link;
+                        $s_image = $value->image;
+                    ?>
+                    <div class="col-sm-6 mb-3">
+
+                      <div class="d-flex position-relative align-items-center mb-2">
+                        <!--<i class="fa fa-link"></i>-->
+
+                        <img class="d-flex align-self-center me-2 rounded-3" src="../../assets/img/logos/<?php echo $s_image; ?>" alt="" width="50" />
+                        &nbsp;
+                        <div class="flex-1">
+                          <h6 class="fs-0 mb-0"><a class="stretched-link" href="<?php echo "http://".$s_social_link; ?>" style="text-decoration: none;" target="_blank"><?= h($s_social_link) ?></a></h6>
+                          <!--<p class="mb-1">2 followers</p>-->
+                        </div>
+
+                      </div>
+                      <?= $this->Html->link(__('<font color="green" size="4px"><i class="far fa-edit"></i></font>'), ['controller' => 'SocialMedia','action' => 'edit', $s_id], [ 'escape' => false]) ?>
+
+                      <?= $this->Form->postLink(__('<font color="red" size="4px"><i class="far fa-trash-alt"></i></font>'), ['controller' => 'SocialMedia','action' => 'delete', $s_id], 
+                                [
+                                'confirm' => __('Are you sure you want to delete # {0}?', $s_id),
+                                'escape' => false //'escape' => false - convert plain text to html
+                                ]) ?>
+                    </div>
+                    <?php
+                    }
+                    ?>
+                  </div>
+                </div>
+              </div>
+
           </div>
           <div class="row g-0">
             <div class="col-lg-12 pe-lg-2">
@@ -60,6 +103,7 @@
                   <div class="card-body fs--1">
                     <?php 
                     foreach ($meetings as $key => $value) {
+                        $m_id = $value->id;
                         $month = $value->month;
                         $day = $value->day;
 
@@ -76,6 +120,14 @@
                         <p class="mb-1">Organized by <?= h($organized_by) ?></p>
                         <p class="text-1000 mb-0">Time: <?= h($time_from) ?></p>
                         <p class="text-1000 mb-0">Duration: <?= h($time_from) ?> - <?= h($time_to) ?></p>Place: <?= h($meeting_place) ?>
+                        <br>
+                        <?= $this->Html->link(__('<font color="green" size="4px"><i class="far fa-edit"></i></font>'), ['controller' => 'Meetings','action' => 'edit', $m_id], [ 'escape' => false]) ?>
+
+                        <?= $this->Form->postLink(__('<font color="red" size="4px"><i class="far fa-trash-alt"></i></font>'), ['controller' => 'Meetings','action' => 'delete', $m_id], 
+                                [
+                                'confirm' => __('Are you sure you want to delete # {0}?', $m_id),
+                                'escape' => false //'escape' => false - convert plain text to html
+                                ]) ?>
                         <div class="border-dashed-bottom my-3"></div>
                       </div>
                     </div>
@@ -89,50 +141,29 @@
 
               <div class="card mb-3">
                 <div class="card-header bg-light d-flex justify-content-between">
-                  <h5 class="mb-0">Social Media</h5><a class="font-sans-serif" href="#">All Social Media</a>
-                </div>
-                <div class="card-body fs--1 pb-0">
-                  <div class="row">
-                    <?php 
-                    foreach ($socials as $key => $value) {
-                        $s_social_link = $value->social_link;
-                        $s_image = $value->image;
-                    ?>
-                    <div class="col-sm-6 mb-3">
-                      <div class="d-flex position-relative align-items-center mb-2">
-                        <!--<i class="fa fa-link"></i>-->
-                        <img class="d-flex align-self-center me-2 rounded-3" src="../../assets/img/logos/<?php echo $s_image; ?>" alt="" width="50" />
-                        &nbsp;
-                        <div class="flex-1">
-                          <h6 class="fs-0 mb-0"><a class="stretched-link" href="<?php echo "http://".$s_social_link; ?>" target="_blank"><?= h($s_social_link) ?></a></h6>
-                          <!--<p class="mb-1">2 followers</p>-->
-                        </div>
-                      </div>
-                    </div>
-                    <?php
-                    }
-                    ?>
-                  </div>
-                </div>
-              </div>
-
-              <div class="card mb-3">
-                <div class="card-header bg-light d-flex justify-content-between">
                   <h5 class="mb-0">Music & Video Links</h5><a class="font-sans-serif" href="#">All Music & Video Links</a>
                 </div>
                 <div class="card-body fs--1 pb-0">
                   <div class="row">
                     <?php 
                     foreach ($music_videos as $key => $value) {
+                        $m_id = $value->id;
                         $music_video_link = $value->music_video_link;
                     ?>
                     <div class="col-sm-6 mb-3">
                       <div class="d-flex position-relative align-items-center mb-2"><i class="fa fa-link"></i>&nbsp;
                         <div class="flex-1">
-                          <h6 class="fs-0 mb-0"><a class="stretched-link" href="<?php echo "http://".$music_video_link; ?>" target="_blank"><?= h($music_video_link) ?></a></h6>
+                          <h6 class="fs-0 mb-0"><a class="stretched-link" style="text-decoration: none;" href="<?php echo "http://".$music_video_link; ?>" target="_blank"><?= h($music_video_link) ?></a></h6>
                           <!--<p class="mb-1">2 followers</p>-->
                         </div>
                       </div>
+                      <?= $this->Html->link(__('<font color="green" size="4px"><i class="far fa-edit"></i></font>'), ['controller' => 'MusicVideo','action' => 'edit', $m_id], [ 'escape' => false]) ?>
+
+                        <?= $this->Form->postLink(__('<font color="red" size="4px"><i class="far fa-trash-alt"></i></font>'), ['controller' => 'MusicVideo','action' => 'delete', $m_id], 
+                                [
+                                'confirm' => __('Are you sure you want to delete # {0}?', $m_id),
+                                'escape' => false //'escape' => false - convert plain text to html
+                                ]) ?>
                     </div>
                     <?php
                     }

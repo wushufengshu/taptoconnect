@@ -58,10 +58,13 @@ class MeetingsController extends AppController
         if ($this->request->is('post')) {
             $meeting = $this->Meetings->patchEntity($meeting, $this->request->getData());
             //dd($meeting);
+
+            $meeting->user_id = $this->Authentication->getIdentity()->getIdentifier();
+
             if ($this->Meetings->save($meeting)) {
                 $this->Flash->success(__('The meeting has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'Users','action' => 'view/'.$this->Authentication->getIdentity()->getIdentifier()]);
             }
             $this->Flash->error(__('The meeting could not be saved. Please, try again.'));
         }
@@ -91,7 +94,7 @@ class MeetingsController extends AppController
             if ($this->Meetings->save($meeting)) {
                 $this->Flash->success(__('The meeting has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'Users','action' => 'view/'.$this->Authentication->getIdentity()->getIdentifier()]);
             }
             $this->Flash->error(__('The meeting could not be saved. Please, try again.'));
         }
@@ -121,6 +124,6 @@ class MeetingsController extends AppController
             $this->Flash->error(__('The meeting could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['controller' => 'Users','action' => 'view/'.$this->Authentication->getIdentity()->getIdentifier()]);
     }
 }

@@ -1,5 +1,6 @@
 <?php 
-$user = $this->request->getAttribute('identity')->getOriginalData();  
+//$user = $this->request->getAttribute('identity')->getOriginalData();  
+//dd($identity);
 ?>
 <nav class="navbar navbar-light navbar-glass navbar-top navbar-expand">
 
@@ -23,17 +24,18 @@ $user = $this->request->getAttribute('identity')->getOriginalData();
                     <!--<img class="rounded-circle" src="/assets/img/team/3-thumb.png" alt="" />-->
                     <?php  
                         $imagestyle = 'width:200;';
-                        if(!$user->image){      
+                        if(!$identity->image){      
                           echo $this->Html->image('avatar.png', ['style' => $imagestyle,'alt'=>'User img','class' => 'rounded-circle' ]); 
                         }else{
-                          echo $this->Html->image('uploads/profilepicture/'.$user->id.'/'.$user->image, ['style' => $imagestyle,'alt'=>'User img','class' => 'rounded-circle' ]);   
+                          echo $this->Html->image('uploads/profilepicture/'.$identity->id.'/'.$identity->image, ['style' => $imagestyle,'alt'=>'User img','class' => 'rounded-circle' ]);   
                         }
                     ?>
                 </div>
             </a>
             <div class="dropdown-menu dropdown-menu-end py-0" aria-labelledby="navbarDropdownUser">
                 <div class="bg-white dark__bg-1000 rounded-2 py-2">
-                    <?php echo $this->Html->link("Profile & Account", ['controller' => 'Users', 'action' => 'profile'], ['class' => 'dropdown-item']); ?>
+
+                    <a href="<?php echo $this->Url->build(('/users/profile/'.$identity->id)); ?>" class="dropdown-item">Profile & Account</a>
                     <div class="dropdown-divider"></div>
                     <?php echo $this->Html->link("Logout", ['controller' => 'Users', 'action' => 'logout'], ['class' => 'dropdown-item']); ?>
                 </div>
