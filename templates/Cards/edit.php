@@ -1,34 +1,42 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Card $card
+ * @var \App\Model\Entity\User[]|\Cake\Collection\CollectionInterface $users
  */
+//s$user = $this->request->getAttribute('identity')->getOriginalData();  
 ?>
-<div class="row">
-    <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $card->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $card->id), 'class' => 'side-nav-item']
-            ) ?>
-            <?= $this->Html->link(__('List Cards'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-        </div>
-    </aside>
-    <div class="column-responsive column-80">
-        <div class="cards form content">
-            <?= $this->Form->create($card) ?>
-            <fieldset>
-                <legend><?= __('Edit Card') ?></legend>
-                <?php
-                    echo $this->Form->control('serial_code');
-                    echo $this->Form->control('verification_code');
-                    echo $this->Form->control('card_link');
-                ?>
-            </fieldset>
-            <?= $this->Form->button(__('Submit')) ?>
-            <?= $this->Form->end() ?>
-        </div>
-    </div>
-</div>
+        <div class="card mb-3">
+            <div class="card-header">
+              <div class="row flex-between-end">
+                <div class="col-auto align-self-center">
+                  <h5 class="mb-0" data-anchor="data-anchor">Update Card Details</h5>
+                </div>
+              </div>
+            </div>
+            <div class="card-body bg-light">
+              <div class="tab-content">
+                <div class="tab-pane preview-tab-pane active" role="tabpanel" aria-labelledby="tab-dom-872001c1-fbf7-4ca6-84a9-1e6de71adf6d" id="dom-872001c1-fbf7-4ca6-84a9-1e6de71adf6d">
+                    <?= $this->Form->create($card, array('class' => 'row g-3 needs-validation')) ?>
+
+                    <div class="col-md-6">
+                      <?php echo $this->Form->control('serial_code',['class' => 'form-control']); ?>
+                    </div>
+
+                    <div class="col-md-6">
+                      <?php echo $this->Form->control('verification_code',['class' => 'form-control']); ?>
+                    </div>
+
+                    <div class="col-md-12">
+                      <?php echo $this->Form->control('card_link',['class' => 'form-control']); ?>
+                    </div>
+
+                    <div class="col-12">
+                      <?= $this->Form->button(__('Update'),array('class' => 'btn btn-success')) ?>
+                       <a href="<?php echo $this->Url->build(('/cards')); ?>" class="btn btn-warning">Cancel</a>
+                    </div>
+                  <?= $this->Form->end() ?>
+
+                </div>
+              </div>
+            </div>
+          </div>
