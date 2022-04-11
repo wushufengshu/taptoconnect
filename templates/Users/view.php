@@ -88,11 +88,14 @@
     <div class="col-lg-12 pe-lg-2">
         <div class="card mb-3">
             <div class="card-header bg-light">
-                <h5 class="mb-0">User Information</h5>
+                <h5 class="mb-0">Bio</h5>
             </div>
             <div class="card-body text-justify">
                 <div class="collapse show" id="profile-intro">
                     <?= $this->Text->autoParagraph(h($user->user_desc)); ?>
+
+                    <?= $this->Html->link(__('<font color="green" size="4px"><i class="far fa-edit"></i></font>'), ['controller' => 'Users', 'action' => 'profile', $s_id], ['escape' => false]) ?>
+
                 </div>
             </div>
             <div class="card-footer bg-light p-0 border-top">
