@@ -16,7 +16,7 @@ $dashb = lcfirst($this->request->getParam('action'));
 <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
     <div class="navbar-vertical-content scrollbar">
         <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">
-            
+
             <li class="nav-item">
                 <!-- parent pages--><a class="nav-link dropdown-indicator" href="#dashboard" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="dashboard">
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-chart-pie"></span></span><span class="nav-link-text ps-1">Dashboard</span>
@@ -63,7 +63,8 @@ $dashb = lcfirst($this->request->getParam('action'));
             </li>
 
             <li class="nav-item">
-                <a href="<?php echo $this->Url->build(('/users')); ?>" role="button" data-bs-toggle="" aria-expanded="false" class="nav-link  
+                <?php ($identity->role_id == 1) ? $path = '/users'  : $path = '/'; ?>
+                <a href="<?php echo $this->Url->build(($path)); ?>" role="button" data-bs-toggle="" aria-expanded="false" class="nav-link  
             <?php
             if ($currentPath == 'users') {
                 echo 'active';

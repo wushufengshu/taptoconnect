@@ -42,6 +42,8 @@ use Authorization\AuthorizationServiceInterface;
 use Authorization\AuthorizationServiceProviderInterface;
 use Authorization\Middleware\AuthorizationMiddleware;
 use Authorization\Policy\OrmResolver;
+use Authorization\Exception\MissingIdentityException;
+use Authorization\Exception\ForbiddenException;
 
 /**
  * Application setup class.
@@ -110,7 +112,19 @@ implements AuthenticationServiceProviderInterface, AuthorizationServiceProviderI
             // `new RoutingMiddleware($this, '_cake_routes_')`
             ->add(new RoutingMiddleware($this))
             ->add(new AuthenticationMiddleware($this))
-            ->add(new AuthorizationMiddleware($this))
+            // ->add(new AuthorizationMiddleware($this))
+            ->add(new AuthorizationMiddleware($this, [
+                'unauthorizedHandler' => [
+                    'className' => 'CustomRedirect', // <--- see here
+                    'url' => '/',
+                    // 'queryParam' => 'redirectUrl',
+                    'exceptions' => [
+                        MissingIdentityException::class,
+                        ForbiddenException::class
+                    ],
+                    'custom_param' => true,
+                ],
+            ]))
             // Parse various types of encoded request bodies so that they are
             // available as array through $request->getData()
             // https://book.cakephp.org/4/en/controllers/middleware.html#body-parser-middleware

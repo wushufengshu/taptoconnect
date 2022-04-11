@@ -150,5 +150,235 @@
 </div>
 <script src="/jquery/jquery.min.js"></script>
 <script>
+    /* -------------------------------------------------------------------------- */
 
+    /*                                 step wizard                                */
+
+    /* -------------------------------------------------------------------------- */
+
+    var wizardInit = function wizardInit() {
+        var wizards = document.querySelectorAll(".theme-wizard");
+        var tabPillEl = document.querySelectorAll(
+            '#pill-tab2 [data-bs-toggle="pill"]'
+        );
+        var tabProgressBar = document.querySelector(".theme-wizard .progress");
+        wizards.forEach(function(wizard) {
+            var tabToggleButtonEl = wizard.querySelectorAll("[data-wizard-step]");
+            var inputUsername = wizard.querySelector(
+                "[data-wizard-validate-username]"
+            );
+            var inputEmail = wizard.querySelector("[data-wizard-validate-email]");
+            var emailPattern = inputEmail.getAttribute("pattern");
+            var inputPassword = wizard.querySelector(
+                "[data-wizard-validate-password]"
+            );
+            // var inputConfirmPassword = wizard.querySelector('[data-wizard-validate-confirm-password]');
+
+            var inputFirstname = wizard.querySelector(
+                "[data-wizard-validate-firstname]"
+            );
+            var inputMiddlename = wizard.querySelector(
+                "[data-wizard-validate-middlename]"
+            );
+            var inputLastname = wizard.querySelector(
+                "[data-wizard-validate-lastname]"
+            );
+            var inputContactno = wizard.querySelector(
+                "[data-wizard-validate-contactno]"
+            );
+            var inputBirthdate = wizard.querySelector(
+                "[data-wizard-validate-datepicker]"
+            );
+            var inputGender = "";
+            var inputPronouns = "";
+            $("#bootstrap-wizard-gender").change(() => {
+                inputGender = $("#bootstrap-wizard-gender").val();
+                if (
+                    inputGender == "Select your pronouns ..." ||
+                    inputGender == ""
+                ) {
+                    inputGender = null;
+                }
+            });
+            $("#bootstrap-wizard-pronouns").change(() => {
+                inputPronouns = $("#bootstrap-wizard-pronouns").val();
+                if (
+                    inputPronouns == "Select your pronouns ..." ||
+                    inputPronouns == ""
+                ) {
+                    inputPronouns = null;
+                }
+            });
+            var inputBio = wizard.querySelector("[data-wizard-validate-user_desc]");
+            var inputAddress = wizard.querySelector(
+                "[data-wizard-validate-address]"
+            );
+
+            var form = wizard.querySelector("[novalidate]");
+            var form2 = wizard.querySelector("[novalidate2]");
+            var nextButton = wizard.querySelector(".next button");
+            var prevButton = wizard.querySelector(".previous button");
+            var saveButton = wizard.querySelector("#register");
+            var cardFooter = wizard.querySelector(".theme-wizard .card-footer");
+            var count = 0;
+
+            function validatePattern(pattern, value) {
+                var regexPattern = new RegExp(pattern);
+                return regexPattern.test(String(value).toLowerCase());
+            }
+
+            prevButton.classList.add("d-none"); // on button click tab change
+            //
+            nextButton.addEventListener("click", function() {
+                if (
+                    (!inputUsername.value ||
+                        !(
+                            inputEmail.value &&
+                            validatePattern(emailPattern, inputEmail.value)
+                        ) ||
+                        !inputPassword.value) &&
+                    form.className.includes("needs-validation")
+                ) {
+                    form.classList.add("was-validated");
+                } else {
+                    count += 1;
+                    var tab = new window.bootstrap.Tab(tabToggleButtonEl[count]);
+                    tab.show();
+                    nextButton.classList.add("d-none");
+                    saveButton.classList.remove("d-none");
+                }
+            });
+
+            saveButton.addEventListener("click", function() {
+                if (
+                    (!inputFirstname.value ||
+                        !inputLastname.value ||
+                        !inputContactno.value) &&
+                    form2.className.includes("needs-validation")
+                ) {
+                    form2.classList.add("was-validated");
+                } else {
+                    var ajaxdata = {
+                        username: inputUsername.value,
+                        email: inputEmail.value,
+                        password: inputPassword.value,
+                        firstname: inputFirstname.value,
+                        middlename: inputMiddlename.value,
+                        lastname: inputLastname.value,
+                        contactno: inputContactno.value,
+                        birth_date: inputBirthdate.value,
+                        gender: inputGender,
+                        pronouns: inputPronouns,
+                        user_desc: inputBio.value,
+                        address: inputAddress.value,
+                    };
+                    console.log(ajaxdata);
+                    $.ajax({
+                        method: "POST",
+                        url: "<?= $this->Url->build(['controller' => 'Users', 'action' => 'register']) ?>",
+                        type: "JSON",
+                        data: ajaxdata,
+                        headers: {
+                            "X-CSRF-Token": $("[name='_csrfToken']").val(),
+                        },
+
+                        beforeSend: function() {},
+                        success: function(msg) {
+                            console.log(msg);
+                            if (msg.msg == 1) {
+                                count += 1;
+                                var tab = new window.bootstrap.Tab(
+                                    tabToggleButtonEl[count]
+                                );
+                                tab.show();
+                            }
+                        },
+                        cache: false,
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            alert(thrownError);
+                        },
+                    });
+                    console.log(inputEmail);
+                }
+            });
+
+            prevButton.addEventListener("click", function() {
+                count -= 1;
+                var tab = new window.bootstrap.Tab(tabToggleButtonEl[count]);
+                tab.show();
+                saveButton.classList.add("d-none");
+                nextButton.classList.remove("d-none");
+            });
+
+            if (tabToggleButtonEl.length) {
+                tabToggleButtonEl.forEach(function(item, index) {
+                    /* eslint-disable */
+                    item.addEventListener("show.bs.tab", function(e) {
+                        if (
+                            (!inputUsername ||
+                                !(
+                                    inputEmail.value &&
+                                    validatePattern(emailPattern, inputEmail.value)
+                                ) ||
+                                !inputPassword.value) &&
+                            form.className.includes("needs-validation")
+                        ) {
+                            e.preventDefault();
+                            form.classList.add("was-validated");
+                            return null;
+                            /* eslint-enable */
+                        }
+                        // if ((!inputFirstname.value || !inputLastname.value || !inputContactno.value) && form2.className.includes('needs-validation')) {
+                        //     // e.preventDefault();
+                        //     form2.classList.add('was-validated');
+                        //     return null;
+                        // }
+                        count = index; // can't go back tab
+
+                        if (count === tabToggleButtonEl.length - 1) {
+                            tabToggleButtonEl.forEach(function(tab) {
+                                tab.setAttribute("data-bs-toggle", "modal");
+                                tab.setAttribute("data-bs-target", "#error-modal");
+                            });
+                        } //add done class
+
+                        for (var i = 0; i < count; i += 1) {
+                            tabToggleButtonEl[i].classList.add("done");
+                        } //remove done class
+
+                        for (var j = count; j < tabToggleButtonEl.length; j += 1) {
+                            tabToggleButtonEl[j].classList.remove("done");
+                        } // card footer remove at last step
+
+                        if (count > tabToggleButtonEl.length - 2) {
+                            item.classList.add("done");
+                            cardFooter.classList.add("d-none");
+                        } else {
+                            cardFooter.classList.remove("d-none");
+                        } // prev-button removing
+
+                        if (count > 0) {
+                            prevButton.classList.remove("d-none");
+                        } else {
+                            prevButton.classList.add("d-none");
+                        }
+                    });
+                });
+            }
+        }); // control wizard progressbar
+
+        if (tabPillEl.length) {
+            var dividedProgressbar = 100 / tabPillEl.length;
+            tabProgressBar.querySelector(".progress-bar").style.width = "".concat(
+                dividedProgressbar,
+                "%"
+            );
+            tabPillEl.forEach(function(item, index) {
+                item.addEventListener("show.bs.tab", function() {
+                    tabProgressBar.querySelector(".progress-bar").style.width =
+                        "".concat(dividedProgressbar * (index + 1), "%");
+                });
+            });
+        }
+    };
 </script>

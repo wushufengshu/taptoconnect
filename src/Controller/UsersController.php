@@ -15,7 +15,6 @@ class UsersController extends AppController
     public function initialize(): void
     {
         parent::initialize();
-        $this->Authorization->skipAuthorization();
     }
 
     public function beforeFilter(\Cake\Event\EventInterface $event)
@@ -23,12 +22,12 @@ class UsersController extends AppController
         parent::beforeFilter($event);
         // Configure the login action to not require authentication, preventing
         // the infinite redirect loop issue 
-        $this->Authentication->addUnauthenticatedActions(['login', 'register']);
+        $this->Authentication->addUnauthenticatedActions(['login', 'register', 'token']);
     }
 
     public function register()
     {
-        // $this->Authorization->skipAuthorization();
+        $this->Authorization->skipAuthorization();
 
 
         $user = $this->Users->newEmptyEntity();
@@ -55,6 +54,7 @@ class UsersController extends AppController
 
     public function login()
     {
+        $this->Authorization->skipAuthorization();
         $this->request->allowMethod(['get', 'post']);
         $result = $this->Authentication->getResult();
         // regardless of POST or GET, redirect if user is logged in
@@ -79,6 +79,7 @@ class UsersController extends AppController
     }
     public function logout()
     {
+        $this->Authorization->skipAuthorization();
         $result = $this->Authentication->getResult();
         // regardless of POST or GET, redirect if user is logged in
         if ($result->isValid()) {
@@ -94,6 +95,10 @@ class UsersController extends AppController
     public function index()
     {
         $users = $this->paginate($this->Users);
+        // $loggedinuser = $this->Authentication->getIdentity()->getOriginalData();
+        $user = $this->Users->newEmptyEntity();
+        $this->Authorization->authorize($user, 'index');
+
 
         if (isset($_POST['activate'])) {
             $activateUser = $this->Users->query();
@@ -131,6 +136,7 @@ class UsersController extends AppController
     public function profile()
     {
 
+        $this->Authorization->skipAuthorization();
         // $user = $this->Users->get($id, [
         //     'contain' => [],
         // ]); 
@@ -145,7 +151,7 @@ class UsersController extends AppController
                 // dd($request->getAttribute('identity'));
 
                 //return $this->redirect(['action' => 'profile']);
-                return $this->redirect(['controller' => 'Users','action' => 'profile/'.$this->Authentication->getIdentity()->getIdentifier()]);
+                return $this->redirect(['controller' => 'Users', 'action' => 'profile/' . $this->Authentication->getIdentity()->getIdentifier()]);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
             $this->Common->dblogger([
@@ -161,6 +167,7 @@ class UsersController extends AppController
     public function changeprofilepicture()
     {
 
+        $this->Authorization->skipAuthorization();
         // $user = $this->Users->get($id, [
         //     'contain' => [],
         // ]); 
@@ -191,7 +198,7 @@ class UsersController extends AppController
                 // dd($request->getAttribute('identity'));
 
                 //return $this->redirect(['action' => 'profile']);
-                return $this->redirect(['controller' => 'Users','action' => 'profile/'.$this->Authentication->getIdentity()->getIdentifier()]);
+                return $this->redirect(['controller' => 'Users', 'action' => 'profile/' . $this->Authentication->getIdentity()->getIdentifier()]);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
             $this->Common->dblogger([
@@ -207,6 +214,7 @@ class UsersController extends AppController
     public function changepassword($id = null)
     {
 
+        $this->Authorization->skipAuthorization();
         $setid = $this->Authentication->getIdentity()->getIdentifier();
         if ($id) {
             $loggedinuser = $this->Authentication->getIdentity()->getOriginalData();
@@ -228,7 +236,7 @@ class UsersController extends AppController
                         $this->Flash->success(__('Password changed successfully'));
 
                         //return $this->redirect(['action' => 'profile']);
-                        return $this->redirect(['controller' => 'Users','action' => 'profile/'.$this->Authentication->getIdentity()->getIdentifier()]);
+                        return $this->redirect(['controller' => 'Users', 'action' => 'profile/' . $this->Authentication->getIdentity()->getIdentifier()]);
                     }
                     $this->Flash->error(__('The password could not be saved. Please, try again.'));
                 } else {
@@ -284,6 +292,9 @@ class UsersController extends AppController
     }
     public function view($id = null)
     {
+
+        $user = $this->Users->newEmptyEntity();
+        $this->Authorization->authorize($user, 'view');
         $user = $this->Users->get($id, [
             'contain' => ['Meetings', 'MusicVideo', 'SocialMedia'],
         ]);
@@ -300,6 +311,7 @@ class UsersController extends AppController
     }
     public function token($token = null)
     {
+        $this->Authorization->skipAuthorization();
         // dd($this->request->getPath());
         if (!$token && $this->request->getPath() == '/') {
             // dd($this->Authentication->getIdentity()->getOriginalData()->token);
@@ -329,6 +341,8 @@ class UsersController extends AppController
     public function add()
     {
         $user = $this->Users->newEmptyEntity();
+        $this->Authorization->authorize($user, 'add');
+        $user = $this->Users->newEmptyEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             $user->role_id = 1;
@@ -351,6 +365,8 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
+        $user = $this->Users->newEmptyEntity();
+        $this->Authorization->authorize($user, 'edit');
         $user = $this->Users->get($id, [
             'contain' => [],
         ]);
@@ -375,6 +391,8 @@ class UsersController extends AppController
      */
     public function delete($id = null)
     {
+        $user = $this->Users->newEmptyEntity();
+        $this->Authorization->authorize($user, 'delete');
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
         if ($this->Users->delete($user)) {
