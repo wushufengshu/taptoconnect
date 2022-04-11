@@ -274,7 +274,9 @@ class UsersController extends AppController
             ->select([
                 'id', 'user_id', 'meeting_date', 'meeting_name', 'time_from', 'time_to', 'organized_by', 'meeting_place',
                 'month' => 'DATE_FORMAT(meeting_date,"%b")',
-                'day' => 'DATE_FORMAT(meeting_date,"%d")'
+                'day' => 'DATE_FORMAT(meeting_date,"%d")',
+                'time_from' => 'DATE_FORMAT(time_from,"%h:%i %p")',
+                'time_to' => 'DATE_FORMAT(time_to,"%h:%i %p")'
             ])
             ->where(['user_id' => $id]);
 
