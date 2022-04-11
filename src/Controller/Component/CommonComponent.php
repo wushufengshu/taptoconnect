@@ -6,6 +6,7 @@ namespace App\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Controller\ComponentRegistry;
+use Cake\Utility\Security;
 
 /**
  * Common component
@@ -28,6 +29,6 @@ class CommonComponent extends Component
     }
     public function generateToken($length_of_string)
     {
-        return substr(md5(date('Y-m-d H:i:s')), 0, $length_of_string);
+        return Security::hash(Security::randomBytes($length_of_string));
     }
 }

@@ -60,6 +60,7 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
         $this->loadComponent('Common');
+        $this->loadComponent('Email');
 
         /*
          * Enable the following component for recommended CakePHP form protection settings.
@@ -84,6 +85,4 @@ class AppController extends Controller
         // Default deny
         return false;
     }
-
-    
 }

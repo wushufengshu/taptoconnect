@@ -15,6 +15,7 @@ class UsersController extends AppController
     public function initialize(): void
     {
         parent::initialize();
+        $this->loadModel('Cards');
     }
 
     public function beforeFilter(\Cake\Event\EventInterface $event)
@@ -22,7 +23,7 @@ class UsersController extends AppController
         parent::beforeFilter($event);
         // Configure the login action to not require authentication, preventing
         // the infinite redirect loop issue 
-        $this->Authentication->addUnauthenticatedActions(['login', 'register', 'token']);
+        $this->Authentication->addUnauthenticatedActions(['login', 'register', 'token', 'activatecard']);
     }
 
     public function register()
@@ -38,6 +39,7 @@ class UsersController extends AppController
             $user->token = $this->Common->generateToken(50);
             if ($user = $this->Users->save($user)) {
                 $msg = 1;
+                $mail = $this->Email->send_verification_email($user);
                 // $this->Flash->error(__('Could not create account. Please try again'));
             } else {
                 $msg = 2;
@@ -51,13 +53,46 @@ class UsersController extends AppController
         $this->set(compact('user'));
     }
 
+    public function activatecard($token = null)
+    {
+        $this->Authorization->skipAuthorization();
+        $user = $this->Users->findByToken($token)->first();
+
+
+        $this->request->allowMethod(['get', 'post']);
+
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            // dd($this->request->getData());
+            $card = $this->Cards->find('all', ['conditions' => ['serial_code' => $this->request->getData('serial_code')]])->first();
+            // dd($card);
+            $user = $this->Users->patchEntity($user, ['card_id' => $card->id]);
+            if (!$card) {
+                $this->Flash->error(__('Card with entered serial code is not found. Please try again.'));
+            } else {
+                if ($card->verification_code != $this->request->getData('verification_code')) {
+                    $this->Flash->error(__('Could not activate card. Please try again.'));
+                } else {
+                    $user->card_id = $card->id;
+                    if ($this->Users->save($user)) {
+
+                        $this->Flash->success(__('The card is now activated and linked to user.'));
+                        return $this->redirect(['controller' => 'Users', 'action' => 'login']);
+                    }
+                    $this->Flash->error(__('The user could not be saved. Please, try again.'));
+                }
+            }
+        }
+        // dd($userbytoken);
+        $this->set(compact('user'));
+    }
+
 
     public function login()
     {
         $this->Authorization->skipAuthorization();
         $this->request->allowMethod(['get', 'post']);
         $result = $this->Authentication->getResult();
-        // regardless of POST or GET, redirect if user is logged in
+        // regardless of POST or GET, redirect if user is logged in 
         if ($result->isValid()) {
             // redirect to /articles after login success
             // dd($result->getData()->role_id);
