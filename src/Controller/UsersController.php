@@ -144,7 +144,8 @@ class UsersController extends AppController
                 $this->Authentication->setIdentity($user);
                 // dd($request->getAttribute('identity'));
 
-                return $this->redirect(['action' => 'profile']);
+                //return $this->redirect(['action' => 'profile']);
+                return $this->redirect(['controller' => 'Users','action' => 'profile/'.$this->Authentication->getIdentity()->getIdentifier()]);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
             $this->Common->dblogger([
@@ -189,7 +190,8 @@ class UsersController extends AppController
                 $this->Authentication->setIdentity($user);
                 // dd($request->getAttribute('identity'));
 
-                return $this->redirect(['action' => 'profile']);
+                //return $this->redirect(['action' => 'profile']);
+                return $this->redirect(['controller' => 'Users','action' => 'profile/'.$this->Authentication->getIdentity()->getIdentifier()]);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
             $this->Common->dblogger([
@@ -225,7 +227,8 @@ class UsersController extends AppController
                     if ($this->Users->save($user)) {
                         $this->Flash->success(__('Password changed successfully'));
 
-                        return $this->redirect(['action' => 'profile']);
+                        //return $this->redirect(['action' => 'profile']);
+                        return $this->redirect(['controller' => 'Users','action' => 'profile/'.$this->Authentication->getIdentity()->getIdentifier()]);
                     }
                     $this->Flash->error(__('The password could not be saved. Please, try again.'));
                 } else {

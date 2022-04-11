@@ -94,7 +94,7 @@
                 <div class="collapse show" id="profile-intro">
                     <?= $this->Text->autoParagraph(h($user->user_desc)); ?>
 
-                    <?= $this->Html->link(__('<font color="green" size="4px"><i class="far fa-edit"></i></font>'), ['controller' => 'Users', 'action' => 'profile', $s_id], ['escape' => false]) ?>
+                    <?= $this->Html->link(__('<font color="green" size="4px"><i class="far fa-edit"></i></font>'), ['controller' => 'Users', 'action' => 'profile', $user->id], ['escape' => false]) ?>
 
                 </div>
             </div>
