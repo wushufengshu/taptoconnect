@@ -74,7 +74,7 @@ return static function (RouteBuilder $routes) {
          * routes you want in your application.
          */
         $builder->connect('/register', ['controller' => 'Users', 'action' => 'register']);
-        $builder->connect('/', ['controller' => 'Users', 'action' => 'profile']);
+        // $builder->connect('/', ['controller' => 'Users', 'action' => 'profile']);
 
 
 
