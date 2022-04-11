@@ -11,6 +11,8 @@ namespace App\Controller;
  */
 class CardsController extends AppController
 {
+    public $connection;
+
     public function initialize(): void
     {
         parent::initialize();
@@ -24,6 +26,68 @@ class CardsController extends AppController
     public function index()
     {
         $cards = $this->paginate($this->Cards);
+
+        if(isset($_POST["submit"])){
+
+        $filename=$_FILES["file"]["tmp_name"];
+
+        if($_FILES["file"]["size"] > 0){
+
+                $file = fopen($filename, "r");
+                $num = 0;
+                $insertquery = "";
+                while ($data = fgetcsv($file)){
+                    if($num == 0){ //skip header names in CSV file
+                        $num++;
+                    } 
+                    else{
+                    $serial_code = $data[0];
+                    $verification_code = $data[1];
+                    $card_link = $data[2];
+                    $created = date('Y-m-d H:i:s');
+                    /*
+                    $data = array(
+                        'serial_code' => $serial_code,
+                        'verification_code' => $verification_code,
+                        'card_link' => $card_link
+                    );
+
+                    $Cards = $this->Cards->newEntity($data);
+                    $this->Cards->save($Cards);
+                    */
+                     $insertquery = $this->connection->execute("
+                        INSERT INTO cards(
+                       serial_code,verification_code,card_link,created) 
+                        SELECT * FROM 
+                        (SELECT '$serial_code') AS tmp1,
+                        (SELECT '$verification_code') AS tmp2,
+                        (SELECT '$card_link') AS tmp3,
+                        (SELECT '$created') AS tmp4 
+                        WHERE NOT EXISTS 
+                        (SELECT 
+                        serial_code,verification_code,card_link,created
+                        FROM 
+                        cards 
+                        WHERE 
+                        serial_code = '$serial_code' 
+                        AND
+                        verification_code = '$verification_code'
+                        )
+                        ");
+                    }
+                }
+                        if($insertquery) {
+                        $this->Flash->success(__('Cards CSV data has been saved.'));
+                        return $this->redirect(['controller' => 'Cards','action' => 'index']);//redirect to cards main
+                        }
+                        else{
+                        $this->Flash->error(__('Cards CSV data could not be saved. Please, try again.'));
+                        }
+
+                fclose($file);
+            }
+                
+        }
 
         $this->set(compact('cards'));
     }
@@ -106,5 +170,15 @@ class CardsController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function downloadcardform(){
+        $this->Authorization->skipAuthorization();  
+        $file_path = WWW_ROOT.'forms'.DS.'UBP_MASS_CARDS_FORM.csv'; 
+        $response = $this->response->withFile(
+              $file_path,
+            ['download' => true, 'name' =>'UBP_MASS_CARDS_FORM.csv']
+        );
+        return $response;
     }
 }

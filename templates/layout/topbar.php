@@ -10,6 +10,17 @@
         </div>
     </a>
 
+<ul class="navbar-nav">
+    <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Forms
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><?= $this->Html->link('Cards form', ['controller' => 'Cards', 'action' => 'downloadcardform'], ['class' => 'dropdown-item'])?></li>
+          </ul>
+    </li>
+</ul>
+
     <ul class="navbar-nav navbar-nav-icons ms-auto flex-row align-items-center">
         <li class="nav-item">
             <div class="theme-control-toggle fa-icon-wait px-2">

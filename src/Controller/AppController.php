@@ -19,6 +19,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use Cake\Datasource\ConnectionManager; //for cards mass upload
 
 /**
  * Application Controller
@@ -68,6 +69,8 @@ class AppController extends Controller
         $this->loadComponent('Authentication.Authentication');
         $this->loadComponent('Authorization.Authorization');
         // $this->Authorization->skipAuthorization();
+
+        $this->connection = ConnectionManager::get('default'); //for cards mass upload
     }
 
 
@@ -81,4 +84,6 @@ class AppController extends Controller
         // Default deny
         return false;
     }
+
+    
 }

@@ -4,6 +4,27 @@
  * @var \App\Model\Entity\User[]|\Cake\Collection\CollectionInterface $users
  */
 ?>
+<!-- Modal -->
+<?= $this->Form->create($cards,['method' => 'post','enctype' => 'multipart/form-data']) ?>
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Upload CSV Data (Cards)</h5>
+      </div>
+      <div class="modal-body">
+        <input type="file" name="file" accept=".csv" class="form-control" required="">
+        <small><strong><font color="red">Only .csv file type is allowed</font></strong></small>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-warning" type="button" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-success" name="submit">Import/Upload Data</button>
+      </div>
+    </div>
+  </div>
+</div>
+ <?= $this->Form->end() ?>
+
         <?= $this->Flash->render() ?>
         <div class="card mb-3">
             <div class="card-header">
@@ -14,6 +35,13 @@
                 </div>
                 <div class="col-auto ms-auto">
                   <div class="nav nav-pills nav-pills-falcon flex-grow-1 mt-2" role="tablist">
+                    <?= $this->Html->link(
+                      "<font color='white' size='3px'><i class='fa fa-file-excel'></i> Upload CSV Data (Cards)</font>", 
+                      ['action' => 'index'], 
+                      ['class' => 'float-right btn btn-success float-right mr-2 ',
+                      'data-bs-toggle' => 'modal','data-bs-target' => '#uploadModal', 'escape' => false ]) 
+                    ?>
+
                     <?= $this->Html->link(__('New Card'), ['action' => 'add'], ['class' => 'button float-right btn btn-sm active']) ?>
                   </div>
                 </div>
