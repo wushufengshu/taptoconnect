@@ -22,9 +22,10 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\RouteBuilder;
+use Cake\Routing\Route\DashedRoute;
 use Authentication\IdentityInterface;
+use Authentication\Middleware\AuthenticationMiddleware;
 
 return static function (RouteBuilder $routes) {
     /*
@@ -45,13 +46,14 @@ return static function (RouteBuilder $routes) {
      * `{action}` markers.
      */
     $routes->setRouteClass(DashedRoute::class);
-
     $routes->scope('/', function (RouteBuilder $builder) {
         /*
          * Here, we are connecting '/' (base path) to a controller called 'Pages',
          * its action called 'display', and we pass a param to select the view file
          * to use (in this case, templates/Pages/home.php)...
          */
+        // $builder->connect('/', ['controller' => 'Users', 'action' => 'token']);
+        // $builder->connect('/', ['controller' => 'Pages', 'action' => 'display']);
         $builder->connect('/', ['controller' => 'Users', 'action' => 'token']);
 
         /*

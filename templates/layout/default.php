@@ -65,8 +65,23 @@
     <!-- ===============================================-->
     <!--    Main Content-->
     <!-- ===============================================-->
-    <?php if ($identity) {
+    <?php
+    $nosidebartemplate = ['activatecard', 'login', 'token', 'register'];
+    if (!$identity &&  in_array($this->request->getParam('action'), $nosidebartemplate)) {
     ?>
+        <main class="main" id="top">
+            <div class="container" data-layout="container">
+                <?= $this->Html->script('falconfluid') ?>
+
+
+                <?= $this->fetch('content') ?>
+            </div>
+        </main>
+
+
+    <?php } else {
+    ?>
+
         <main class="main" id="top">
             <div class="container" data-layout="container">
                 <!-- <? //= $this->Html->script('falconfluid') 
@@ -99,18 +114,6 @@
 
                 </div>
 
-            </div>
-        </main>
-
-    <?php } else {
-    ?>
-
-        <main class="main" id="top">
-            <div class="container" data-layout="container">
-                <?= $this->Html->script('falconfluid') ?>
-
-
-                <?= $this->fetch('content') ?>
             </div>
         </main>
 

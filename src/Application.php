@@ -116,7 +116,7 @@ implements AuthenticationServiceProviderInterface, AuthorizationServiceProviderI
             ->add(new AuthorizationMiddleware($this, [
                 'unauthorizedHandler' => [
                     'className' => 'CustomRedirect', // <--- see here
-                    'url' => '/',
+                    'url' => '/users/login',
                     // 'queryParam' => 'redirectUrl',
                     'exceptions' => [
                         MissingIdentityException::class,

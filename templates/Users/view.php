@@ -1,4 +1,4 @@
-<?php if ($identity->card_id == null) : ?>
+<?php if ($user->card_id == null) : ?>
     <div class="card mb-3">
         <div class="card-body">
             <div class="row">
@@ -56,7 +56,7 @@
         <div class="card-header bg-light d-flex justify-content-between">
             <h5 class="mb-0">Social Media</h5>
             <!--<a class="font-sans-serif" href="#">All Social Media</a>-->
-            <?= $this->Html->link(__('All Social Media'), ['controller' => 'Users', 'action' => 'allsocial/'.$identity->id], ['class' => 'font-sans-serif']) ?>
+            <?= $this->Html->link(__('All Social Media'), ['controller' => 'Users', 'action' => 'allsocial/' . $identity->id], ['class' => 'font-sans-serif']) ?>
         </div>
         <div class="card-body fs-1 pb-0">
             <div class="row">
@@ -139,7 +139,7 @@
                     <!--
                     <a class="btn btn-link d-block w-100" href="#">All Meetings<span class="fas fa-chevron-right ms-1 fs--2"></span></a>
                     -->
-                    <?= $this->Html->link(__('All Meetings'), ['controller' => 'Users', 'action' => 'allmeeting/'.$identity->id], ['class' => 'btn btn-link d-block w-100']) ?>
+                    <?= $this->Html->link(__('All Meetings'), ['controller' => 'Users', 'action' => 'allmeeting/' . $identity->id], ['class' => 'btn btn-link d-block w-100']) ?>
                 </div>
             </div>
 
@@ -147,7 +147,7 @@
                 <div class="card-header bg-light d-flex justify-content-between">
                     <h5 class="mb-0">Music & Video Links</h5>
                     <!--<a class="font-sans-serif" href="#">All Music & Video Links</a>-->
-                    <?= $this->Html->link(__('All Music & Video Links'), ['controller' => 'Users', 'action' => 'allmusicvideo/'.$identity->id], ['class' => 'font-sans-serif']) ?>
+                    <?= $this->Html->link(__('All Music & Video Links'), ['controller' => 'Users', 'action' => 'allmusicvideo/' . $identity->id], ['class' => 'font-sans-serif']) ?>
                 </div>
                 <div class="card-body fs--1 pb-0">
                     <div class="row">

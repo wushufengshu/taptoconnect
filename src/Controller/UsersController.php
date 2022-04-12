@@ -60,12 +60,10 @@ class UsersController extends AppController
 
 
         $this->request->allowMethod(['get', 'post']);
-
         if ($this->request->is(['patch', 'post', 'put'])) {
-            // dd($this->request->getData());
             $card = $this->Cards->find('all', ['conditions' => ['serial_code' => $this->request->getData('serial_code')]])->first();
             // dd($card);
-            $user = $this->Users->patchEntity($user, ['card_id' => $card->id]);
+            $user = $this->Users->patchEntity($user, ['card_id' => $card->id, 'serial_code' => $this->request->getData('serial_code'), 'verification_code' => $this->request->getData('verification_code')]);
             if (!$card) {
                 $this->Flash->error(__('Card with entered serial code is not found. Please try again.'));
             } else {
@@ -73,6 +71,9 @@ class UsersController extends AppController
                     $this->Flash->error(__('Could not activate card. Please try again.'));
                 } else {
                     $user->card_id = $card->id;
+                    $user->serial_code = $this->request->getData('serial_code');
+                    $user->verification_code = $this->request->getData('verification_code');
+                    $user->activated = 1;
                     if ($this->Users->save($user)) {
 
                         $this->Flash->success(__('The card is now activated and linked to user.'));
@@ -344,8 +345,9 @@ class UsersController extends AppController
         $this->set(compact('user', 'socials', 'meetings', 'music_videos'));
         $this->set(compact('user'));
     }
-    
-    public function allsocial($id = null){
+
+    public function allsocial($id = null)
+    {
         $user = $this->Users->newEmptyEntity();
         $this->Authorization->skipAuthorization();
         $user = $this->Users->get($id, [
@@ -360,7 +362,8 @@ class UsersController extends AppController
         $this->set(compact('user'));
     }
 
-    public function allmeeting($id = null){
+    public function allmeeting($id = null)
+    {
         $user = $this->Users->newEmptyEntity();
         $this->Authorization->skipAuthorization();
         $user = $this->Users->get($id, [
@@ -375,7 +378,8 @@ class UsersController extends AppController
         $this->set(compact('user'));
     }
 
-    public function allmusicvideo($id = null){
+    public function allmusicvideo($id = null)
+    {
         $user = $this->Users->newEmptyEntity();
         $this->Authorization->skipAuthorization();
         $user = $this->Users->get($id, [
@@ -393,9 +397,13 @@ class UsersController extends AppController
     public function token($token = null)
     {
         $this->Authorization->skipAuthorization();
+
         // dd($this->request->getPath());
         if (!$token && $this->request->getPath() == '/') {
             // dd($this->Authentication->getIdentity()->getOriginalData()->token);
+            if ($user = $this->request->getAttribute('identity') == null) {
+                return $this->redirect('/users/login');
+            }
             $token = $this->Authentication->getIdentity()->getOriginalData()->token;
         }
         $this->view = 'view';
