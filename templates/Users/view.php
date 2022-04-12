@@ -178,9 +178,6 @@
                                             //echo $youtubelink;
                                             ?>
                                             <iframe width="auto" height="auto" src="<?php echo $youtubelink; ?>" frameborder="0" allowfullscreen></iframe>
-                                            <br>
-                                            <i class="fa fa-link"></i>&nbsp;
-                                            <a class="stretched-link" style="text-decoration: none;" href="<?php echo "http://" . $music_video_link; ?>" target="_blank"><?= h($music_video_link) ?></a>
                                             <?php
                                             }
                                             else{
