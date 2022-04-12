@@ -51,6 +51,12 @@
                 </div>
             </div>
         </div>
+
+        <div class="card-body">
+            <div class="row">
+                    <iframe style="border: 0px #FFFFFF none;" src="https://www.partyviberadio.com/player-https/embed-auto-cassette/pop.html" name="embed" width="450px" height="225x" frameborder="1" marginwidth="0px" marginheight="0px" scrolling="no"></iframe>
+            </div>
+        </div>
     </div>
     <div class="card mb-3">
         <div class="card-header bg-light d-flex justify-content-between">
@@ -172,10 +178,15 @@
                                             //echo $youtubelink;
                                             ?>
                                             <iframe width="auto" height="auto" src="<?php echo $youtubelink; ?>" frameborder="0" allowfullscreen></iframe>
+                                            <br>
+                                            <i class="fa fa-link"></i>&nbsp;
+                                            <a class="stretched-link" style="text-decoration: none;" href="<?php echo "http://" . $music_video_link; ?>" target="_blank"><?= h($music_video_link) ?></a>
                                             <?php
                                             }
                                             else{
                                             ?>
+                                            <iframe src="<?php echo "http://". $music_video_link; ?>" style="width: auto; height: auto;" scrolling="no">Wikipedia Encyclopedia</iframe>
+                                            <br>
                                             <i class="fa fa-link"></i>&nbsp;
                                             <a class="stretched-link" style="text-decoration: none;" href="<?php echo "http://" . $music_video_link; ?>" target="_blank"><?= h($music_video_link) ?></a>
                                             <?php 
