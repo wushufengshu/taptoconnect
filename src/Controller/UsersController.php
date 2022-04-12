@@ -344,6 +344,52 @@ class UsersController extends AppController
         $this->set(compact('user', 'socials', 'meetings', 'music_videos'));
         $this->set(compact('user'));
     }
+    
+    public function allsocial($id = null){
+        $user = $this->Users->newEmptyEntity();
+        $this->Authorization->skipAuthorization();
+        $user = $this->Users->get($id, [
+            'contain' => ['SocialMedia'],
+        ]);
+
+        //get data from function getUserData() returns $array
+        $data = $this->getUserData($id);
+        $socials = $data[0];
+
+        $this->set(compact('socials'));
+        $this->set(compact('user'));
+    }
+
+    public function allmeeting($id = null){
+        $user = $this->Users->newEmptyEntity();
+        $this->Authorization->skipAuthorization();
+        $user = $this->Users->get($id, [
+            'contain' => ['Meetings'],
+        ]);
+
+        //get data from function getUserData() returns $array
+        $data = $this->getUserData($id);
+        $meetings = $data[2];
+
+        $this->set(compact('meetings'));
+        $this->set(compact('user'));
+    }
+
+    public function allmusicvideo($id = null){
+        $user = $this->Users->newEmptyEntity();
+        $this->Authorization->skipAuthorization();
+        $user = $this->Users->get($id, [
+            'contain' => ['MusicVideo'],
+        ]);
+
+        //get data from function getUserData() returns $array
+        $data = $this->getUserData($id);
+        $music_videos = $data[1];
+
+        $this->set(compact('music_videos'));
+        $this->set(compact('user'));
+    }
+
     public function token($token = null)
     {
         $this->Authorization->skipAuthorization();

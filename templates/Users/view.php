@@ -10,8 +10,6 @@
                     <a href="<?php echo "http://" . $user->website; ?>" target="_blank"><?= $this->Text->autoParagraph(h($user->website)); ?></a>
                     <!--<button class="btn btn-falcon-default btn-sm px-3 ms-2" type="button">Message</button>-->
 
-                    <?= $this->Html->link(__('Add Meeting'), ['controller' => 'Meetings', 'action' => 'add'], ['class' => 'btn btn-falcon-default btn-sm px-3 ']) ?>
-
                     <div class="border-dashed-bottom my-4 d-lg-none"></div>
                 </div>
             </div>
@@ -20,7 +18,8 @@
 <?php else : ?>
     <div class="card mb-3">
         <div class="card-header position-relative min-vh-25 mb-7">
-            <div class="bg-holder rounded-3 rounded-bottom-0" style="background-image:url(../../assets/img/generic/ubivelox1.png);">
+            <div class="bg-holder rounded-3 rounded-bottom-0">
+                <img src="../../assets/img/generic/ubivelox1.png" style="width: 100%; height: auto;">
             </div>
             <!--/.bg-holder-->
 
@@ -48,12 +47,6 @@
                     <a href="<?php echo "http://" . $user->website; ?>" target="_blank"><?= $this->Text->autoParagraph(h($user->website)); ?></a>
                     <!--<button class="btn btn-falcon-default btn-sm px-3 ms-2" type="button">Message</button>-->
 
-                    <?= $this->Html->link(__('Add Meeting'), ['controller' => 'Meetings', 'action' => 'add'], ['class' => 'btn btn-falcon-default btn-sm px-3 ms-2']) ?>
-
-                    <?= $this->Html->link(__('Add Social Media'), ['controller' => 'SocialMedia', 'action' => 'add'], ['class' => 'btn btn-falcon-default btn-sm px-3 ms-2']) ?>
-
-                    <?= $this->Html->link(__('Add Music & Video'), ['controller' => 'MusicVideo', 'action' => 'add'], ['class' => 'btn btn-falcon-default btn-sm px-3 ms-2']) ?>
-
                     <div class="border-dashed-bottom my-4 d-lg-none"></div>
                 </div>
             </div>
@@ -61,7 +54,9 @@
     </div>
     <div class="card mb-3">
         <div class="card-header bg-light d-flex justify-content-between">
-            <h5 class="mb-0">Social Media</h5><a class="font-sans-serif" href="#">All Social Media</a>
+            <h5 class="mb-0">Social Media</h5>
+            <!--<a class="font-sans-serif" href="#">All Social Media</a>-->
+            <?= $this->Html->link(__('All Social Media'), ['controller' => 'Users', 'action' => 'allsocial/'.$identity->id], ['class' => 'font-sans-serif']) ?>
         </div>
         <div class="card-body fs-1 pb-0">
             <div class="row">
@@ -84,16 +79,6 @@
                             </div>
 
                         </div>
-                        <?= $this->Html->link(__('<font color="green" size="4px"><i class="far fa-edit"></i></font>'), ['controller' => 'SocialMedia', 'action' => 'edit', $s_id], ['escape' => false]) ?>
-
-                        <?= $this->Form->postLink(
-                            __('<font color="red" size="4px"><i class="far fa-trash-alt"></i></font>'),
-                            ['controller' => 'SocialMedia', 'action' => 'delete', $s_id],
-                            [
-                                'confirm' => __('Are you sure you want to delete # {0}?', $s_id),
-                                'escape' => false //'escape' => false - convert plain text to html
-                            ]
-                        ) ?>
                     </div>
                 <?php
                 }
@@ -110,9 +95,6 @@
                 <div class="card-body text-justify">
                     <div class="collapse show" id="profile-intro">
                         <?= $this->Text->autoParagraph(h($user->user_desc)); ?>
-
-                        <?= $this->Html->link(__('<font color="green" size="4px"><i class="far fa-edit"></i></font>'), ['controller' => 'Users', 'action' => 'profile', $user->id], ['escape' => false]) ?>
-
                     </div>
                 </div>
                 <div class="card-footer bg-light p-0 border-top">
@@ -144,17 +126,7 @@
                                 <p class="mb-1">Organized by <?= h($organized_by) ?></p>
                                 <p class="text-1000 mb-0">Time: <?= h($time_from) ?></p>
                                 <p class="text-1000 mb-0">Duration: <?= h($time_from) ?> - <?= h($time_to) ?></p>Place: <?= h($meeting_place) ?>
-                                <br>
-                                <?= $this->Html->link(__('<font color="green" size="4px"><i class="far fa-edit"></i></font>'), ['controller' => 'Meetings', 'action' => 'edit', $m_id], ['escape' => false]) ?>
 
-                                <?= $this->Form->postLink(
-                                    __('<font color="red" size="4px"><i class="far fa-trash-alt"></i></font>'),
-                                    ['controller' => 'Meetings', 'action' => 'delete', $m_id],
-                                    [
-                                        'confirm' => __('Are you sure you want to delete # {0}?', $m_id),
-                                        'escape' => false //'escape' => false - convert plain text to html
-                                    ]
-                                ) ?>
                                 <div class="border-dashed-bottom my-3"></div>
                             </div>
                         </div>
@@ -163,12 +135,19 @@
                     ?>
 
                 </div>
-                <div class="card-footer bg-light p-0 border-top"><a class="btn btn-link d-block w-100" href="#">All Meetings<span class="fas fa-chevron-right ms-1 fs--2"></span></a></div>
+                <div class="card-footer bg-light p-0 border-top">
+                    <!--
+                    <a class="btn btn-link d-block w-100" href="#">All Meetings<span class="fas fa-chevron-right ms-1 fs--2"></span></a>
+                    -->
+                    <?= $this->Html->link(__('All Meetings'), ['controller' => 'Users', 'action' => 'allmeeting/'.$identity->id], ['class' => 'btn btn-link d-block w-100']) ?>
+                </div>
             </div>
 
             <div class="card mb-3">
                 <div class="card-header bg-light d-flex justify-content-between">
-                    <h5 class="mb-0">Music & Video Links</h5><a class="font-sans-serif" href="#">All Music & Video Links</a>
+                    <h5 class="mb-0">Music & Video Links</h5>
+                    <!--<a class="font-sans-serif" href="#">All Music & Video Links</a>-->
+                    <?= $this->Html->link(__('All Music & Video Links'), ['controller' => 'Users', 'action' => 'allmusicvideo/'.$identity->id], ['class' => 'font-sans-serif']) ?>
                 </div>
                 <div class="card-body fs--1 pb-0">
                     <div class="row">
@@ -184,16 +163,6 @@
                                         <!--<p class="mb-1">2 followers</p>-->
                                     </div>
                                 </div>
-                                <?= $this->Html->link(__('<font color="green" size="4px"><i class="far fa-edit"></i></font>'), ['controller' => 'MusicVideo', 'action' => 'edit', $m_id], ['escape' => false]) ?>
-
-                                <?= $this->Form->postLink(
-                                    __('<font color="red" size="4px"><i class="far fa-trash-alt"></i></font>'),
-                                    ['controller' => 'MusicVideo', 'action' => 'delete', $m_id],
-                                    [
-                                        'confirm' => __('Are you sure you want to delete # {0}?', $m_id),
-                                        'escape' => false //'escape' => false - convert plain text to html
-                                    ]
-                                ) ?>
                             </div>
                         <?php
                         }

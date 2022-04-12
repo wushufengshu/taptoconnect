@@ -47,7 +47,7 @@
 
                     <div class="col-12">
                       <?= $this->Form->button(__('Add'),array('class' => 'btn btn-primary')) ?>
-                      <a href="<?php echo $this->Url->build(('/users/view/'.$identity->id)); ?>" class="btn btn-warning">Cancel</a>
+                      <a href="<?php echo $this->Url->build(('/users/allmeeting/'.$identity->id)); ?>" class="btn btn-warning">Cancel</a>
                     </div>
                   <?= $this->Form->end() ?>
 
