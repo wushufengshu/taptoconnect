@@ -48,13 +48,13 @@ class AppController extends Controller
                 'time_from' => 'DATE_FORMAT(time_from,"%h:%i %p")',
                 'time_to' => 'DATE_FORMAT(time_to,"%h:%i %p")'
             ])
-            ->where(['user_id' => $id, 'meeting_date' => date('Y-m-d')]) //diplay all current month only
+            ->where(['user_id' => $id, 'MONTH(meeting_date)' => date('m')]) //diplay all current month only
             ->order(['Meetings.time_from' => 'desc']);
             //->count();
 
         $countmeetingnow = $this->Users->Meetings
             ->find('all')
-            ->where(['user_id' => $id, 'meeting_date' => date('Y-m-d')]) //diplay all current month only
+            ->where(['user_id' => $id, 'MONTH(meeting_date)' => date('m')]) //diplay all current month only
             ->count(); //count all current month meetings
 
         $this->set(compact('countmeetingnow','meetingnow'));
