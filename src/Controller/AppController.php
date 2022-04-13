@@ -35,9 +35,9 @@ class AppController extends Controller
     {
         parent::beforeRender($event);
         $this->set('identity', $this->request->getAttribute('identity'));
-        $result = $this->Authentication->getResult();
+        //$result = $this->Authentication->getResult();
 
-        $id = $this->request->getAttribute('identity')->id; //get user id
+        $id = isset($this->request->getAttribute('identity')->id) ? $this->request->getAttribute('identity')->id : ''; //get user id
 
         $meetingnow = $this->Users->Meetings
             ->find('all')
