@@ -32,6 +32,83 @@
             </div>
         </li>
 
+        <li class="nav-item dropdown">
+            <?php 
+            if($countmeetingnow){
+            ?>
+            <a class="nav-link px-0 notification-indicator notification-indicator-danger notification-indicator-fill fa-icon-wait" id="navbarDropdownNotification" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-hide-on-body-scroll="data-hide-on-body-scroll"><span class="fas fa-bell bell" data-fa-transform="shrink-7" style="font-size: 40px;"></span><span class="notification-indicator-number"><?php echo $countmeetingnow; ?></span></a>
+            <?php
+            }
+            else{
+            ?>
+            <a class="nav-link px-0 notification-indicator notification-indicator-danger notification-indicator-fill fa-icon-wait" id="navbarDropdownNotification" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-hide-on-body-scroll="data-hide-on-body-scroll"><span class="fas fa-bell" data-fa-transform="shrink-7" style="font-size: 40px;"></span><span class="notification-indicator-number"><?php echo $countmeetingnow; ?></span></a>
+            <?php
+            }
+            ?>
+                <div class="dropdown-menu dropdown-menu-end dropdown-menu-card dropdown-menu-notification dropdown-caret-bg" aria-labelledby="navbarDropdownNotification">
+                  <div class="card card-notification shadow-none">
+                    <div class="card-header">
+                      <div class="row justify-content-between align-items-center">
+                        <div class="col-auto">
+                          <h6 class="card-header-title mb-0">List of Meetings this Month</h6>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="scrollbar-overlay" style="max-height:19rem">
+                      <div class="list-group list-group-flush fw-normal fs--1">
+                        <?php 
+                        if($countmeetingnow){
+                        ?>
+                        <?php 
+                        foreach ($meetingnow as $key => $value) {
+                            $meeting_date = $value->meeting_date;
+                            $meeting_name = $value->meeting_name;
+                            $time_from = $value->time_from;
+                            $time_to = $value->time_to;
+                            $organized_by = $value->organized_by;
+                            $meeting_place = $value->meeting_place;
+                            $f_meeting_name = mb_substr($meeting_name, 0, 1)
+                        ?>
+                        <div class="list-group-item">
+                          <a class="notification notification-flush notification-unread" href="#!">
+                            <div class="notification-avatar">
+                              <div class="avatar avatar-2xl me-3">
+                                <div class="avatar-name rounded-circle"><span><?php echo $f_meeting_name; ?></span></div>
+                              </div>
+                            </div>
+                            <div class="notification-body">
+                              <p class="mb-1"><strong><?php echo $meeting_name; ?></strong> at <strong><?php echo $meeting_place; ?></strong> on <strong><?php echo $meeting_date; ?></strong> Organized by: <strong><?php echo $organized_by; ?></strong></p>
+                              <span class="notification-time">From: <?php echo $time_from; ?> To: <?php echo $time_to; ?></span>
+
+                            </div>
+                          </a>
+
+                        </div>
+                        <?php
+                        }
+                        ?>
+                        <?php 
+                        }
+                        else{
+                        ?>
+                            <div class="notification-body">
+                              <p class="mb-1"><center><strong>No meetings to display.</strong></center></p>
+                            </div>
+                        <?php
+                        }   
+                        ?>
+                        
+                      </div>
+                    </div>
+                    <!--<div class="card-footer text-center border-top"><a class="card-link d-block" href="app/social/notifications.html">View all</a></div>-->
+                    <div class="card-footer text-center border-top">
+                        <?= $this->Html->link(__('View all'), ['controller' => 'Users', 'action' => 'allmeeting/' . $identity->id], ['class' => 'card-link d-block']) ?>
+                    </div>
+                  </div>
+                </div>
+
+        </li>
+
         <li class="nav-item dropdown"><a class="nav-link pe-0 ps-2" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <div class="avatar avatar-xl">
                     <!--<img class="rounded-circle" src="/assets/img/team/3-thumb.png" alt="" />-->

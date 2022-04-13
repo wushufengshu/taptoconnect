@@ -350,11 +350,13 @@ class UsersController extends AppController
                 'type' => 'INNER',
                 'conditions' => 'sl.id = social_list_id',
             ])
-            ->where(['user_id' => $id]);
+            ->where(['user_id' => $id])
+            ->order(['SocialMedia.social_link' => 'asc']);
 
         $music_videos = $this->Users->MusicVideo
             ->find('all')
-            ->where(['user_id' => $id]);
+            ->where(['user_id' => $id])
+            ->order(['MusicVideo.id' => 'asc']);
 
         $meetings = $this->Users->Meetings
             ->find('all')
@@ -365,7 +367,8 @@ class UsersController extends AppController
                 'time_from' => 'DATE_FORMAT(time_from,"%h:%i %p")',
                 'time_to' => 'DATE_FORMAT(time_to,"%h:%i %p")'
             ])
-            ->where(['user_id' => $id]);
+            ->where(['user_id' => $id])
+            ->order(['Meetings.time_from' => 'desc']);
 
         return [$socials, $music_videos, $meetings];
     }

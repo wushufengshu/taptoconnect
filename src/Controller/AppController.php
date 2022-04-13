@@ -35,7 +35,29 @@ class AppController extends Controller
     {
         parent::beforeRender($event);
         $this->set('identity', $this->request->getAttribute('identity'));
-        // dd($result = $this->Authentication->getResult());
+        $result = $this->Authentication->getResult();
+
+        $id = $this->request->getAttribute('identity')->id; //get user id
+
+        $meetingnow = $this->Users->Meetings
+            ->find('all')
+            ->select([
+                'id', 'user_id', 'meeting_date', 'meeting_name', 'time_from', 'time_to', 'organized_by', 'meeting_place',
+                'month' => 'DATE_FORMAT(meeting_date,"%b")',
+                'day' => 'DATE_FORMAT(meeting_date,"%d")',
+                'time_from' => 'DATE_FORMAT(time_from,"%h:%i %p")',
+                'time_to' => 'DATE_FORMAT(time_to,"%h:%i %p")'
+            ])
+            ->where(['user_id' => $id, 'meeting_date' => date('Y-m-d')]) //diplay all current month only
+            ->order(['Meetings.time_from' => 'desc']);
+            //->count();
+
+        $countmeetingnow = $this->Users->Meetings
+            ->find('all')
+            ->where(['user_id' => $id, 'meeting_date' => date('Y-m-d')]) //diplay all current month only
+            ->count(); //count all current month meetings
+
+        $this->set(compact('countmeetingnow','meetingnow'));
     }
     public function beforeFilter(\Cake\Event\EventInterface $event)
     {
@@ -72,6 +94,9 @@ class AppController extends Controller
         // $this->Authorization->skipAuthorization();
 
         $this->connection = ConnectionManager::get('default'); //for cards mass upload
+
+        $this->loadModel('Users');
+        $this->loadModel('Meetings');
     }
 
 

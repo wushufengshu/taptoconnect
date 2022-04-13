@@ -106,7 +106,7 @@
                          <div class="form-group">
                              <?= $this->Form->button(__('Update'), ['class' => 'btn btn-primary']) ?>
 
-                             <a href="<?php echo $this->Url->build(('/users')); ?>" class="btn btn-warning">
+                             <a href="<?php echo $this->Url->build(('/users/view/'.$identity->id)); ?>" class="btn btn-warning">
                                  <font color="#F7F7F7">Cancel</font>
                              </a>
                          </div>

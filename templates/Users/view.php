@@ -110,9 +110,10 @@
                 <div class="card-header bg-light">
                     <h5 class="mb-0">Meetings</h5>
                 </div>
+
                 <div class="card-body fs--1">
                     <?php
-                    foreach ($meetings as $key => $value) {
+                    foreach ($meetingnow as $key => $value) {
                         $m_id = $value->id;
                         $month = $value->month;
                         $day = $value->day;
