@@ -42,12 +42,35 @@
                         <?php
                         foreach ($music_videos as $key => $value) {
                             $m_id = $value->id;
-                            $music_video_link = $value->music_video_link;
+                            $music_video_link = trim($value->music_video_link);
                         ?>
                             <div class="col-sm-6 mb-3">
                                 <div class="d-flex position-relative align-items-center mb-2"><i class="fa fa-link"></i>&nbsp;
                                     <div class="flex-1">
-                                        <h6 class="fs-0 mb-0"><a class="stretched-link" style="text-decoration: none;" href="<?php echo "http://" . $music_video_link; ?>" target="_blank"><?= h($music_video_link) ?></a></h6>
+                                        <h6 class="fs-0 mb-0">
+                                            <?php
+                                            if (str_contains($music_video_link, 'youtube')) {
+                                                //echo 'true';
+                                                $url = $music_video_link;
+                                                $parse = parse_url($url, PHP_URL_QUERY);
+                                                parse_str($parse, $output);
+                                                $youtube_id = $output['v']; //get youtube id
+                                                $youtubelink = "https://www.youtube.com/embed/" . $youtube_id;
+                                                //echo $youtube_id;
+                                                //echo $youtubelink;
+                                            ?>
+                                            <iframe width="auto" height="auto" src="<?php echo $youtubelink; ?>" frameborder="0" allowfullscreen></iframe>
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <iframe src="<?php echo "http://" . $music_video_link; ?>" style="width: auto; height: auto;" scrolling="no"></iframe>
+                                                <br>
+                                                <i class="fa fa-link"></i>&nbsp;
+                                                <a class="stretched-link" style="text-decoration: none;" href="<?php echo "http://" . $music_video_link; ?>" target="_blank"><?= h($music_video_link) ?></a>
+                                            <?php
+                                            }
+                                            ?>
+                                        </h6>
                                         <!--<p class="mb-1">2 followers</p>-->
                                     </div>
                                 </div>
