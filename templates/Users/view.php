@@ -179,7 +179,7 @@
                                             <?php
                                             } else {
                                             ?>
-                                                <iframe src="<?php echo "http://" . $music_video_link; ?>" style="width: auto; height: auto;" scrolling="no">Wikipedia Encyclopedia</iframe>
+                                                <iframe src="<?php echo "http://" . $music_video_link; ?>" style="width: auto; height: auto;" scrolling="no"></iframe>
                                                 <br>
                                                 <i class="fa fa-link"></i>&nbsp;
                                                 <a class="stretched-link" style="text-decoration: none;" href="<?php echo "http://" . $music_video_link; ?>" target="_blank"><?= h($music_video_link) ?></a>
