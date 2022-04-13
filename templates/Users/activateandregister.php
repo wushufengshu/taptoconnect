@@ -5,9 +5,10 @@
         <div class="card theme-wizard mb-5" id="wizard">
             <div class="card-header bg-light pt-3 pb-2">
                 <ul class="nav justify-content-between nav-wizard">
-                    <li class="nav-item"><a class="nav-link active fw-semi-bold" href="#bootstrap-wizard-tab1" data-bs-toggle="tab" data-wizard-step="data-wizard-step"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-lock"></span></span></span><span class="d-none d-md-block mt-1 fs--1">Account</span></a></li>
-                    <li class="nav-item"><a class="nav-link fw-semi-bold" href="#bootstrap-wizard-tab2" data-bs-toggle="tab" data-wizard-step="data-wizard-step"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-user"></span></span></span><span class="d-none d-md-block mt-1 fs--1">Personal</span></a></li>
-                    <li class="nav-item" class="disabled"><span class="nav-link fw-semi-bold" href="#bootstrap-wizard-tab3" data-bs-toggle="tab" data-wizard-step="data-wizard-step"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-thumbs-up"></span></span></span><span class="d-none d-md-block mt-1 fs--1">Done</span></span></li>
+                    <li class="nav-item"><a class="nav-link active fw-semi-bold" href="#bootstrap-wizard-tab1" data-bs-toggle="tab" data-wizard-step="data-wizard-step"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-lock"></span></span></span><span class="d-none d-md-block mt-1 fs--1">Card</span></a></li>
+                    <li class="nav-item"><a class="nav-link fw-semi-bold" href="#bootstrap-wizard-tab2" data-bs-toggle="tab" data-wizard-step="data-wizard-step"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-lock"></span></span></span><span class="d-none d-md-block mt-1 fs--1">Account</span></a></li>
+                    <li class="nav-item"><a class="nav-link fw-semi-bold" href="#bootstrap-wizard-tab3" data-bs-toggle="tab" data-wizard-step="data-wizard-step"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-user"></span></span></span><span class="d-none d-md-block mt-1 fs--1">Personal</span></a></li>
+                    <li class="nav-item" class="disabled"><span class="nav-link fw-semi-bold" href="#bootstrap-wizard-tab4" data-bs-toggle="tab" data-wizard-step="data-wizard-step"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-thumbs-up"></span></span></span><span class="d-none d-md-block mt-1 fs--1">Done</span></span></li>
                 </ul>
             </div>
 
@@ -15,6 +16,28 @@
             <div class="card-body py-4" id="wizard-controller">
                 <div class="tab-content">
                     <div class="tab-pane active px-sm-3 px-md-5" role="tabpanel" aria-labelledby="bootstrap-wizard-tab1" id="bootstrap-wizard-tab1">
+                        
+                    <form class="needs-validation" novalidate="novalidate">
+                        <div class="mb-3">
+                            <?= $this->Form->control('serial_code', [
+                                'class' => 'form-control', 'required' => 'required', 'placeholder' => 'Serial code', "id" => "bootstrap-wizard-wizard-serial_code", "data-wizard-validate-serial_code" => "true",
+                                'label' => ['text' => 'Serial code *', 'for' => 'bootstrap-wizard-wizard-serial_code', 'form-label']
+                            ]) ?> 
+                            <div class="invalid-feedback">Please enter serial code</div>
+                        </div>
+                        <div class="mb-3">
+
+                            <?= $this->Form->control('verification_code', [
+                                'class' => 'form-control', 'required' => 'required', 'placeholder' => 'Verification code', "id" => "bootstrap-wizard-wizard-verification_code", "data-wizard-validate-verification_code" => "true",
+                                'label' => ['text' => 'Verification code *', 'for' => 'bootstrap-wizard-wizard-verification_code', 'form-label']
+                            ]) ?> 
+                        </div>
+                        <div class="mb-3">
+
+                        </div> 
+                            </form>
+                    </div>
+                    <div class="tab-pane px-sm-3 px-md-5" role="tabpanel" aria-labelledby="bootstrap-wizard-tab2" id="bootstrap-wizard-tab2">
                         <form class="needs-validation" novalidate="novalidate">
                             <input type="hidden" id="csrfToken" name='_csrfToken' value="<?= $this->request->getAttribute('csrfToken') ?>">
                             <div class="mb-3">
@@ -43,7 +66,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="tab-pane px-sm-3 px-md-5" role="tabpanel" aria-labelledby="bootstrap-wizard-tab2" id="bootstrap-wizard-tab2">
+                    <div class="tab-pane px-sm-3 px-md-5" role="tabpanel" aria-labelledby="bootstrap-wizard-tab3" id="bootstrap-wizard-tab3">
                         <form class="needs-validation" novalidate2="novalidate">
                             <div class="row mb-3">
 
@@ -107,7 +130,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="tab-pane text-center px-sm-3 px-md-5" role="tabpanel" aria-labelledby="bootstrap-wizard-tab3" id="bootstrap-wizard-tab3">
+                    <div class="tab-pane text-center px-sm-3 px-md-5" role="tabpanel" aria-labelledby="bootstrap-wizard-tab4" id="bootstrap-wizard-tab4">
                         <div class="wizard-lottie-wrapper">
                             <div class="lottie wizard-lottie mx-auto my-3" data-options='{"path":"../../assets/img/animated-icons/celebration.json"}'></div>
                         </div>
@@ -124,9 +147,10 @@
                         <li class="previous">
                             <button class="btn btn-link ps-0" type="button"><span class="fas fa-chevron-left me-2" data-fa-transform="shrink-3"></span>Prev</button>
                         </li>
-                        <li class="next">
+                        <li class="next">  
+                            <button type="button" class="btn btn-primary px-5 px-sm-6 " id="checkcard">Check</button>
 
-                            <button class="btn btn-primary px-5 px-sm-6" type="submit">Next<span class="fas fa-chevron-right ms-2" data-fa-transform="shrink-3"> </span></button>
+                            <button class="btn btn-primary px-5 px-sm-6 d-none" type="submit">Next<span class="fas fa-chevron-right ms-2" data-fa-transform="shrink-3"> </span></button>
 
                             <button type="button" class="btn btn-primary px-5 px-sm-6 d-none" id="register">Register</button>
                         </li>
@@ -165,59 +189,38 @@
         );
         var tabProgressBar = document.querySelector(".theme-wizard .progress");
         wizards.forEach(function(wizard) {
-            var tabToggleButtonEl = wizard.querySelectorAll("[data-wizard-step]");
-            var inputUsername = wizard.querySelector(
-                "[data-wizard-validate-username]"
-            );
+            var tabToggleButtonEl = wizard.querySelectorAll("[data-wizard-step]"); 
+            
+            var inputSerial = wizard.querySelector("[data-wizard-validate-serial_code]");
+            var inputVerification = wizard.querySelector("[data-wizard-validate-verification_code]");
+            
+            var inputUsername = wizard.querySelector("[data-wizard-validate-username]");
             var inputEmail = wizard.querySelector("[data-wizard-validate-email]");
             var emailPattern = inputEmail.getAttribute("pattern");
-            var inputPassword = wizard.querySelector(
-                "[data-wizard-validate-password]"
-            );
+            var inputPassword = wizard.querySelector("[data-wizard-validate-password]");
             // var inputConfirmPassword = wizard.querySelector('[data-wizard-validate-confirm-password]');
 
-            var inputFirstname = wizard.querySelector(
-                "[data-wizard-validate-firstname]"
-            );
-            var inputMiddlename = wizard.querySelector(
-                "[data-wizard-validate-middlename]"
-            );
-            var inputLastname = wizard.querySelector(
-                "[data-wizard-validate-lastname]"
-            );
-            var inputContactno = wizard.querySelector(
-                "[data-wizard-validate-contactno]"
-            );
-            var inputBirthdate = wizard.querySelector(
-                "[data-wizard-validate-datepicker]"
-            );
+            var inputFirstname = wizard.querySelector("[data-wizard-validate-firstname]");
+            var inputMiddlename = wizard.querySelector("[data-wizard-validate-middlename]");
+            var inputLastname = wizard.querySelector("[data-wizard-validate-lastname]");
+            var inputContactno = wizard.querySelector("[data-wizard-validate-contactno]");
+            var inputBirthdate = wizard.querySelector("[data-wizard-validate-datepicker]");
             var inputGender = "";
             var inputPronouns = "";
             $("#bootstrap-wizard-gender").change(() => {
                 inputGender = $("#bootstrap-wizard-gender").val();
-                if (
-                    inputGender == "Select your pronouns ..." ||
-                    inputGender == ""
-                ) {
-                    inputGender = null;
-                }
+                if (inputGender == "Select your pronouns ..." || inputGender == "" ) { inputGender = null; }
             });
             $("#bootstrap-wizard-pronouns").change(() => {
                 inputPronouns = $("#bootstrap-wizard-pronouns").val();
-                if (
-                    inputPronouns == "Select your pronouns ..." ||
-                    inputPronouns == ""
-                ) {
-                    inputPronouns = null;
-                }
+                if (inputPronouns == "Select your pronouns ..." || inputPronouns == "" ) { inputPronouns = null; }
             });
             var inputBio = wizard.querySelector("[data-wizard-validate-user_desc]");
-            var inputAddress = wizard.querySelector(
-                "[data-wizard-validate-address]"
-            );
+            var inputAddress = wizard.querySelector("[data-wizard-validate-address]");
 
             var form = wizard.querySelector("[novalidate]");
             var form2 = wizard.querySelector("[novalidate2]");
+            var checkcardButton = wizard.querySelector("#checkcard");
             var nextButton = wizard.querySelector(".next button");
             var prevButton = wizard.querySelector(".previous button");
             var saveButton = wizard.querySelector("#register");
@@ -229,18 +232,25 @@
                 return regexPattern.test(String(value).toLowerCase());
             }
 
+            // nextButton.classList.add("d-none"); 
             prevButton.classList.add("d-none"); // on button click tab change
             //
+            
+            checkcardButton.addEventListener("click", function() {
+                // if ( (!inputUsername.value || !( inputEmail.value && validatePattern(emailPattern, inputEmail.value) ) || !inputPassword.value) && form.className.includes("needs-validation")) {
+                //     form.classList.add("was-validated");
+                // } else {
+                    count += 1;
+                    var tab = new window.bootstrap.Tab(tabToggleButtonEl[count]);
+                    tab.show(); 
+                    // nextButton.classList.remove("d-none");
+                // }
+                alert(1)
+            });
+
             nextButton.addEventListener("click", function() {
-                if (
-                    (!inputUsername.value ||
-                        !(
-                            inputEmail.value &&
-                            validatePattern(emailPattern, inputEmail.value)
-                        ) ||
-                        !inputPassword.value) &&
-                    form.className.includes("needs-validation")
-                ) {
+                
+                if ( (!inputUsername.value || !( inputEmail.value && validatePattern(emailPattern, inputEmail.value) ) || !inputPassword.value) && form.className.includes("needs-validation")) {
                     form.classList.add("was-validated");
                 } else {
                     count += 1;
@@ -252,12 +262,7 @@
             });
 
             saveButton.addEventListener("click", function() {
-                if (
-                    (!inputFirstname.value ||
-                        !inputLastname.value ||
-                        !inputContactno.value) &&
-                    form2.className.includes("needs-validation")
-                ) {
+                if ((!inputFirstname.value || !inputLastname.value || !inputContactno.value) && form2.className.includes("needs-validation") ) {
                     form2.classList.add("was-validated");
                 } else {
                     var ajaxdata = {
@@ -286,7 +291,7 @@
 
                         beforeSend: function() {},
                         success: function(msg) {
-                            console.log(msg);
+                            // console.log(msg);
                             if (msg.msg == 1) {
                                 count += 1;
                                 var tab = new window.bootstrap.Tab(
@@ -383,5 +388,4 @@
             });
         }
     };
-docReady(wizardInit);
 </script>

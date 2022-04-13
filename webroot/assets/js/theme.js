@@ -5738,7 +5738,6 @@ var typedTextInit = function typedTextInit() {
     }
 };
 
-
 var _window3 = window,
     dayjs = _window3.dayjs;
 var currentDay = dayjs && dayjs().format("DD");
@@ -13597,7 +13596,6 @@ docReady(fullCalendarInit);
 docReady(appCalendarInit);
 docReady(managementCalendarInit);
 docReady(lottieInit);
-docReady(wizardInit);
 docReady(searchInit);
 docReady(cookieNoticeInit);
 docReady(themeControl);

@@ -26,10 +26,9 @@ class UsersController extends AppController
         parent::beforeFilter($event);
         // Configure the login action to not require authentication, preventing
         // the infinite redirect loop issue 
-        $this->Authentication->addUnauthenticatedActions(['login', 'register', 'token', 'activatecard']);
+        $this->Authentication->addUnauthenticatedActions(['login', 'register', 'token', 'activatecard', 'activateandregister']);
     }
-
-    public function register()
+    public function activateandregister()
     {
         $this->Authorization->skipAuthorization();
 
@@ -45,16 +44,73 @@ class UsersController extends AppController
             // $user->birth_date = date('Y-m-d', strtotime($this->request->getData('birth_date')));
             $user->token = $this->Common->generateToken(50);
             if ($user = $this->Users->save($user)) {
- 
+
                 try {
-                    $mail = $this->Email->send_verification_email($user); 
-                    $response = $this->response->withType('application/json')
-                        ->withStringBody(json_encode(['data' => $user, 'msg' => $msg]));
-                    return $response;
+                    $mail = $this->Email->send_verification_email($user);
+                    $msg = 1;
                 } catch (Exception $th) {
                     $msg = 3;
                 }
-                exit; 
+                exit;
+                // $this->Flash->error(__('Could not create account. Please try again'));
+            } else {
+                $msg = 2;
+                $this->Flash->error(__('Could not create account. Please try again'));
+            }
+
+            $response = $this->response->withType('application/json')
+                ->withStringBody(json_encode(['data' => $user, 'msg' => $msg]));
+            return $response;
+        }
+        $this->set(compact('user'));
+    }
+
+    public function register()
+    {
+        $this->Authorization->skipAuthorization();
+
+        // if ($user = $this->Authentication->getIdentity()) {
+        //     return $this->redirect($this->referer());
+        // } 
+
+        $user = $this->Users->newEmptyEntity();
+        if ($this->request->is('ajax')) {
+            $this->layout = 'ajax';
+            $user = $this->Users->patchEntity($user, $this->request->getData());
+            // $user->birth_date = date('Y-m-d', strtotime($this->request->getData('birth_date')));
+            $user->token = $this->Common->generateToken(50);
+            if ($user = $this->Users->save($user)) {
+
+                try {
+                    $mail = $this->Email->send_verification_email($user);
+                    if (!$mail->send()) {
+
+                        echo json_encode(array(
+                            "status" => "error",
+                            "text" => "Mailer Error: " . $mail->ErrorInfo,
+                        ));
+                    } else {
+                        // return json_encode (['data' => $user, 'msg' => 1]);
+                        $response = $this->response->withType('application/json')
+                            ->withStringBody(json_encode(['data' => $user, 'msg' => 1]));
+                        return $response;
+                    }
+                    // $mail->send();
+                    // $msg = 1;
+                    // if (!$mail->send()) {
+                    //     return ['error' => true, 'message' => 'Mailer error: ' . $mail->ErrorInfo];
+                    // } else{
+                    //     $response = $this->response->withType('application/json')
+                    //                 ->withStringBody(json_encode(['data' => $user, 'msg' => 1]));
+                    //             return $response;
+                    //      $msg = 1;
+                    // }
+
+
+                } catch (Exception $th) {
+                    $msg = 3;
+                }
+                exit;
                 // $this->Flash->error(__('Could not create account. Please try again'));
             } else {
                 $msg = 2;
@@ -75,14 +131,14 @@ class UsersController extends AppController
             $token = $loggedinuser->token;
         }
 
-        $user = $this->Users->findByToken($token)->first(); 
+        $user = $this->Users->findByToken($token)->first();
         $this->request->allowMethod(['get', 'post']);
         if ($this->request->is(['patch', 'post', 'put'])) {
 
             $this->bindusertocard($this->request, $user);
             // $card = $this->Cards->find('all', ['conditions' => ['serial_code' => $this->request->getData('serial_code')]])->first();
             // // dd($card);
-            
+
             // if (!$card) {
             //     $this->Flash->error(__('Card with entered serial code is not found. Please try again.'));
             // } else {
@@ -106,10 +162,11 @@ class UsersController extends AppController
         // dd($userbytoken);
         $this->set(compact('user'));
     }
-    public function bindusertocard($request, $user){
+    public function bindusertocard($request, $user)
+    {
         $card = $this->Cards->find('all', ['conditions' => ['serial_code' => $request->getData('serial_code')]])->first();
         // dd($card);
-        
+
         if (!$card) {
             $this->Flash->error(__('Card with entered serial code is not found. Please try again.'));
         } else {
@@ -471,7 +528,6 @@ class UsersController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
 
             $this->bindusertocard($this->request, $userbytoken);
-
         }
 
         $this->set(compact('user', 'socials', 'meetings', 'music_videos'));

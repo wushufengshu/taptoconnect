@@ -45,7 +45,7 @@ class EmailComponent extends Component
 
         //Recipients
         //put into .env file 
-        $mail->setFrom(getEnv('EMAIL_USERNAME'), 'Mailer');
+        $mail->setFrom(getEnv('EMAIL_USERNAME'), 'UB Tap');
         $mail->addAddress($user->email, $user->firstname . ' ' . $user->lastname);     //Add a recipient 
         $mail->addReplyTo('info@ubitap.com', 'Information');
 
@@ -64,13 +64,17 @@ class EmailComponent extends Component
         
         UB Tap team';
  
-
-        if (!$mail->send()) {
-            return ['error' => true, 'message' => 'Mailer error: ' . $mail->ErrorInfo];
-        } 
-            // $response = $this->response->withType('application/json')
-            //             ->withStringBody(json_encode(['data' => $user, 'msg' => 1]));
-            //         return $response;
-            return ['error' => false, 'message' => 1]; 
+        return $mail;
+        // if (!$mail->send()) {
+        //     return ['error' => true, 'message' => 'Mailer error: ' . $mail->ErrorInfo];
+        // } else{
+        //     // $response = $this->response->withType('application/json')
+        //     //             ->withStringBody(json_encode(['data' => $user, 'msg' => 1]));
+        //     //         return $response;
+        //     return ['error' => false, 'message' => 1]; 
+        // }
+        // if($mail->send()){
+        //     return $msg = 1;
+        // }
     }
 }
