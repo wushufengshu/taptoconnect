@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Log\Log;
+use PHPMailer\PHPMailer\Exception;
+
 /**
  * Users Controller
  *
@@ -30,6 +33,10 @@ class UsersController extends AppController
     {
         $this->Authorization->skipAuthorization();
 
+        if ($user = $this->Authentication->getIdentity()) {
+            return $this->redirect($this->referer());
+        }
+
 
         $user = $this->Users->newEmptyEntity();
         if ($this->request->is('ajax')) {
@@ -38,8 +45,16 @@ class UsersController extends AppController
             // $user->birth_date = date('Y-m-d', strtotime($this->request->getData('birth_date')));
             $user->token = $this->Common->generateToken(50);
             if ($user = $this->Users->save($user)) {
-                $msg = 1;
-                $mail = $this->Email->send_verification_email($user);
+ 
+                try {
+                    $mail = $this->Email->send_verification_email($user); 
+                    $response = $this->response->withType('application/json')
+                        ->withStringBody(json_encode(['data' => $user, 'msg' => $msg]));
+                    return $response;
+                } catch (Exception $th) {
+                    $msg = 3;
+                }
+                exit; 
                 // $this->Flash->error(__('Could not create account. Please try again'));
             } else {
                 $msg = 2;
@@ -56,37 +71,65 @@ class UsersController extends AppController
     public function activatecard($token = null)
     {
         $this->Authorization->skipAuthorization();
-        $user = $this->Users->findByToken($token)->first();
+        if (!$token && $loggedinuser = $this->Authentication->getIdentity()->getOriginalData()) {
+            $token = $loggedinuser->token;
+        }
 
-
+        $user = $this->Users->findByToken($token)->first(); 
         $this->request->allowMethod(['get', 'post']);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $card = $this->Cards->find('all', ['conditions' => ['serial_code' => $this->request->getData('serial_code')]])->first();
-            // dd($card);
-            $user = $this->Users->patchEntity($user, ['card_id' => $card->id, 'serial_code' => $this->request->getData('serial_code'), 'verification_code' => $this->request->getData('verification_code')]);
-            if (!$card) {
-                $this->Flash->error(__('Card with entered serial code is not found. Please try again.'));
-            } else {
-                if ($card->verification_code != $this->request->getData('verification_code')) {
-                    $this->Flash->error(__('Could not activate card. Please try again.'));
-                } else {
-                    $user->card_id = $card->id;
-                    $user->serial_code = $this->request->getData('serial_code');
-                    $user->verification_code = $this->request->getData('verification_code');
-                    $user->activated = 1;
-                    if ($this->Users->save($user)) {
 
-                        $this->Flash->success(__('The card is now activated and linked to user.'));
-                        return $this->redirect(['controller' => 'Users', 'action' => 'login']);
-                    }
-                    $this->Flash->error(__('The user could not be saved. Please, try again.'));
-                }
-            }
+            $this->bindusertocard($this->request, $user);
+            // $card = $this->Cards->find('all', ['conditions' => ['serial_code' => $this->request->getData('serial_code')]])->first();
+            // // dd($card);
+            
+            // if (!$card) {
+            //     $this->Flash->error(__('Card with entered serial code is not found. Please try again.'));
+            // } else {
+            //     $user = $this->Users->patchEntity($user, ['card_id' => $card->id, 'serial_code' => $this->request->getData('serial_code'), 'verification_code' => $this->request->getData('verification_code')]);
+            //     if ($card->verification_code != $this->request->getData('verification_code')) {
+            //         $this->Flash->error(__('Could not activate card. Please try again.'));
+            //     } else {
+            //         $user->card_id = $card->id;
+            //         $user->serial_code = $this->request->getData('serial_code');
+            //         $user->verification_code = $this->request->getData('verification_code');
+            //         $user->activated = 1;
+            //         if ($this->Users->save($user)) {
+
+            //             $this->Flash->success(__('The card is now activated and linked to user.'));
+            //             return $this->redirect(['controller' => 'Users', 'action' => 'login']);
+            //         }
+            //         $this->Flash->error(__('The user could not be saved. Please, try again.'));
+            //     }
+            // }
         }
         // dd($userbytoken);
         $this->set(compact('user'));
     }
+    public function bindusertocard($request, $user){
+        $card = $this->Cards->find('all', ['conditions' => ['serial_code' => $request->getData('serial_code')]])->first();
+        // dd($card);
+        
+        if (!$card) {
+            $this->Flash->error(__('Card with entered serial code is not found. Please try again.'));
+        } else {
+            $user = $this->Users->patchEntity($user, ['card_id' => $card->id, 'serial_code' => $request->getData('serial_code'), 'verification_code' => $request->getData('verification_code')]);
+            if ($card->verification_code != $request->getData('verification_code')) {
+                $this->Flash->error(__('Could not activate card. Please try again.'));
+            } else {
+                $user->card_id = $card->id;
+                $user->serial_code = $request->getData('serial_code');
+                $user->verification_code = $request->getData('verification_code');
+                $user->activated = 1;
+                if ($this->Users->save($user)) {
 
+                    $this->Flash->success(__('The card is now activated and linked to user.'));
+                    return $this->redirect(['controller' => 'Users', 'action' => 'login']);
+                }
+                $this->Flash->error(__('The user could not be saved. Please, try again.'));
+            }
+        }
+    }
 
     public function login()
     {
@@ -330,10 +373,10 @@ class UsersController extends AppController
     {
 
         $user = $this->Users->newEmptyEntity();
-        $this->Authorization->authorize($user, 'view');
         $user = $this->Users->get($id, [
             'contain' => ['Meetings', 'MusicVideo', 'SocialMedia'],
         ]);
+        $this->Authorization->authorize($user, 'view');
 
         //get data from function getUserData() returns $array
         $data = $this->getUserData($id);
@@ -418,6 +461,15 @@ class UsersController extends AppController
         $music_videos = $data[1];
         $meetings = $data[2];
 
+
+
+        //binding method 
+        $this->request->allowMethod(['get', 'post']);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+
+            $this->bindusertocard($this->request, $userbytoken);
+
+        }
 
         $this->set(compact('user', 'socials', 'meetings', 'music_videos'));
         $this->render('/Users/view');

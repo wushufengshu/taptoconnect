@@ -61,7 +61,7 @@ class UserPolicy
      */
     public function canView(IdentityInterface $user, User $resource)
     {
-        return $this->isUser($user, $resource);
+        return ($this->isUser($user, $resource) || $this->isAdmin($user, $resource));
     }
 
     protected function isUser(IdentityInterface $user, User $resource)

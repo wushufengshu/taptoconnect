@@ -3,14 +3,12 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-8">
-                    <h4 class="mb-1">Please activate your card now
-                    </h4>
-                    <h5 class="fs-0 fw-normal"><?= h($user->email . "-" . $user->contactno) ?></h5>
-                    <p class="text-500"><?= $this->Text->autoParagraph(h($user->address)); ?></p>
-                    <a href="<?php echo "http://" . $user->website; ?>" target="_blank"><?= $this->Text->autoParagraph(h($user->website)); ?></a>
-                    <!--<button class="btn btn-falcon-default btn-sm px-3 ms-2" type="button">Message</button>-->
+                    <h4 class="mb-1">Please activate your card now</h4>
 
-                    <div class="border-dashed-bottom my-4 d-lg-none"></div>
+                    <div class="col-lg-10">
+
+                        <?= $this->element('forms/activatecard') ?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -54,7 +52,7 @@
 
         <div class="card-body">
             <div class="row">
-                    <iframe style="border: 0px #FFFFFF none;" src="https://www.partyviberadio.com/player-https/embed-auto-cassette/pop.html" name="embed" width="450px" height="225x" frameborder="1" marginwidth="0px" marginheight="0px" scrolling="no"></iframe>
+                <iframe style="border: 0px #FFFFFF none;" src="https://www.partyviberadio.com/player-https/embed-auto-cassette/pop.html" name="embed" width="450px" height="225x" frameborder="1" marginwidth="0px" marginheight="0px" scrolling="no"></iframe>
             </div>
         </div>
     </div>
@@ -166,30 +164,29 @@
                                 <div class="d-flex position-relative align-items-center mb-2">
                                     <div class="flex-1">
                                         <h6 class="fs-0 mb-0">
-                                            <?php 
-                                            if(str_contains($music_video_link, 'youtube')) { 
-                                            //echo 'true';
-                                            $url = $music_video_link; 
-                                            $parse = parse_url($url, PHP_URL_QUERY); 
-                                            parse_str($parse, $output); 
-                                            $youtube_id = $output['v']; //get youtube id
-                                            $youtubelink = "https://www.youtube.com/embed/".$youtube_id;
-                                            //echo $youtube_id;
-                                            //echo $youtubelink;
-                                            ?>
-                                            <iframe width="auto" height="auto" src="<?php echo $youtubelink; ?>" frameborder="0" allowfullscreen></iframe>
-                                            <br>
-                                            <i class="fa fa-link"></i>&nbsp;
-                                            <a class="stretched-link" style="text-decoration: none;" href="<?php echo "http://" . $music_video_link; ?>" target="_blank"><?= h($music_video_link) ?></a>
                                             <?php
-                                            }
-                                            else{
+                                            if (str_contains($music_video_link, 'youtube')) {
+                                                //echo 'true';
+                                                $url = $music_video_link;
+                                                $parse = parse_url($url, PHP_URL_QUERY);
+                                                parse_str($parse, $output);
+                                                $youtube_id = $output['v']; //get youtube id
+                                                $youtubelink = "https://www.youtube.com/embed/" . $youtube_id;
+                                                //echo $youtube_id;
+                                                //echo $youtubelink;
                                             ?>
-                                            <iframe src="<?php echo "http://". $music_video_link; ?>" style="width: auto; height: auto;" scrolling="no">Wikipedia Encyclopedia</iframe>
-                                            <br>
-                                            <i class="fa fa-link"></i>&nbsp;
-                                            <a class="stretched-link" style="text-decoration: none;" href="<?php echo "http://" . $music_video_link; ?>" target="_blank"><?= h($music_video_link) ?></a>
-                                            <?php 
+                                                <iframe width="auto" height="auto" src="<?php echo $youtubelink; ?>" frameborder="0" allowfullscreen></iframe>
+                                                <br>
+                                                <i class="fa fa-link"></i>&nbsp;
+                                                <a class="stretched-link" style="text-decoration: none;" href="<?php echo "http://" . $music_video_link; ?>" target="_blank"><?= h($music_video_link) ?></a>
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <iframe src="<?php echo "http://" . $music_video_link; ?>" style="width: auto; height: auto;" scrolling="no">Wikipedia Encyclopedia</iframe>
+                                                <br>
+                                                <i class="fa fa-link"></i>&nbsp;
+                                                <a class="stretched-link" style="text-decoration: none;" href="<?php echo "http://" . $music_video_link; ?>" target="_blank"><?= h($music_video_link) ?></a>
+                                            <?php
                                             }
                                             ?>
                                         </h6>
