@@ -88,8 +88,65 @@ class CardsController extends AppController
             }
                 
         }
+            $card = $this->Cards->newEmptyEntity();
+            if ($this->request->is('post') && isset($_POST['generate'])) {
+                
+                $card = $this->Cards->patchEntity($card, $this->request->getData());
+                $quantity = $_POST['quantity'];
+                //dd($quantity);
+                for ($i=0; $i < $quantity; $i++) { 
 
-        $this->set(compact('cards'));
+                    $scode = $this->Cards->generate_scode(); //call function from CardsTable Model to generate unique code for serial code
+                    $vcode = $this->Cards->generate_vcode(); //call function from CardsTable Model to generate unique code for verification code
+                    $link = "http://taptoconnect.local:8080/";
+                    $card_link = trim($link.$scode);
+                    
+                    $created = date('Y-m-d H:i:s');
+
+                    $insertquery = $this->connection->execute("
+                        INSERT INTO cards(
+                       serial_code,verification_code,card_link,created) 
+                        SELECT * FROM 
+                        (SELECT '$scode') AS tmp1,
+                        (SELECT '$vcode') AS tmp2,
+                        (SELECT '$card_link') AS tmp3,
+                        (SELECT '$created') AS tmp4 
+                        WHERE NOT EXISTS 
+                        (SELECT 
+                        serial_code,verification_code,card_link,created
+                        FROM 
+                        cards 
+                        WHERE 
+                        serial_code = '$scode' 
+                        AND
+                        verification_code = '$vcode'
+                        )
+                        ");
+                }
+                        if($insertquery) {
+                        $this->Flash->success(__('Cards data has been saved.'));
+                        return $this->redirect(['controller' => 'Cards','action' => 'index']);//redirect to cards main
+                        }
+                        else{
+                        $this->Flash->error(__('Cards data could not be saved. Please, try again.'));
+                        }
+                
+            }
+        
+
+        $this->set(compact('cards','card'));
+    }
+
+    public function exportcsv(){
+
+    $this->response = $this->response->withDownload('cards.csv');
+    $cards = $this->Cards->find();
+    $_serialize = 'cards';
+    $_header = ['Serial Code', 'Verification Code', 'Card Link', 'Created'];
+    $_extract = ['serial_code', 'verification_code', 'card_link', 'created'];
+
+    $this->viewBuilder()->setClassName('CsvView.Csv');
+    $this->set(compact('cards', '_serialize', '_header', '_extract'));
     }
 
     /**

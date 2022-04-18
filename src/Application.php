@@ -84,6 +84,7 @@ implements AuthenticationServiceProviderInterface, AuthorizationServiceProviderI
 
         // Load more plugins here 
         $this->addPlugin('Authorization');
+        $this->addPlugin('CsvView');
     }
 
     /**

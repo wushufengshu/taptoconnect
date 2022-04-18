@@ -25,6 +25,26 @@
 </div>
  <?= $this->Form->end() ?>
 
+<?= $this->Form->create($card,['method' => 'post','enctype' => 'multipart/form-data']) ?>
+<div class="modal fade" id="generateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Generate Card's Serial/Verification Code</h5>
+      </div>
+      <div class="modal-body">
+        <label>Enter Card Quantity:</label>
+        <input type="number" name="quantity" class="form-control" placeholder="Enter Card Quantity" required="">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-warning" type="button" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-success" name="generate">Generate</button>
+      </div>
+    </div>
+  </div>
+</div>
+ <?= $this->Form->end() ?>
+
         <?= $this->Flash->render() ?>
         <div class="card mb-3">
             <div class="card-header">
@@ -36,15 +56,40 @@
                 <div class="col-auto ms-auto">
                   <div class="nav nav-pills nav-pills-falcon flex-grow-1 mt-2" role="tablist">
                     <?= $this->Html->link(
-                      "<font color='white' size='3px'><i class='fa fa-file-excel'></i> Upload CSV Data (Cards)</font>", 
-                      ['action' => 'index'], 
-                      ['class' => 'float-right btn btn-success float-right mr-2 ',
-                      'data-bs-toggle' => 'modal','data-bs-target' => '#uploadModal', 'escape' => false ]) 
+                      "<font color='white' size='3px'><i class='fas fa-cloud-download-alt'></i> </font>",
+                      ['action' => 'exportcsv'], 
+                      ['class' => 'float-right btn btn-success float-left mr-2 ',
+                      'title' => 'Download CSV',
+                      'escape' => false ]) 
                     ?>
 
-                    <?= $this->Html->link(__('New Card'), ['action' => 'add'], ['class' => 'button float-right btn btn-sm active']) ?>
+                    <?= $this->Html->link(
+                      "<font color='white' size='3px'><i class='fas fa-cloud-upload-alt'></i> </font>", 
+                      ['action' => 'index'], 
+                      ['class' => 'float-right btn btn-primary float-left mr-2 ',
+                      'title' => 'Generate Card Serial/Verification Code',
+                      'data-bs-toggle' => 'modal','data-bs-target' => '#generateModal', 'escape' => false ]) 
+                    ?>
+
+                    <?= $this->Html->link(
+                      "<font color='white' size='3px'><i class='fa fa-file-excel'></i> </font>", 
+                      ['action' => 'index'], 
+                      ['class' => 'float-right btn btn-success float-right mr-2 ',
+                      'title' => 'Upload CSV Data (Cards)',
+                      'data-bs-toggle' => 'modal','data-bs-target' => '#uploadModal', 'escape' => false ]) 
+                    ?>
+                    
+                    <?= $this->Html->link(
+                      "<font color='white' size='3px'><i class='fas fa-plus'></i> </font>", 
+                      ['action' => 'add'], 
+                      ['class' => 'float-right btn btn-primary float-right mr-2 ',
+                      'title' => 'New Card',
+                      'escape' => false ]) 
+                    ?>
+
                   </div>
                 </div>
+
               </div>
             </div>
             <div class="card-body pt-0">
