@@ -36,7 +36,9 @@
                 <div class="">
                     <ul class="pager wizard list-inline mb-0">
                         <li class="previous">
-                            <button class="btn btn-link ps-0" type="button"><span class="fas fa-chevron-left me-2" data-fa-transform="shrink-3"></span>Back to login</button>
+                            <!-- <button class="btn btn-link ps-0" type="button"><span class="fas fa-chevron-left me-2" data-fa-transform="shrink-3"></span>Back to login</button> -->
+
+                            <a href="/users/login" class="btn btn-link ps-0"><span class="fas fa-chevron-left me-2" data-fa-transform="shrink-3"></span>Back to login</a>
                         </li>
                         <li class="next">
                             <!-- <button type="button" class="btn btn-primary px-5 px-sm-6 " id="checkcard">Check</button> -->
