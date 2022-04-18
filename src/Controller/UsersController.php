@@ -32,40 +32,25 @@ class UsersController extends AppController
     {
         $this->Authorization->skipAuthorization();
 
-        if ($user = $this->Authentication->getIdentity()) {
-            return $this->redirect($this->referer());
-        }
+        $this->request->allowMethod(['get', 'post']);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $card = $this->Cards->find('all', ['conditions' => ['serial_code' => $this->request->getData('serial_code')]])->first();
+            // dd($card);
 
-
-        $user = $this->Users->newEmptyEntity();
-        if ($this->request->is('ajax')) {
-            $this->layout = 'ajax';
-            $user = $this->Users->patchEntity($user, $this->request->getData());
-            // $user->birth_date = date('Y-m-d', strtotime($this->request->getData('birth_date')));
-            $user->token = $this->Common->generateToken(50);
-            if ($user = $this->Users->save($user)) {
-
-                try {
-                    $mail = $this->Email->send_verification_email($user);
-                    $msg = 1;
-                } catch (Exception $th) {
-                    $msg = 3;
-                }
-                exit;
-                // $this->Flash->error(__('Could not create account. Please try again'));
+            if (!$card) {
+                $this->Flash->error(__('Card with entered serial code is not found. Please try again.'));
             } else {
-                $msg = 2;
-                $this->Flash->error(__('Could not create account. Please try again'));
+                if ($card->verification_code != $this->request->getData('verification_code')) {
+                    $this->Flash->error(__('Could not verify card. Please try again.'));
+                } else {
+                    $this->Flash->success(__('The card is now in use, please enter user information.'));
+                    return $this->redirect(['controller' => 'Users', 'action' => 'register', $card->serial_code]);
+                }
             }
-
-            $response = $this->response->withType('application/json')
-                ->withStringBody(json_encode(['data' => $user, 'msg' => $msg]));
-            return $response;
         }
-        $this->set(compact('user'));
     }
 
-    public function register()
+    public function register($cardid = null)
     {
         $this->Authorization->skipAuthorization();
 
@@ -77,40 +62,34 @@ class UsersController extends AppController
         if ($this->request->is('ajax')) {
             $this->layout = 'ajax';
             $user = $this->Users->patchEntity($user, $this->request->getData());
+
+            if ($this->request->getData('serialcode')) {
+                $card = $this->Cards->find('all', ['conditions' => ['serial_code' => $this->request->getData('serialcode')]])->first();
+                $user->card_id = $card->id;
+                $user->serial_code = $card->serial_code;
+                $user->verification_code = $card->verification_code;
+            }
             // $user->birth_date = date('Y-m-d', strtotime($this->request->getData('birth_date')));
             $user->token = $this->Common->generateToken(50);
             if ($user = $this->Users->save($user)) {
-
-                try {
-                    $mail = $this->Email->send_verification_email($user);
-                    if (!$mail->send()) {
-
-                        echo json_encode(array(
-                            "status" => "error",
-                            "text" => "Mailer Error: " . $mail->ErrorInfo,
-                        ));
-                    } else {
-                        // return json_encode (['data' => $user, 'msg' => 1]);
-                        $response = $this->response->withType('application/json')
-                            ->withStringBody(json_encode(['data' => $user, 'msg' => 1]));
-                        return $response;
-                    }
-                    // $mail->send();
-                    // $msg = 1;
-                    // if (!$mail->send()) {
-                    //     return ['error' => true, 'message' => 'Mailer error: ' . $mail->ErrorInfo];
-                    // } else{
-                    //     $response = $this->response->withType('application/json')
-                    //                 ->withStringBody(json_encode(['data' => $user, 'msg' => 1]));
-                    //             return $response;
-                    //      $msg = 1;
-                    // }
-
-
-                } catch (Exception $th) {
-                    $msg = 3;
-                }
-                exit;
+                $msg = 1;
+                // try {
+                //     $mail = $this->Email->send_verification_email($user);
+                //     if (!$mail->send()) { 
+                //         echo json_encode(array(
+                //             "status" => "error",
+                //             "text" => "Mailer Error: " . $mail->ErrorInfo,
+                //         ));
+                //     } else {
+                //         // return json_encode (['data' => $user, 'msg' => 1]);
+                //         $response = $this->response->withType('application/json')
+                //             ->withStringBody(json_encode(['data' => $user, 'msg' => 1]));
+                //         return $response;
+                //     } 
+                // } catch (Exception $th) {
+                //     $msg = 3;
+                // }
+                // exit;
                 // $this->Flash->error(__('Could not create account. Please try again'));
             } else {
                 $msg = 2;

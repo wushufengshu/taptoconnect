@@ -4,159 +4,49 @@
             <span class="font-sans-serif fw-bolder fs-4 d-inline-block">Ubivelox</span></a>
         <div class="card theme-wizard mb-5" id="wizard">
             <div class="card-header bg-light pt-3 pb-2">
-                <ul class="nav justify-content-between nav-wizard">
-                    <li class="nav-item"><a class="nav-link active fw-semi-bold" href="#bootstrap-wizard-tab1" data-bs-toggle="tab" data-wizard-step="data-wizard-step"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-lock"></span></span></span><span class="d-none d-md-block mt-1 fs--1">Card</span></a></li>
-                    <li class="nav-item"><a class="nav-link fw-semi-bold" href="#bootstrap-wizard-tab2" data-bs-toggle="tab" data-wizard-step="data-wizard-step"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-lock"></span></span></span><span class="d-none d-md-block mt-1 fs--1">Account</span></a></li>
-                    <li class="nav-item"><a class="nav-link fw-semi-bold" href="#bootstrap-wizard-tab3" data-bs-toggle="tab" data-wizard-step="data-wizard-step"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-user"></span></span></span><span class="d-none d-md-block mt-1 fs--1">Personal</span></a></li>
-                    <li class="nav-item" class="disabled"><span class="nav-link fw-semi-bold" href="#bootstrap-wizard-tab4" data-bs-toggle="tab" data-wizard-step="data-wizard-step"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-thumbs-up"></span></span></span><span class="d-none d-md-block mt-1 fs--1">Done</span></span></li>
-                </ul>
+                <h4>Activate Card</h4>
             </div>
 
             <?= $this->Flash->render() ?>
+            <?= $this->Form->create() ?>
             <div class="card-body py-4" id="wizard-controller">
-                <div class="tab-content">
-                    <div class="tab-pane active px-sm-3 px-md-5" role="tabpanel" aria-labelledby="bootstrap-wizard-tab1" id="bootstrap-wizard-tab1">
-                        
-                    <form class="needs-validation" novalidate="novalidate">
-                        <div class="mb-3">
-                            <?= $this->Form->control('serial_code', [
-                                'class' => 'form-control', 'required' => 'required', 'placeholder' => 'Serial code', "id" => "bootstrap-wizard-wizard-serial_code", "data-wizard-validate-serial_code" => "true",
-                                'label' => ['text' => 'Serial code *', 'for' => 'bootstrap-wizard-wizard-serial_code', 'form-label']
-                            ]) ?> 
-                            <div class="invalid-feedback">Please enter serial code</div>
-                        </div>
-                        <div class="mb-3">
 
-                            <?= $this->Form->control('verification_code', [
-                                'class' => 'form-control', 'required' => 'required', 'placeholder' => 'Verification code', "id" => "bootstrap-wizard-wizard-verification_code", "data-wizard-validate-verification_code" => "true",
-                                'label' => ['text' => 'Verification code *', 'for' => 'bootstrap-wizard-wizard-verification_code', 'form-label']
-                            ]) ?> 
-                        </div>
-                        <div class="mb-3">
+                <div class="mb-3">
+                    <?= $this->Form->control('serial_code', [
+                        'required' => true, 'class' => 'form-control', 'id' => 'split-login-serial_code', 'label' => [
+                            'for' => 'split-login-serial_code',
+                            'class' => 'form-label'
+                        ]
+                    ]) ?>
+                </div>
+                <div class="mb-3">
 
-                        </div> 
-                            </form>
-                    </div>
-                    <div class="tab-pane px-sm-3 px-md-5" role="tabpanel" aria-labelledby="bootstrap-wizard-tab2" id="bootstrap-wizard-tab2">
-                        <form class="needs-validation" novalidate="novalidate">
-                            <input type="hidden" id="csrfToken" name='_csrfToken' value="<?= $this->request->getAttribute('csrfToken') ?>">
-                            <div class="mb-3">
-                                <?php echo $this->Form->control('username', [
-                                    'class' => 'form-control', 'required' => 'required', 'placeholder' => 'Username', "id" => "bootstrap-wizard-wizard-username", "data-wizard-validate-username" => "true",
-                                    'label' => ['text' => 'Username *', 'for' => 'bootstrap-wizard-wizard-username', 'form-label']
-                                ]); ?>
-                                <div class="invalid-feedback">Please enter username</div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="bootstrap-wizard-wizard-email">Email*</label>
-                                <input class="form-control" type="email" name="email" placeholder="Email address" pattern="^([a-zA-Z0-9_.-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$" required="required" id="bootstrap-wizard-wizard-email" data-wizard-validate-email="true" />
-                                <div class="invalid-feedback">You must add email</div>
+                    <?= $this->Form->control('verification_code', [
+                        'required' => true, 'class' => 'form-control', 'id' => 'split-login-verification_code', 'label' => [
+                            'for' => 'split-login-verification_code',
+                            'class' => 'form-label'
+                        ]
+                    ]) ?>
+                </div>
+                <div class="mb-3">
 
-                                <?php /*$this->Form->control('email', [
-                                    'class' => 'form-control', 'placeholder' => "Email address",  'pattern' => "^([a-zA-Z0-9_.-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$", 'required' => true, 'id' => 'bootstrap-wizard-wizard-email',  'data-wizard-validate-email' => "true",
-                                    'label' => ['text' => 'Email address*', 'for' => 'bootstrap-wizard-wizard-email', 'class' => 'form-label']
-                                ]) */ ?>
-                            </div>
-                            <div class="row g-2">
-                                <div class="mb-3">
-                                    <label class="form-label" for="bootstrap-wizard-wizard-password">Password*</label>
-                                    <input class="form-control" type="password" name="password" placeholder="Password" required="required" id="bootstrap-wizard-wizard-password" data-wizard-validate-password="true" />
-                                    <div class="invalid-feedback">Please enter password</div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="tab-pane px-sm-3 px-md-5" role="tabpanel" aria-labelledby="bootstrap-wizard-tab3" id="bootstrap-wizard-tab3">
-                        <form class="needs-validation" novalidate2="novalidate">
-                            <div class="row mb-3">
-
-                                <div class="col-md-4">
-                                    <label class="form-label" for="bootstrap-wizard-wizard-firstname">First name <span style="color:#e63757">*</span> </label>
-                                    <input class="form-control" type="text" name="firstname" placeholder="First name" id="bootstrap-wizard-wizard-firstname" required="true" data-wizard-validate-firstname="true" />
-                                    <div class="invalid-feedback">Please enter first name</div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label class="form-label" for="bootstrap-wizard-wizard-middlename">Middle name</label>
-                                    <input class="form-control" type="text" name="middlename" placeholder="Middle name" id="bootstrap-wizard-wizard-middlename" data-wizard-validate-middlename="true" />
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label class="form-label" for="bootstrap-wizard-wizard-lastname">Last name <span style="color:#e63757">*</span> </label>
-                                    <input class="form-control" type="text" name="lastname" placeholder="Last name" id="bootstrap-wizard-wizard-lastname" required="true" data-wizard-validate-lastname="true" />
-                                    <div class="invalid-feedback">Please enter last name</div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="bootstrap-wizard-wizard-phone">Contact number <span style="color:#e63757">*</span></label>
-                                <input class="form-control" type="text" name="contactno" placeholder="Contact number" id="bootstrap-wizard-wizard-contactno" required="true" data-wizard-validate-contactno="true" />
-                                <div class="invalid-feedback">Please enter contact number</div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="bootstrap-wizard-wizard-datepicker">Date of Birth</label>
-                                <input class="form-control datetimepicker" name="birth_date" type="text" placeholder="Y-m-d" data-options='{"dateFormat":"Y-m-d","disableMobile":true}' id="bootstrap-wizard-wizard-datepicker" data-wizard-validate-datepicker="true" />
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="bootstrap-wizard-gender">Gender</label>
-                                        <select class="form-select" name="gender" id="bootstrap-wizard-gender">
-                                            <option value="">Select your gender ...</option>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="bootstrap-wizard-pronouns">Pronouns</label>
-                                        <select class="form-select" name="pronouns" id="bootstrap-wizard-pronouns">
-                                            <option value="">Select your pronouns ...</option>
-                                            <option value="he/him">He/Him</option>
-                                            <option value="she/her">She/Her</option>
-                                            <option value="they/them">they/them</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label" for="bootstrap-wizard-wizard-user_desc">Bio</label>
-                                <textarea class="form-control" name="user_desc" rows="4" id="bootstrap-wizard-wizard-user_desc" data-wizard-validate-user_desc="true"></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="bootstrap-wizard-wizard-address">Address</label>
-                                <textarea class="form-control" name="address" rows="4" id="bootstrap-wizard-wizard-address" data-wizard-validate-address="true"></textarea>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="tab-pane text-center px-sm-3 px-md-5" role="tabpanel" aria-labelledby="bootstrap-wizard-tab4" id="bootstrap-wizard-tab4">
-                        <div class="wizard-lottie-wrapper">
-                            <div class="lottie wizard-lottie mx-auto my-3" data-options='{"path":"../../assets/img/animated-icons/celebration.json"}'></div>
-                        </div>
-                        <h4 class="mb-1">Your account is all set!</h4>
-                        <p>Now you can access to your account</p><a class="btn btn-primary px-5 my-3" href="../../pages/authentication/wizard.html">Start Over</a>
-                        Please check your email!
-                        An email has been sent to xyz@abc.com. Please click on the included link to reset your password.
-                    </div>
                 </div>
             </div>
             <div class="card-footer bg-light">
-                <div class="px-sm-3 px-md-5">
+                <div class="">
                     <ul class="pager wizard list-inline mb-0">
                         <li class="previous">
-                            <button class="btn btn-link ps-0" type="button"><span class="fas fa-chevron-left me-2" data-fa-transform="shrink-3"></span>Prev</button>
+                            <button class="btn btn-link ps-0" type="button"><span class="fas fa-chevron-left me-2" data-fa-transform="shrink-3"></span>Back to login</button>
                         </li>
-                        <li class="next">  
-                            <button type="button" class="btn btn-primary px-5 px-sm-6 " id="checkcard">Check</button>
+                        <li class="next">
+                            <!-- <button type="button" class="btn btn-primary px-5 px-sm-6 " id="checkcard">Check</button> -->
 
-                            <button class="btn btn-primary px-5 px-sm-6 d-none" type="submit">Next<span class="fas fa-chevron-right ms-2" data-fa-transform="shrink-3"> </span></button>
-
-                            <button type="button" class="btn btn-primary px-5 px-sm-6 d-none" id="register">Register</button>
+                            <?= $this->Form->submit(__('Activate Card'), ['class' => 'btn btn-primary px-5 px-sm-6']); ?>
                         </li>
                     </ul>
                 </div>
             </div>
+            <?= $this->Form->end() ?>
 
         </div>
     </div>
@@ -175,217 +65,3 @@
     </div>
 </div>
 <script src="/jquery/jquery.min.js"></script>
-<script>
-    /* -------------------------------------------------------------------------- */
-
-    /*                                 step wizard                                */
-
-    /* -------------------------------------------------------------------------- */
-
-    var wizardInit = function wizardInit() {
-        var wizards = document.querySelectorAll(".theme-wizard");
-        var tabPillEl = document.querySelectorAll(
-            '#pill-tab2 [data-bs-toggle="pill"]'
-        );
-        var tabProgressBar = document.querySelector(".theme-wizard .progress");
-        wizards.forEach(function(wizard) {
-            var tabToggleButtonEl = wizard.querySelectorAll("[data-wizard-step]"); 
-            
-            var inputSerial = wizard.querySelector("[data-wizard-validate-serial_code]");
-            var inputVerification = wizard.querySelector("[data-wizard-validate-verification_code]");
-            
-            var inputUsername = wizard.querySelector("[data-wizard-validate-username]");
-            var inputEmail = wizard.querySelector("[data-wizard-validate-email]");
-            var emailPattern = inputEmail.getAttribute("pattern");
-            var inputPassword = wizard.querySelector("[data-wizard-validate-password]");
-            // var inputConfirmPassword = wizard.querySelector('[data-wizard-validate-confirm-password]');
-
-            var inputFirstname = wizard.querySelector("[data-wizard-validate-firstname]");
-            var inputMiddlename = wizard.querySelector("[data-wizard-validate-middlename]");
-            var inputLastname = wizard.querySelector("[data-wizard-validate-lastname]");
-            var inputContactno = wizard.querySelector("[data-wizard-validate-contactno]");
-            var inputBirthdate = wizard.querySelector("[data-wizard-validate-datepicker]");
-            var inputGender = "";
-            var inputPronouns = "";
-            $("#bootstrap-wizard-gender").change(() => {
-                inputGender = $("#bootstrap-wizard-gender").val();
-                if (inputGender == "Select your pronouns ..." || inputGender == "" ) { inputGender = null; }
-            });
-            $("#bootstrap-wizard-pronouns").change(() => {
-                inputPronouns = $("#bootstrap-wizard-pronouns").val();
-                if (inputPronouns == "Select your pronouns ..." || inputPronouns == "" ) { inputPronouns = null; }
-            });
-            var inputBio = wizard.querySelector("[data-wizard-validate-user_desc]");
-            var inputAddress = wizard.querySelector("[data-wizard-validate-address]");
-
-            var form = wizard.querySelector("[novalidate]");
-            var form2 = wizard.querySelector("[novalidate2]");
-            var checkcardButton = wizard.querySelector("#checkcard");
-            var nextButton = wizard.querySelector(".next button");
-            var prevButton = wizard.querySelector(".previous button");
-            var saveButton = wizard.querySelector("#register");
-            var cardFooter = wizard.querySelector(".theme-wizard .card-footer");
-            var count = 0;
-
-            function validatePattern(pattern, value) {
-                var regexPattern = new RegExp(pattern);
-                return regexPattern.test(String(value).toLowerCase());
-            }
-
-            // nextButton.classList.add("d-none"); 
-            prevButton.classList.add("d-none"); // on button click tab change
-            //
-            
-            checkcardButton.addEventListener("click", function() {
-                // if ( (!inputUsername.value || !( inputEmail.value && validatePattern(emailPattern, inputEmail.value) ) || !inputPassword.value) && form.className.includes("needs-validation")) {
-                //     form.classList.add("was-validated");
-                // } else {
-                    count += 1;
-                    var tab = new window.bootstrap.Tab(tabToggleButtonEl[count]);
-                    tab.show(); 
-                    // nextButton.classList.remove("d-none");
-                // }
-                alert(1)
-            });
-
-            nextButton.addEventListener("click", function() {
-                
-                if ( (!inputUsername.value || !( inputEmail.value && validatePattern(emailPattern, inputEmail.value) ) || !inputPassword.value) && form.className.includes("needs-validation")) {
-                    form.classList.add("was-validated");
-                } else {
-                    count += 1;
-                    var tab = new window.bootstrap.Tab(tabToggleButtonEl[count]);
-                    tab.show();
-                    nextButton.classList.add("d-none");
-                    saveButton.classList.remove("d-none");
-                }
-            });
-
-            saveButton.addEventListener("click", function() {
-                if ((!inputFirstname.value || !inputLastname.value || !inputContactno.value) && form2.className.includes("needs-validation") ) {
-                    form2.classList.add("was-validated");
-                } else {
-                    var ajaxdata = {
-                        username: inputUsername.value,
-                        email: inputEmail.value,
-                        password: inputPassword.value,
-                        firstname: inputFirstname.value,
-                        middlename: inputMiddlename.value,
-                        lastname: inputLastname.value,
-                        contactno: inputContactno.value,
-                        birth_date: inputBirthdate.value,
-                        gender: inputGender,
-                        pronouns: inputPronouns,
-                        user_desc: inputBio.value,
-                        address: inputAddress.value,
-                    };
-                    console.log(ajaxdata);
-                    $.ajax({
-                        method: "POST",
-                        url: "<?= $this->Url->build(['controller' => 'Users', 'action' => 'register']) ?>",
-                        type: "JSON",
-                        data: ajaxdata,
-                        headers: {
-                            "X-CSRF-Token": $("[name='_csrfToken']").val(),
-                        },
-
-                        beforeSend: function() {},
-                        success: function(msg) {
-                            // console.log(msg);
-                            if (msg.msg == 1) {
-                                count += 1;
-                                var tab = new window.bootstrap.Tab(
-                                    tabToggleButtonEl[count]
-                                );
-                                tab.show();
-                            }
-                        },
-                        cache: false,
-                        error: function(xhr, ajaxOptions, thrownError) {
-                            alert(thrownError);
-                        },
-                    });
-                    console.log(inputEmail);
-                }
-            });
-
-            prevButton.addEventListener("click", function() {
-                count -= 1;
-                var tab = new window.bootstrap.Tab(tabToggleButtonEl[count]);
-                tab.show();
-                saveButton.classList.add("d-none");
-                nextButton.classList.remove("d-none");
-            });
-
-            if (tabToggleButtonEl.length) {
-                tabToggleButtonEl.forEach(function(item, index) {
-                    /* eslint-disable */
-                    item.addEventListener("show.bs.tab", function(e) {
-                        if (
-                            (!inputUsername ||
-                                !(
-                                    inputEmail.value &&
-                                    validatePattern(emailPattern, inputEmail.value)
-                                ) ||
-                                !inputPassword.value) &&
-                            form.className.includes("needs-validation")
-                        ) {
-                            e.preventDefault();
-                            form.classList.add("was-validated");
-                            return null;
-                            /* eslint-enable */
-                        }
-                        // if ((!inputFirstname.value || !inputLastname.value || !inputContactno.value) && form2.className.includes('needs-validation')) {
-                        //     // e.preventDefault();
-                        //     form2.classList.add('was-validated');
-                        //     return null;
-                        // }
-                        count = index; // can't go back tab
-
-                        if (count === tabToggleButtonEl.length - 1) {
-                            tabToggleButtonEl.forEach(function(tab) {
-                                tab.setAttribute("data-bs-toggle", "modal");
-                                tab.setAttribute("data-bs-target", "#error-modal");
-                            });
-                        } //add done class
-
-                        for (var i = 0; i < count; i += 1) {
-                            tabToggleButtonEl[i].classList.add("done");
-                        } //remove done class
-
-                        for (var j = count; j < tabToggleButtonEl.length; j += 1) {
-                            tabToggleButtonEl[j].classList.remove("done");
-                        } // card footer remove at last step
-
-                        if (count > tabToggleButtonEl.length - 2) {
-                            item.classList.add("done");
-                            cardFooter.classList.add("d-none");
-                        } else {
-                            cardFooter.classList.remove("d-none");
-                        } // prev-button removing
-
-                        if (count > 0) {
-                            prevButton.classList.remove("d-none");
-                        } else {
-                            prevButton.classList.add("d-none");
-                        }
-                    });
-                });
-            }
-        }); // control wizard progressbar
-
-        if (tabPillEl.length) {
-            var dividedProgressbar = 100 / tabPillEl.length;
-            tabProgressBar.querySelector(".progress-bar").style.width = "".concat(
-                dividedProgressbar,
-                "%"
-            );
-            tabPillEl.forEach(function(item, index) {
-                item.addEventListener("show.bs.tab", function() {
-                    tabProgressBar.querySelector(".progress-bar").style.width =
-                        "".concat(dividedProgressbar * (index + 1), "%");
-                });
-            });
-        }
-    };
-</script>

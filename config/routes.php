@@ -75,7 +75,7 @@ return static function (RouteBuilder $routes) {
          * You can remove these routes once you've connected the
          * routes you want in your application.
          */
-        $builder->connect('/register', ['controller' => 'Users', 'action' => 'register']);
+        $builder->connect('/register', ['controller' => 'Users', 'action' => 'register'], ['_name' => '_register']);
         $builder->connect('/activateandregister', ['controller' => 'Users', 'action' => 'activateandregister']);
         // $builder->connect('/', ['controller' => 'Users', 'action' => 'profile']);
 

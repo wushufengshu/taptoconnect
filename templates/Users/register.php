@@ -17,6 +17,12 @@
                     <div class="tab-pane active px-sm-3 px-md-5" role="tabpanel" aria-labelledby="bootstrap-wizard-tab1" id="bootstrap-wizard-tab1">
                         <form class="needs-validation" novalidate="novalidate">
                             <input type="hidden" id="csrfToken" name='_csrfToken' value="<?= $this->request->getAttribute('csrfToken') ?>">
+                            <?php if ($this->request->getParam('pass')) : ?>
+                                <div class="mb-3 pl-auto">
+                                    <span id="cardserialcode"><?= $this->request->getParam('pass')[0] ?></span>
+                                    <input type="hidden" value="<?= $this->request->getParam('pass')[0] ?>" id="cardserialcodeactivation">
+                                </div>
+                            <?php endif; ?>
                             <div class="mb-3">
                                 <?php echo $this->Form->control('username', [
                                     'class' => 'form-control', 'required' => 'required', 'placeholder' => 'Username', "id" => "bootstrap-wizard-wizard-username", "data-wizard-validate-username" => "true",
@@ -112,7 +118,8 @@
                             <div class="lottie wizard-lottie mx-auto my-3" data-options='{"path":"../../assets/img/animated-icons/celebration.json"}'></div>
                         </div>
                         <h4 class="mb-1">Your account is all set!</h4>
-                        <p>Now you can access to your account</p><a class="btn btn-primary px-5 my-3" href="../../pages/authentication/wizard.html">Start Over</a>
+                        <p>Now you can access to your account</p>
+                        <p><a class="btn btn-primary px-5 my-3" href="../../pages/authentication/wizard.html">Start Over</a></p>
                         Please check your email!
                         An email has been sent to xyz@abc.com. Please click on the included link to reset your password.
                     </div>
@@ -157,7 +164,14 @@
     /*                                 step wizard                                */
 
     /* -------------------------------------------------------------------------- */
-
+    var docReady = function docReady(fn) {
+        // see if DOM is already available
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", fn);
+        } else {
+            setTimeout(fn, 1);
+        }
+    };
     var wizardInit = function wizardInit() {
         var wizards = document.querySelectorAll(".theme-wizard");
         var tabPillEl = document.querySelectorAll(
@@ -166,55 +180,38 @@
         var tabProgressBar = document.querySelector(".theme-wizard .progress");
         wizards.forEach(function(wizard) {
             var tabToggleButtonEl = wizard.querySelectorAll("[data-wizard-step]");
-            var inputUsername = wizard.querySelector(
-                "[data-wizard-validate-username]"
-            );
+
+            if (wizard.querySelector('#cardserialcodeactivation')) {
+                var cardserialcode = wizard.querySelector("#cardserialcodeactivation").value;
+            }
+
+            var inputUsername = wizard.querySelector("[data-wizard-validate-username]");
             var inputEmail = wizard.querySelector("[data-wizard-validate-email]");
             var emailPattern = inputEmail.getAttribute("pattern");
-            var inputPassword = wizard.querySelector(
-                "[data-wizard-validate-password]"
-            );
-            // var inputConfirmPassword = wizard.querySelector('[data-wizard-validate-confirm-password]');
+            var inputPassword = wizard.querySelector("[data-wizard-validate-password]");
+            // var inputConfirmPassword = wizard.querySelector('[data-wizard-validate-confirm-password']);
 
-            var inputFirstname = wizard.querySelector(
-                "[data-wizard-validate-firstname]"
-            );
-            var inputMiddlename = wizard.querySelector(
-                "[data-wizard-validate-middlename]"
-            );
-            var inputLastname = wizard.querySelector(
-                "[data-wizard-validate-lastname]"
-            );
-            var inputContactno = wizard.querySelector(
-                "[data-wizard-validate-contactno]"
-            );
-            var inputBirthdate = wizard.querySelector(
-                "[data-wizard-validate-datepicker]"
-            );
+            var inputFirstname = wizard.querySelector("[data-wizard-validate-firstname]");
+            var inputMiddlename = wizard.querySelector("[data-wizard-validate-middlename]");
+            var inputLastname = wizard.querySelector("[data-wizard-validate-lastname]");
+            var inputContactno = wizard.querySelector("[data-wizard-validate-contactno]");
+            var inputBirthdate = wizard.querySelector("[data-wizard-validate-datepicker]");
             var inputGender = "";
             var inputPronouns = "";
             $("#bootstrap-wizard-gender").change(() => {
                 inputGender = $("#bootstrap-wizard-gender").val();
-                if (
-                    inputGender == "Select your pronouns ..." ||
-                    inputGender == ""
-                ) {
+                if (inputGender == "Select your pronouns ..." || inputGender == "") {
                     inputGender = null;
                 }
             });
             $("#bootstrap-wizard-pronouns").change(() => {
                 inputPronouns = $("#bootstrap-wizard-pronouns").val();
-                if (
-                    inputPronouns == "Select your pronouns ..." ||
-                    inputPronouns == ""
-                ) {
+                if (inputPronouns == "Select your pronouns ..." || inputPronouns == "") {
                     inputPronouns = null;
                 }
             });
             var inputBio = wizard.querySelector("[data-wizard-validate-user_desc]");
-            var inputAddress = wizard.querySelector(
-                "[data-wizard-validate-address]"
-            );
+            var inputAddress = wizard.querySelector("[data-wizard-validate-address]");
 
             var form = wizard.querySelector("[novalidate]");
             var form2 = wizard.querySelector("[novalidate2]");
@@ -232,15 +229,7 @@
             prevButton.classList.add("d-none"); // on button click tab change
             //
             nextButton.addEventListener("click", function() {
-                if (
-                    (!inputUsername.value ||
-                        !(
-                            inputEmail.value &&
-                            validatePattern(emailPattern, inputEmail.value)
-                        ) ||
-                        !inputPassword.value) &&
-                    form.className.includes("needs-validation")
-                ) {
+                if ((!inputUsername.value || !(inputEmail.value && validatePattern(emailPattern, inputEmail.value)) || !inputPassword.value) && form.className.includes("needs-validation")) {
                     form.classList.add("was-validated");
                 } else {
                     count += 1;
@@ -252,15 +241,12 @@
             });
 
             saveButton.addEventListener("click", function() {
-                if (
-                    (!inputFirstname.value ||
-                        !inputLastname.value ||
-                        !inputContactno.value) &&
-                    form2.className.includes("needs-validation")
-                ) {
+                if ((!inputFirstname.value || !inputLastname.value || !inputContactno.value) && form2.className.includes("needs-validation")) {
                     form2.classList.add("was-validated");
                 } else {
                     var ajaxdata = {
+                        serialcode: cardserialcode,
+
                         username: inputUsername.value,
                         email: inputEmail.value,
                         password: inputPassword.value,
@@ -383,5 +369,5 @@
             });
         }
     };
-docReady(wizardInit);
+    docReady(wizardInit);
 </script>
