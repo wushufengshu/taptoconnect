@@ -50,14 +50,14 @@ class AppController extends Controller
             ])
             ->where(['user_id' => $id, 'MONTH(meeting_date)' => date('m')]) //diplay all current month only
             ->order(['Meetings.time_from' => 'desc']);
-            //->count();
+        //->count();
 
         $countmeetingnow = $this->Users->Meetings
             ->find('all')
             ->where(['user_id' => $id, 'MONTH(meeting_date)' => date('m')]) //diplay all current month only
             ->count(); //count all current month meetings
 
-        $this->set(compact('countmeetingnow','meetingnow'));
+        $this->set(compact('countmeetingnow', 'meetingnow'));
     }
     public function beforeFilter(\Cake\Event\EventInterface $event)
     {

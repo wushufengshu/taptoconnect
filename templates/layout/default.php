@@ -368,7 +368,7 @@
     <!--    Main Content-->
     <!-- ===============================================-->
     <?php
-    $nosidebartemplate = ['activatecard', 'login', 'token', 'register', 'activateandregister'];
+    $nosidebartemplate = ['activatecard', 'login', 'token', 'register', 'activateandregister', 'serial'];
     if (!$identity &&  in_array($this->request->getParam('action'), $nosidebartemplate)) {
     ?>
         <main class="main" id="top">

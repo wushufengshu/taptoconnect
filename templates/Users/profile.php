@@ -4,8 +4,8 @@
                  <div class="card-header position-relative min-vh-25 mb-8">
                      <div class="cover-image">
                          <div class="bg-holder rounded-3 rounded-bottom-0">
-                            <img src="../../assets/img/generic/ubivelox1.png" style="width: 100%; height: auto;">
-                        </div>
+                             <img src="../../assets/img/generic/ubivelox1.png" style="width: 100%; height: auto;">
+                         </div>
                          <!--/.bg-holder-->
                          <!--
                     <input class="d-none" id="upload-cover-image" type="file" />
@@ -44,6 +44,8 @@
                      <?= $this->Html->link(__('Change Profile Picture'), ['action' => 'changeprofilepicture'], ['class' => 'button float-right btn btn-success float-right  ']) ?>
 
                      <?= $this->Html->link(__('Change password'), ['action' => 'changepassword'], ['class' => 'button float-right btn btn-success float-right  ']) ?>
+
+                     <?= $this->Html->link(__('Add map'), ['action' => 'map'], ['class' => 'button float-right btn btn-success float-right  ']) ?>
                  </div>
                  <div class="card-body bg-light">
                      <!--<form class="row g-3">-->
@@ -106,7 +108,7 @@
                          <div class="form-group">
                              <?= $this->Form->button(__('Update'), ['class' => 'btn btn-primary']) ?>
 
-                             <a href="<?php echo $this->Url->build(('/users/view/'.$identity->id)); ?>" class="btn btn-warning">
+                             <a href="<?php echo $this->Url->build(('/users/view/' . $identity->id)); ?>" class="btn btn-warning">
                                  <font color="#F7F7F7">Cancel</font>
                              </a>
                          </div>

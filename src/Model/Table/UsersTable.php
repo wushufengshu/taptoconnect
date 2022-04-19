@@ -63,6 +63,9 @@ class UsersTable extends Table
         $this->hasMany('SocialMedia', [
             'foreignKey' => 'user_id',
         ]);
+        $this->hasMany('UserCards', [
+            'foreignKey' => 'user_id',
+        ]);
     }
 
     /**
@@ -190,22 +193,21 @@ class UsersTable extends Table
         return $rules;
     }
 
-    public function generate_vcard($fn,$bio,$address,$email,$contactno,$website){
-    $content = "BEGIN:VCARD\r\n";
-    $content .= "VERSION:3.0\r\n"; //VERSION:4.0 not working on android
-    $content .= "CLASS:PUBLIC\r\n";
-    $content .= "FN:".$fn."\r\n";
-    $content .= "N:".$fn." ;;;\r\n";
-    $content .= "TITLE:".$bio."\r\n";
-    $content .= "ORG:UBIVELOX\r\n";
-    $content .= "ADR;TYPE=work:;;".$address."\r\n";
-    $content .= "EMAIL;TYPE=internet,pref:".$email."\r\n";
-    $content .= "TEL;TYPE=work,voice:".$contactno."\r\n";
-    $content .= "TEL;TYPE=HOME,voice:".$contactno."\r\n";
-    $content .= "URL:".$website."\r\n";
-    $content .= "END:VCARD\r\n";
-    return $content;
+    public function generate_vcard($fn, $bio, $address, $email, $contactno, $website)
+    {
+        $content = "BEGIN:VCARD\r\n";
+        $content .= "VERSION:3.0\r\n"; //VERSION:4.0 not working on android
+        $content .= "CLASS:PUBLIC\r\n";
+        $content .= "FN:" . $fn . "\r\n";
+        $content .= "N:" . $fn . " ;;;\r\n";
+        $content .= "TITLE:" . $bio . "\r\n";
+        $content .= "ORG:UBIVELOX\r\n";
+        $content .= "ADR;TYPE=work:;;" . $address . "\r\n";
+        $content .= "EMAIL;TYPE=internet,pref:" . $email . "\r\n";
+        $content .= "TEL;TYPE=work,voice:" . $contactno . "\r\n";
+        $content .= "TEL;TYPE=HOME,voice:" . $contactno . "\r\n";
+        $content .= "URL:" . $website . "\r\n";
+        $content .= "END:VCARD\r\n";
+        return $content;
     }
-
-    
 }

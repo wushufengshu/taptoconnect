@@ -56,6 +56,7 @@ return static function (RouteBuilder $routes) {
         // $builder->connect('/', ['controller' => 'Pages', 'action' => 'display']);
         $builder->connect('/', ['controller' => 'Users', 'action' => 'token']);
 
+        $builder->connect('/serialcode/*', ['controller' => 'Users', 'action' => 'serial']);
         /*
          * ...and connect the rest of 'Pages' controller's URLs.
          */

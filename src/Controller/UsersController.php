@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use Cake\Log\Log;
 use PHPMailer\PHPMailer\Exception;
+use Cake\Http\Exception\NotFoundException;
 
 /**
  * Users Controller
@@ -19,6 +20,7 @@ class UsersController extends AppController
     {
         parent::initialize();
         $this->loadModel('Cards');
+        $this->loadModel('UserCards');
     }
 
     public function beforeFilter(\Cake\Event\EventInterface $event)
@@ -26,7 +28,7 @@ class UsersController extends AppController
         parent::beforeFilter($event);
         // Configure the login action to not require authentication, preventing
         // the infinite redirect loop issue 
-        $this->Authentication->addUnauthenticatedActions(['login', 'register', 'token', 'activatecard', 'activateandregister']);
+        $this->Authentication->addUnauthenticatedActions(['login', 'register', 'token', 'activatecard', 'activateandregister', 'serial']);
     }
     public function activateandregister()
     {
@@ -65,32 +67,43 @@ class UsersController extends AppController
 
             if ($this->request->getData('serialcode')) {
                 $card = $this->Cards->find('all', ['conditions' => ['serial_code' => $this->request->getData('serialcode')]])->first();
+                $expiration_date = date('Y-m-d', strtotime('+1 year'));
                 $user->card_id = $card->id;
                 $user->serial_code = $card->serial_code;
                 $user->verification_code = $card->verification_code;
+                $user->activated = 1;
+
+                $user->expiration_date = $expiration_date;
+
+                $usercards = $this->UserCards->newEmptyEntity();
+                $usercards = $this->UserCards->patchEntity(
+                    $usercards,
+                    ['user_id' => $user->id, 'card_id' => $card->id, 'expiration_date' => $expiration_date, 'status' => 1]
+                );
             }
             // $user->birth_date = date('Y-m-d', strtotime($this->request->getData('birth_date')));
             $user->token = $this->Common->generateToken(50);
+
             if ($user = $this->Users->save($user)) {
                 $msg = 1;
-                // try {
-                //     $mail = $this->Email->send_verification_email($user);
-                //     if (!$mail->send()) { 
-                //         echo json_encode(array(
-                //             "status" => "error",
-                //             "text" => "Mailer Error: " . $mail->ErrorInfo,
-                //         ));
-                //     } else {
-                //         // return json_encode (['data' => $user, 'msg' => 1]);
-                //         $response = $this->response->withType('application/json')
-                //             ->withStringBody(json_encode(['data' => $user, 'msg' => 1]));
-                //         return $response;
-                //     } 
-                // } catch (Exception $th) {
-                //     $msg = 3;
-                // }
-                // exit;
-                // $this->Flash->error(__('Could not create account. Please try again'));
+                try {
+                    $mail = $this->Email->send_verification_email($user);
+                    if (!$mail->send()) {
+                        echo json_encode(array(
+                            "status" => "error",
+                            "text" => "Mailer Error: " . $mail->ErrorInfo,
+                        ));
+                    } else {
+                        // return json_encode (['data' => $user, 'msg' => 1]);
+                        $response = $this->response->withType('application/json')
+                            ->withStringBody(json_encode(['data' => $user, 'msg' => 1]));
+                        return $response;
+                    }
+                } catch (Exception $th) {
+                    $msg = 3;
+                }
+                exit;
+                $this->Flash->error(__('Could not create account. Please try again'));
             } else {
                 $msg = 2;
                 $this->Flash->error(__('Could not create account. Please try again'));
@@ -115,28 +128,6 @@ class UsersController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
 
             $this->bindusertocard($this->request, $user);
-            // $card = $this->Cards->find('all', ['conditions' => ['serial_code' => $this->request->getData('serial_code')]])->first();
-            // // dd($card);
-
-            // if (!$card) {
-            //     $this->Flash->error(__('Card with entered serial code is not found. Please try again.'));
-            // } else {
-            //     $user = $this->Users->patchEntity($user, ['card_id' => $card->id, 'serial_code' => $this->request->getData('serial_code'), 'verification_code' => $this->request->getData('verification_code')]);
-            //     if ($card->verification_code != $this->request->getData('verification_code')) {
-            //         $this->Flash->error(__('Could not activate card. Please try again.'));
-            //     } else {
-            //         $user->card_id = $card->id;
-            //         $user->serial_code = $this->request->getData('serial_code');
-            //         $user->verification_code = $this->request->getData('verification_code');
-            //         $user->activated = 1;
-            //         if ($this->Users->save($user)) {
-
-            //             $this->Flash->success(__('The card is now activated and linked to user.'));
-            //             return $this->redirect(['controller' => 'Users', 'action' => 'login']);
-            //         }
-            //         $this->Flash->error(__('The user could not be saved. Please, try again.'));
-            //     }
-            // }
         }
         // dd($userbytoken);
         $this->set(compact('user'));
@@ -153,16 +144,24 @@ class UsersController extends AppController
             if ($card->verification_code != $request->getData('verification_code')) {
                 $this->Flash->error(__('Could not activate card. Please try again.'));
             } else {
-                $user->card_id = $card->id;
-                $user->serial_code = $request->getData('serial_code');
-                $user->verification_code = $request->getData('verification_code');
-                $user->activated = 1;
-                if ($this->Users->save($user)) {
+                $expiration_date = date('Y-m-d', strtotime('+1 year'));
+                // $user->card_id = $card->id;
+                // $user->serial_code = $request->getData('serial_code');
+                // $user->verification_code = $request->getData('verification_code');
+                // $user->activated = 1;
+                // $user->expiration_date = $expiration_date;
 
+                $usercards = $this->UserCards->newEmptyEntity();
+                // condition kapag nagka new subscription si user based on status
+                $usercards = $this->UserCards->patchEntity($usercards, ['user_id' => $user->id, 'card_id' => $card->id, 'expiration_date' => $expiration_date, 'status' => 1]);
+                if ($this->UserCards->exists([$user->id, 'card_id' => $card->id])) {
+                    $this->Flash->error(__('The card has already been activated.'));
+                } elseif ($this->UserCards->save($usercards)) {
                     $this->Flash->success(__('The card is now activated and linked to user.'));
                     return $this->redirect(['controller' => 'Users', 'action' => 'login']);
+                } else {
+                    $this->Flash->error(__('The card could not be saved. Please, try again.'));
                 }
-                $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
         }
     }
@@ -209,10 +208,11 @@ class UsersController extends AppController
      */
     public function index()
     {
-        $users = $this->paginate($this->Users);
-        // $loggedinuser = $this->Authentication->getIdentity()->getOriginalData();
         $user = $this->Users->newEmptyEntity();
         $this->Authorization->authorize($user, 'index');
+
+        $users = $this->paginate($this->Users);
+        // $loggedinuser = $this->Authentication->getIdentity()->getOriginalData();
 
 
         if (isset($_POST['activate'])) {
@@ -230,6 +230,7 @@ class UsersController extends AppController
             return $this->redirect(['action' => 'index']);
         }
 
+
         if (isset($_POST['deactivate'])) {
             $activateUser = $this->Users->query();
             $activateUser->update()
@@ -244,13 +245,11 @@ class UsersController extends AppController
             $this->Flash->success(__('User Account has been deactivated!'));
             return $this->redirect(['action' => 'index']);
         }
-
         $this->set(compact('users'));
     }
 
     public function profile()
     {
-
         $this->Authorization->skipAuthorization();
         // $user = $this->Users->get($id, [
         //     'contain' => [],
@@ -476,6 +475,64 @@ class UsersController extends AppController
         $this->set(compact('user'));
     }
 
+    public function map()
+    {
+
+        $this->Authorization->skipAuthorization();
+    }
+    public function serial($serial_code)
+    {
+        $this->Authorization->skipAuthorization();
+
+        // dd($this->request->getPath());
+        // if (!$serial && $this->request->getPath() == '/') {
+        //     // dd($this->Authentication->getIdentity()->getOriginalData()->token);
+        //     if ($user = $this->request->getAttribute('identity') == null) {
+        //         return $this->redirect('/users/login');
+        //     }
+        //     $token = $this->Authentication->getIdentity()->getOriginalData()->token;
+        // }
+
+        $this->view = 'view';
+
+        $card = $this->Cards->findBySerialCode($serial_code)->first();
+        if ($card) {
+            $usercards = $this->UserCards->findByCardId($card->id)->first();
+            if ($usercards) {
+                $user = $this->Users->get($usercards->user_id, ['contain' => 'UserCards']);
+                if ($user) {
+
+                    //get data from function $array
+                    $data = $this->getUserData($user->id);
+                    $socials = $data[0];
+                    $music_videos = $data[1];
+                    $meetings = $data[2];
+
+                    // $this->set(compact('card', 'user')); 
+
+                    //binding method 
+                    $this->request->allowMethod(['get', 'post']);
+                    if ($this->request->is(['patch', 'post', 'put'])) {
+
+                        $this->bindusertocard($this->request, $user);
+                    }
+                    $this->set(compact('user', 'socials', 'meetings', 'music_videos', 'card'));
+                    $this->render('/Users/view');
+                } else {
+                    if ($this->request->getAttribute('identity')) {
+                        throw new NotFoundException();
+                    }
+                    return $this->redirect('/users/login');
+                }
+            } else {
+                throw new NotFoundException();
+            }
+        }
+
+
+        $this->render('/Users/view');
+    }
+
     public function token($token = null)
     {
         $this->Authorization->skipAuthorization();
@@ -491,7 +548,7 @@ class UsersController extends AppController
         $this->view = 'view';
         $userbytoken = $this->Users->findByToken($token)->first();
         $user = $this->Users->get($userbytoken->id, [
-            'contain' => ['Meetings', 'MusicVideo'],
+            'contain' => ['Meetings', 'MusicVideo', 'UserCards'],
         ]);
 
         //get data from function $array
@@ -583,21 +640,22 @@ class UsersController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    public function generatevcard($id=null){
+    public function generatevcard($id = null)
+    {
         $this->Authorization->skipAuthorization();
 
         $user = $this->Users->get($this->Authentication->getIdentity()->getIdentifier());
-        $fullname = $user->firstname." ".$user->lastname;
+        $fullname = $user->firstname . " " . $user->lastname;
         $bio = $user->user_desc;
         $email = $user->email;
         $address = $user->address;
         $website = $user->website;
         $contactno = $user->contactno;
-        $filename = $fullname."-".date("Y-m-d H:i:s").".vcf";
+        $filename = $fullname . "-" . date("Y-m-d H:i:s") . ".vcf";
 
-        $generated_text = $this->Users->generate_vcard($fullname,$bio,$address,$email,$contactno,$website);
+        $generated_text = $this->Users->generate_vcard($fullname, $bio, $address, $email, $contactno, $website);
         header('Content-Type: text/vcard;charset=utf-8;');
-        header('Content-Disposition: attachment; filename="'.$filename);
+        header('Content-Disposition: attachment; filename="' . $filename);
         echo $generated_text; //required/should be displayed for printing/getting data
 
         $this->set(compact('generated_text'));

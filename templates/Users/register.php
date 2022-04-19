@@ -119,9 +119,9 @@
                         </div>
                         <h4 class="mb-1">Your account is all set!</h4>
                         <p>Now you can access to your account</p>
-                        <p><a class="btn btn-primary px-5 my-3" href="/users/login">Start Over</a></p>
+                        <p><a class="btn btn-primary px-5 my-3" href="/users/login">Back to login</a></p>
                         Please check your email!
-                        An email has been sent to xyz@abc.com. Please click on the included link to reset your password.
+                        An email has been sent to your email. Please click on the included link for activation.
                     </div>
                 </div>
             </div>
