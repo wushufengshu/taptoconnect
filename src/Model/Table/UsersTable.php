@@ -192,7 +192,7 @@ class UsersTable extends Table
 
     public function generate_vcard($fn,$bio,$address,$email,$contactno,$website){
     $content = "BEGIN:VCARD\r\n";
-    $content .= "VERSION:4.0\r\n";
+    $content .= "VERSION:3.0\r\n"; //VERSION:4.0 not working on android
     $content .= "CLASS:PUBLIC\r\n";
     $content .= "FN:".$fn."\r\n";
     $content .= "N:".$fn." ;;;\r\n";
