@@ -84,12 +84,12 @@ class CardsTable extends Table
     public function generate_scode(){
         $str1 = str_shuffle(random_bytes(20).sha1("Ub1v3L0XpHiL1pPiN3iNc!"));
         $str2 = date("Y-m-d H:i:s").md5($str1);
-        return strtoupper(substr(str_shuffle(md5(base64_encode($str2))),0, 6)); //generate unique code for serial code
+        return strtoupper(strrev(substr(str_shuffle(md5(base64_encode($str2))),0, 6))); //generate unique code for serial code
     }
 
     public function generate_vcode(){
         $str1 = str_shuffle(random_bytes(20).sha1("pHiL1pPiN3iNc!Ub1v3L0X22"));
         $str2 = date("Y-m-d H:i:s").md5($str1);
-        return strtoupper(substr(str_shuffle(md5(base64_encode($str2))),0, 6)); //generate unique code for verification code
+        return strtoupper(strrev(substr(str_shuffle(md5(base64_encode($str2))),0, 6))); //generate unique code for verification code
     }
 }

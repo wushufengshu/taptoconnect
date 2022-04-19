@@ -138,8 +138,8 @@ class CardsController extends AppController
     }
 
     public function exportcsv(){
-
-    $this->response = $this->response->withDownload('cards.csv');
+    $filename = "CARDS_DATA_".date("Y_m_d_H_i_s").".csv";
+    $this->response = $this->response->withDownload($filename);
     $cards = $this->Cards->find();
     $_serialize = 'cards';
     $_header = ['Serial Code', 'Verification Code', 'Card Link', 'Created'];
