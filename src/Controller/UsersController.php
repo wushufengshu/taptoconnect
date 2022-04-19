@@ -582,4 +582,24 @@ class UsersController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function generatevcard($id=null){
+        $this->Authorization->skipAuthorization();
+
+        $user = $this->Users->get($this->Authentication->getIdentity()->getIdentifier());
+        $fullname = $user->firstname." ".$user->lastname;
+        $bio = $user->user_desc;
+        $email = $user->email;
+        $address = $user->address;
+        $website = $user->website;
+        $contactno = $user->contactno;
+        $filename = $fullname."-".date("Y-m-d H:i:s").".vcf";
+
+        $generated_text = $this->Users->generate_vcard($fullname,$bio,$address,$email,$contactno,$website);
+        header('Content-Type: text/vcard;charset=utf-8;');
+        header('Content-Disposition: attachment; filename="'.$filename);
+        echo $generated_text; //required/should be displayed for printing/getting data
+
+        $this->set(compact('generated_text'));
+    }
 }

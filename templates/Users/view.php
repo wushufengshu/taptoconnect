@@ -45,6 +45,8 @@
                     <a href="<?php echo "http://" . $user->website; ?>" target="_blank"><?= $this->Text->autoParagraph(h($user->website)); ?></a>
                     <!--<button class="btn btn-falcon-default btn-sm px-3 ms-2" type="button">Message</button>-->
 
+                    <?= $this->Html->link(__('Add to contact'), ['controller' => 'Users', 'action' => 'generatevcard'], ['class' => 'button float-right btn btn-primary float-right']) ?>
+
                     <div class="border-dashed-bottom my-4 d-lg-none"></div>
                 </div>
             </div>
