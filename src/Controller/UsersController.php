@@ -412,7 +412,7 @@ class UsersController extends AppController
 
         $user = $this->Users->newEmptyEntity();
         $user = $this->Users->get($id, [
-            'contain' => ['Meetings', 'MusicVideo', 'SocialMedia'],
+            'contain' => ['Meetings', 'MusicVideo', 'SocialMedia', 'UserCards'],
         ]);
         $this->Authorization->authorize($user, 'view');
 

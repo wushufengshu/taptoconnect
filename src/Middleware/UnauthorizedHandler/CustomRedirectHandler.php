@@ -6,6 +6,7 @@ namespace App\Middleware\UnauthorizedHandler;
 
 use Authorization\Exception\Exception;
 use Authorization\Middleware\UnauthorizedHandler\RedirectHandler;
+use Cake\Http\Exception\NotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -16,5 +17,6 @@ class CustomRedirectHandler extends RedirectHandler
         $response = parent::handle($exception, $request, $options);
         $request->getFlash()->error('You are not authorized to access that location');
         return $response;
+        // throw new NotFoundException();
     }
 }
