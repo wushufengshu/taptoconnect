@@ -51,6 +51,15 @@
                      <!--<form class="row g-3">-->
                      <?= $this->Form->create($user,  ['type' => 'file', 'class' => 'row g-3', 'url' => ['controller' => 'Users', 'action' => 'profile']]) ?>
 
+                     <div class="col-lg-6">
+                         <label class="form-label" for="first-name">Company Name</label>
+                         <?= $this->Form->control('company', ['class' => 'form-control', 'placeholder' => 'Company Name', 'label' => false, 'rows' => '1', 'height' => 'auto']); ?>
+                     </div>
+                     <div class="col-lg-6">
+                         <label class="form-label" for="first-name">Job Title</label>
+                         <?= $this->Form->control('job_title', ['class' => 'form-control', 'placeholder' => 'Job Title', 'label' => false, 'rows' => '1', 'height' => 'auto']); ?>
+                     </div>
+
                      <div class="col-lg-4">
                          <label class="form-label" for="first-name">Pronouns</label>
                          <select name="pronouns" class="form-control">
@@ -89,7 +98,20 @@
                          <?php echo $this->Form->control('email', array('class' => 'form-control', 'placeholder' => 'Enter Email')); ?>
                      </div>
                      <div class="col-lg-4">
-                         <?php echo $this->Form->control('contactno', array('class' => 'form-control', 'placeholder' => 'Enter Contact No')); ?>
+                         <label class="form-label" for="last-name">Mobile No</label>
+                         <?php echo $this->Form->control('contactno', array('class' => 'form-control', 'placeholder' => 'Enter Mobile No','label' => false)); ?>
+                     </div>
+                     <div class="col-lg-4">
+                         <label class="form-label" for="last-name">Business No</label>
+                         <?php echo $this->Form->control('business_no', array('class' => 'form-control', 'placeholder' => 'Enter Business No','label' => false)); ?>
+                     </div>
+                     <div class="col-lg-4">
+                         <label class="form-label" for="last-name">Home No</label>
+                         <?php echo $this->Form->control('home_no', array('class' => 'form-control', 'placeholder' => 'Enter Home No','label' => false)); ?>
+                     </div>
+                     <div class="col-lg-4">
+                         <label class="form-label" for="last-name">Fax No</label>
+                         <?php echo $this->Form->control('fax_no', array('class' => 'form-control', 'placeholder' => 'Enter Fax No','label' => false)); ?>
                      </div>
                      <div class="col-lg-4">
                          <?php echo $this->Form->control('username', array('class' => 'form-control', 'placeholder' => 'Enter Username')); ?>

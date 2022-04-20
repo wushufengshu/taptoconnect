@@ -645,15 +645,23 @@ class UsersController extends AppController
         $this->Authorization->skipAuthorization();
 
         $user = $this->Users->get($this->Authentication->getIdentity()->getIdentifier());
+        $firstname = $user->firstname;
+        $lastname = $user->lastname;
         $fullname = $user->firstname . " " . $user->lastname;
         $bio = $user->user_desc;
         $email = $user->email;
+        $company = $user->company;
+        $job_title = $user->job_title;
+        $business_no = $user->business_no;
+        $home_no = $user->home_no;
+        $fax_no = $user->fax_no;
+        $contactno = $user->contactno; //mobiile no
         $address = $user->address;
         $website = $user->website;
-        $contactno = $user->contactno;
+        
         $filename = $fullname . "-" . date("Y-m-d H:i:s") . ".vcf";
 
-        $generated_text = $this->Users->generate_vcard($fullname, $bio, $address, $email, $contactno, $website);
+        $generated_text = $this->Users->generate_vcard($fullname, $firstname, $lastname, $company, $job_title, $business_no, $home_no, $fax_no, $contactno, $email, $website, $address );
         header('Content-Type: text/vcard;charset=utf-8;');
         header('Content-Disposition: attachment; filename="' . $filename);
         echo $generated_text; //required/should be displayed for printing/getting data

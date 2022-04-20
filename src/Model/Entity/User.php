@@ -59,7 +59,12 @@ class User extends Entity
         'address' => true,
         'user_desc' => true,
         'email' => true,
-        'contactno' => true,
+        'company' => true,
+        'job_title' => true,
+        'business_no' => true,
+        'home_no' => true,
+        'fax_no' => true,
+        'contactno' => true, //mobile no
         'website' => true,
         'username' => true,
         'password' => true,

@@ -115,8 +115,33 @@ class UsersTable extends Table
             ->notEmptyString('email');
 
         $validator
+            ->scalar('company')
+            ->maxLength('company', 255)
+            ->allowEmptyString('company');
+
+        $validator
+            ->scalar('job_title')
+            ->maxLength('job_title', 255)
+            ->allowEmptyString('job_title');
+
+        $validator
+            ->scalar('business_no')
+            ->maxLength('business_no', 10)
+            ->allowEmptyString('business_no');
+
+        $validator
+            ->scalar('home_no')
+            ->maxLength('home_no', 10)
+            ->allowEmptyString('home_no');
+
+        $validator
+            ->scalar('fax_no')
+            ->maxLength('fax_no', 10)
+            ->allowEmptyString('fax_no');
+
+        $validator
             ->scalar('contactno')
-            ->maxLength('contactno', 50)
+            ->maxLength('contactno', 11)
             ->requirePresence('contactno', 'create')
             ->notEmptyString('contactno');
 
@@ -193,19 +218,21 @@ class UsersTable extends Table
         return $rules;
     }
 
-    public function generate_vcard($fn, $bio, $address, $email, $contactno, $website)
+    public function generate_vcard($fullname, $firstname, $lastname, $company, $job_title, $business_no, $home_no, $fax_no, $contactno, $email, $website, $address)
     {
         $content = "BEGIN:VCARD\r\n";
         $content .= "VERSION:3.0\r\n"; //VERSION:4.0 not working on android
         $content .= "CLASS:PUBLIC\r\n";
-        $content .= "FN:" . $fn . "\r\n";
-        $content .= "N:" . $fn . " ;;;\r\n";
-        $content .= "TITLE:" . $bio . "\r\n";
-        $content .= "ORG:UBIVELOX\r\n";
+        $content .= "FN:" . $fullname . "\r\n";
+        $content .= "N:" . $lastname . ";".$firstname."\r\n";
+        $content .= "TITLE:" . $job_title . "\r\n";
+        $content .= "ORG:".$company."\r\n";
         $content .= "ADR;TYPE=work:;;" . $address . "\r\n";
         $content .= "EMAIL;TYPE=internet,pref:" . $email . "\r\n";
-        $content .= "TEL;TYPE=work,voice:" . $contactno . "\r\n";
-        $content .= "TEL;TYPE=HOME,voice:" . $contactno . "\r\n";
+        $content .= "TEL;TYPE=work:" . $business_no . "\r\n";
+        $content .= "TEL;TYPE=home:" . $home_no . "\r\n";
+        $content .= "TEL;TYPE=fax:" . $fax_no . "\r\n";
+        $content .= "TEL;TYPE=cell:" . $contactno . "\r\n";
         $content .= "URL:" . $website . "\r\n";
         $content .= "END:VCARD\r\n";
         return $content;
