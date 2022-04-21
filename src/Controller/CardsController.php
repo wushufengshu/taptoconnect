@@ -25,7 +25,8 @@ class CardsController extends AppController
      */
     public function index()
     {
-        $cards = $this->paginate($this->Cards);
+        //$cards = $this->paginate($this->Cards);
+        $cards = $this->Cards->find()->all();
 
         if(isset($_POST["submit"])){
 
@@ -98,7 +99,7 @@ class CardsController extends AppController
 
                     $scode = $this->Cards->generate_scode(); //call function from CardsTable Model to generate unique code for serial code
                     $vcode = $this->Cards->generate_vcode(); //call function from CardsTable Model to generate unique code for verification code
-                    $link = "http://taptoconnect.local:8080/";
+                    $link = "http://taptoconnect.local:8080/serialcode/";
                     $card_link = trim($link.$scode);
                     
                     $created = date('Y-m-d H:i:s');
@@ -131,6 +132,32 @@ class CardsController extends AppController
                         $this->Flash->error(__('Cards data could not be saved. Please, try again.'));
                         }
                 
+            }
+
+            if(isset($_POST['export_selected'])){
+
+                for($i = 0; $i < count($_POST['checked_item']); $i++){
+  
+                  $checked_item = $_POST['checked_item'][$i];
+                  //dd($checked_item);
+
+                    $filename = "CARDS_DATA_".date("Y_m_d_H_i_s").".csv";
+                    $this->response = $this->response->withDownload($filename);
+
+                    $card_list = $this->Cards
+                    ->find('all')
+                    ->select([
+                        'id', 'serial_code', 'verification_code', 'card_link', 'created'
+                    ])
+                    ->where(['id' => $checked_item]);
+
+                    $_serialize = 'card_list';
+                    $_header = ['Serial Code', 'Verification Code', 'Card Link', 'Created'];
+                    $_extract = ['serial_code', 'verification_code', 'card_link', 'created'];
+
+                    $this->viewBuilder()->setClassName('CsvView.Csv');
+                    $this->set(compact('card_list', '_serialize', '_header', '_extract'));
+                }
             }
         
 

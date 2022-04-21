@@ -95,15 +95,20 @@
             <div class="card-body pt-0">
               <div class="tab-content">
                 <div class="tab-pane preview-tab-pane active" role="tabpanel" aria-labelledby="tab-dom-864f5a02-4c23-4e2f-888a-06238311a2e3" id="dom-864f5a02-4c23-4e2f-888a-06238311a2e3">
-                  <div id="tableExample2" data-list='{"valueNames":["name","musicvideo","created"],"page":100,"pagination":true}'>
+                  <div id="tableExample2" data-list='{"valueNames":["serial_code","verification_code","card_link","created"],"page":100,"pagination":true}'>
                     <div class="table-responsive scrollbar">
 
-                      <table class="table table-bordered table-hover fs--1 mb-0">
+                      <form method="post">
+                      <table class="table table-bordered table-hover fs--1 mb-0" id="tableExample2">
                         <thead class="bg-200 text-900">
                           <tr>
-                            <th class="sort" data-sort="name">Serial Code</th>
-                            <th class="sort" data-sort="musicvideo">Verification Code</th>
-                            <th class="sort" data-sort="musicvideo">Card Link</th>
+                            <th colspan="12"><button type="submit" name="export_selected" class="btn btn-success float-right mr-2"><i class='fas fa-cloud-download-alt'></i> Download/Export Checked</button></th>
+                          </tr>
+                          <tr>
+                            <th>Select All&nbsp;<input type="checkbox" onclick="toggle(this);"></th>
+                            <th class="sort" data-sort="serial_code">Serial Code</th>
+                            <th class="sort" data-sort="verification_code">Verification Code</th>
+                            <th class="sort" data-sort="card_link">Card Link</th>
                             <th class="sort" data-sort="created">Date Created</th>
                             <th class="actions"><?= __('Actions') ?></th>
                           </tr>
@@ -111,10 +116,11 @@
                         <tbody class="list">
                           <?php foreach ($cards as $card): ?>
                           <tr>
-                            <td class="musicvideo"><?= h($card->serial_code) ?></td>
-                            <td class="musicvideo"><?= h($card->verification_code) ?></td>
-                            <td class="musicvideo"><?= h($card->card_link) ?></td>
-                            <td class="musicvideo"><?= h($card->created) ?></td>
+                            <td><input type="checkbox" name="checked_item[]" value="<?php echo $card->id; ?>"><?php  //echo $card->id; ?></td>
+                            <td class="serial_code"><?= h($card->serial_code) ?></td>
+                            <td class="verification_code"><?= h($card->verification_code) ?></td>
+                            <td class="card_link"><?= h($card->card_link) ?></td>
+                            <td class="created"><?= h($card->created) ?></td>
                             <td class="actions">
                                 <?= $this->Html->link(__('<font color="blue" size="4px"><i class="far fa-eye"></i></font>'), ['action' => 'view', $card->id], [ 'escape' => false]) ?>
                                 <?= $this->Html->link(__('<font color="green" size="4px"><i class="far fa-edit"></i></font>'), ['action' => 'edit', $card->id], [ 'escape' => false]) ?>
@@ -128,6 +134,7 @@
                         <?php endforeach; ?>
                         </tbody>
                       </table>
+                      </form>
                     </div>
                     <div class="d-flex justify-content-center mt-3">
                       <button class="btn btn-sm btn-falcon-default me-1" type="button" title="Previous" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
@@ -142,3 +149,13 @@
               </div>
             </div>
           </div>
+
+          <script type="text/javascript">
+            function toggle(source) {
+              var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+              for (var i = 0; i < checkboxes.length; i++) {
+                  if (checkboxes[i] != source)
+                      checkboxes[i].checked = source.checked;
+              }
+          }
+          </script>

@@ -211,7 +211,8 @@ class UsersController extends AppController
         $user = $this->Users->newEmptyEntity();
         $this->Authorization->authorize($user, 'index');
 
-        $users = $this->paginate($this->Users);
+        //$users = $this->paginate($this->Users);
+        $users = $this->Users->find()->all();
         // $loggedinuser = $this->Authentication->getIdentity()->getOriginalData();
 
 
