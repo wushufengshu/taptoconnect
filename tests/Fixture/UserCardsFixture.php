@@ -22,9 +22,9 @@ class UserCardsFixture extends TestFixture
                 'id' => 1,
                 'user_id' => 1,
                 'card_id' => 1,
-                'expiration_date' => '2022-04-19',
+                'expiration_date' => '2022-04-20',
                 'status' => 1,
-                'created' => '2022-04-19 10:48:35',
+                'created' => '2022-04-20 11:02:45',
             ],
         ];
         parent::init();

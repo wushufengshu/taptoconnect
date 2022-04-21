@@ -55,6 +55,16 @@ $dashb = lcfirst($this->request->getParam('action'));
                 </li>
             <?php endif; ?>
 
+            <li class="nav-item">
+                <?php $path = '/usercards'; ?>
+                <a href="<?php echo $this->Url->build(($path)); ?>" role="button" data-bs-toggle="" aria-expanded="false" class="nav-link  
+                    <?php echo ($currentPath == 'cards') ?  'active' : ''; ?>">
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-icon"><span class="far fa-credit-card"></span></span>
+                        <span class="nav-link-text ps-1">User Cards</span>
+                    </div>
+                </a>
+            </li>
         </ul>
 
     </div>
