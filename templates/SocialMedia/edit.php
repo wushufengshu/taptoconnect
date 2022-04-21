@@ -39,7 +39,9 @@
                       </select>
                     </div>
                     <div class="col-md-12">
-                      <?php echo $this->Form->control('social_link',['class' => 'form-control']); ?>
+                      <label>Social Media Link</label><br>
+                      <small><font color="blue">Please enter social media link,<br> starts with:<br> for example:</font> <strong><i><font color="red">www.example.com</font></i></strong> <font color="blue">OR</font> <strong><i><font color="red">example.com</font></i></strong> <font color="blue">OR</font> <strong><i><font color="red">www.example.com/username</font></i></strong> <font color="blue">OR</font> <strong><i><font color="red">example.com/username</font></i></strong></small>
+                      <?php echo $this->Form->control('social_link',['class' => 'form-control','label' => false]); ?>
                     </div>
 
                     <div class="col-12">

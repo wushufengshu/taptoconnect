@@ -49,7 +49,7 @@ class AppController extends Controller
                 'time_to' => 'DATE_FORMAT(time_to,"%h:%i %p")'
             ])
             ->where(['user_id' => $id, 'MONTH(meeting_date)' => date('m')]) //diplay all current month only
-            ->order(['Meetings.time_from' => 'desc']);
+            ->order(['Meetings.meeting_date' => 'desc']);
         //->count();
 
         $countmeetingnow = $this->Users->Meetings

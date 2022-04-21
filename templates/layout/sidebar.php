@@ -9,7 +9,7 @@ $dashb = lcfirst($this->request->getParam('action'));
         <button class="btn navbar-toggler-humburger-icon navbar-vertical-toggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
 
     </div><a class="navbar-brand" href="">
-        <div class="d-flex align-items-center py-3"><img class="me-2" src="/assets/img/icons/spot-illustrations/falcon.png" alt="" width="40" /><span class="font-sans-serif">TTC</span>
+        <div class="d-flex align-items-center py-3"><img class="me-2" src="/assets/img/icons/spot-illustrations/ubtap.png" alt="" width="40" /><span class="font-sans-serif">UBTAP</span>
         </div>
     </a>
 </div>

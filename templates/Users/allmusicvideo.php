@@ -24,7 +24,7 @@
                     $music_video_link = trim($value->music_video_link);
                 ?>
                  <div class="col-sm-6 mb-3">
-                     <div class="d-flex position-relative align-items-center mb-2"><i class="fa fa-link"></i>&nbsp;
+                     <div class="d-flex position-relative align-items-center mb-2">
                          <div class="flex-1">
                              <h6 class="fs-0 mb-0">
                                  <?php

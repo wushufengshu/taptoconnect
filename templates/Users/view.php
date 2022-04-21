@@ -72,7 +72,7 @@
         <div class="card mb-3">
             <div class="card-header position-relative min-vh-25 mb-7">
                 <div class="bg-holder rounded-3 rounded-bottom-0">
-                    <img src="../../assets/img/generic/ubivelox1.png" style="width: 100%; height: auto;">
+                    <img src="../../assets/img/generic/ubtap.png" style="width: 100%; height: auto;">
                 </div>
                 <!--/.bg-holder-->
 

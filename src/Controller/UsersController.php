@@ -391,7 +391,7 @@ class UsersController extends AppController
         $music_videos = $this->Users->MusicVideo
             ->find('all')
             ->where(['user_id' => $id])
-            ->order(['MusicVideo.id' => 'asc']);
+            ->order(['MusicVideo.id' => 'desc']);
 
         $meetings = $this->Users->Meetings
             ->find('all')
@@ -403,7 +403,7 @@ class UsersController extends AppController
                 'time_to' => 'DATE_FORMAT(time_to,"%h:%i %p")'
             ])
             ->where(['user_id' => $id])
-            ->order(['Meetings.time_from' => 'desc']);
+            ->order(['Meetings.meeting_date' => 'desc']);
 
         return [$socials, $music_videos, $meetings];
     }
