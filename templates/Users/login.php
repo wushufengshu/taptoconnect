@@ -10,7 +10,12 @@
             <div class="col-lg-9 col-xl-8 col-xxl-6">
                 <?= $this->Flash->render() ?>
                 <div class="card">
-                    <div class="card-header bg-circle-shape bg-shape text-center p-2"><a class="font-sans-serif fw-bolder fs-4 z-index-1 position-relative link-light light" href="#">tap to connect</a></div>
+                    <div class="card-header bg-circle-shape bg-shape text-center p-2">
+                        <a class="font-sans-serif fw-bolder fs-4 z-index-1 position-relative link-light light" href="/users/login">
+                            <img class="me-2" src="/assets/img/icons/spot-illustrations/ubtap.png" alt="" width="40" /><span>UB Tap</span>
+                        </a>
+
+                    </div>
                     <div class="card-body p-4">
                         <div class="row flex-between-center">
                             <div class="col-auto">

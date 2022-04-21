@@ -16,7 +16,14 @@
 <?php else : ?>
 
     <?php
-    $expiration_date = date('Y-m-d', strtotime($user->user_cards[0]->expiration_date));
+    $activeexpiration_date = null;
+    foreach ($user->user_cards as $userCard) {
+        if ($userCard->status == 1) {
+            $activeexpiration_date = $userCard->expiration_date;
+        }
+    }
+
+    $expiration_date = date('Y-m-d', strtotime($activeexpiration_date));
     $monthbeforeexpiration = date('Y-m-d', (strtotime('-1 month', strtotime($expiration_date))));
 
     if (date('Y-m-d') > $expiration_date) { ?>

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\I18n\FrozenDate;
+
 /**
  * UserCards Controller
  *
@@ -35,6 +37,45 @@ class UserCardsController extends AppController
 
 
         $this->set(compact('userCards'));
+    }
+
+    public function checkusersubscription()
+    {
+        $this->disableAutoRender();
+        $users = $this->Users->find()->contain(['UserCards' => ['sort' => ['expiration_date' => 'ASC']]])->all();
+        $currentDate = new FrozenDate('2023-04-22');
+        foreach ($users as $user) {
+
+            foreach ($user->user_cards as $userCard) {
+                $newstatus = null;
+                if (($userCard->status == 1) &&  ($currentDate > $userCard->expiration_date)) {
+                    $newstatus = 2;
+                    $this->savenewstatus($userCard, $newstatus);
+                } elseif ($userCard->status == 3  &&  ($currentDate <= $userCard->expiration_date)) {
+                    $newstatus = 1;
+                    $this->savenewstatus($userCard, $newstatus);
+                    $this->savenewcard_id($user, $userCard);
+                }
+            }
+        }
+        $this->Flash->success(__('User\'s cards are successfully scanned'));
+        return $this->redirect(['action' => 'index']);
+    }
+
+    // public function scanusercard_id(){
+
+    // }
+    public function savenewstatus($userCard, $newstatus)
+    {
+        $userCard = $this->UserCards->patchEntity($userCard, ['status' => $newstatus]);
+        $this->UserCards->save($userCard);
+    }
+
+    public function savenewcard_id($user, $userCard)
+    {
+        $user = $this->Users->patchEntity($user, ['card_id' =>  $userCard->card_id]);
+        $user->card_id = $userCard->card_id;
+        $this->Users->save($user);
     }
 
     /**

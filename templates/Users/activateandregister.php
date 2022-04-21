@@ -1,7 +1,7 @@
 <div class="row justify-content-center pt-6">
-    <div class="col-sm-10 col-lg-7 col-xxl-5"><a class="d-flex flex-center mb-4" href="#">
-            <?= $this->Html->image('/ttc/apple-touch-icon.png', ['width' => 45, 'class' => 'me-2']) ?>
-            <span class="font-sans-serif fw-bolder fs-4 d-inline-block">Ubivelox</span></a>
+    <div class="col-sm-10 col-lg-7 col-xxl-5"><a class="d-flex flex-center mb-4" href="/users/login">
+            <?= $this->Html->image('/assets/img/icons/spot-illustrations/ubtap.png', ['width' => 40, 'class' => 'me-2']) ?>
+            <span class="font-sans-serif fw-bolder fs-4 d-inline-block">UB Tap</span></a>
         <div class="card theme-wizard mb-5" id="wizard">
             <div class="card-header bg-light pt-3 pb-2">
                 <h4>Activate Card</h4>

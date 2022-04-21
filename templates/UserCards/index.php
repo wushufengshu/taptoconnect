@@ -9,9 +9,17 @@
             <div class="col-auto ms-auto">
                 <div class="nav nav-pills nav-pills-falcon flex-grow-1 mt-2" role="tablist">
 
+                    <?php
+                    if ($identity->role_id == 1) {
+                        echo $this->Form->postLink(
+                            __('Scan user cards'),
+                            ['action' => 'checkusersubscription'],
+                            ['class' => 'btn btn-primary text-white']
+                        );
+                    }
+                    ?>
                 </div>
             </div>
-
         </div>
     </div>
     <div class="card-body pt-0">
