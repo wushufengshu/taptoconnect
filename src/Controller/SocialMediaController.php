@@ -59,6 +59,8 @@ class SocialMediaController extends AppController
             $socialMedia = $this->SocialMedia->patchEntity($socialMedia, $this->request->getData());
 
             $socialMedia->user_id = $this->Authentication->getIdentity()->getIdentifier();
+            $url = preg_replace("(^https?://)", "", $socialMedia->social_link );
+            $socialMedia->social_link = $url; //removes either http:// or https://
 
             if ($this->SocialMedia->save($socialMedia)) {
                 $this->Flash->success(__('The social media has been saved.'));
@@ -93,6 +95,10 @@ class SocialMediaController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $socialMedia = $this->SocialMedia->patchEntity($socialMedia, $this->request->getData());
+
+            $url = preg_replace("(^https?://)", "", $socialMedia->social_link );
+            $socialMedia->social_link = $url; //removes either http:// or https://
+            
             if ($this->SocialMedia->save($socialMedia)) {
                 $this->Flash->success(__('The social media has been saved.'));
 

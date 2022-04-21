@@ -1,3 +1,3 @@
 <?php 
-//echo $generated_text; //should be displayed for printing data
+echo $generated_text; //should be displayed for printing data
 ?>

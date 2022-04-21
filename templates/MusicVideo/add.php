@@ -23,7 +23,11 @@
                     </div>
                     -->
                     <div class="col-md-12">
-                      <?php echo $this->Form->control('music_video_link',['class' => 'form-control']); ?>
+                      <label>Music & Video Link</label><br>
+                      <!--
+                      <small><font color="blue">Please enter music & video link,<br> starts with:<br> for example:</font> <strong><i><font color="red">www.example.com</font></i></strong> <font color="blue">OR</font> <strong><i><font color="red">example.com</font></i></strong> <font color="blue">OR</font> <strong><i><font color="red">www.example.com/musicvideocode</font></i></strong> <font color="blue">OR</font> <strong><i><font color="red">example.com/musicvideocode</font></i></strong></small>
+                      -->
+                      <?php echo $this->Form->control('music_video_link',['class' => 'form-control','label' => false,'placeholder' => 'Enter Music & Video Link']); ?>
                     </div>
 
                     <div class="col-12">

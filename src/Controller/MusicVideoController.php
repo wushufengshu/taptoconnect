@@ -59,6 +59,8 @@ class MusicVideoController extends AppController
             $musicVideo = $this->MusicVideo->patchEntity($musicVideo, $this->request->getData());
 
             $musicVideo->user_id = $this->Authentication->getIdentity()->getIdentifier();
+            $url = preg_replace("(^https?://)", "", $musicVideo->music_video_link );
+            $musicVideo->music_video_link = $url; //removes either http:// or https://
 
             if ($this->MusicVideo->save($musicVideo)) {
                 $this->Flash->success(__('The music video has been saved.'));
@@ -92,6 +94,8 @@ class MusicVideoController extends AppController
             $musicVideo = $this->MusicVideo->patchEntity($musicVideo, $this->request->getData());
 
             $musicVideo->user_id = $this->Authentication->getIdentity()->getIdentifier();
+            $url = preg_replace("(^https?://)", "", $musicVideo->music_video_link );
+            $musicVideo->music_video_link = $url; //removes either http:// or https://
             
             if ($this->MusicVideo->save($musicVideo)) {
                 $this->Flash->success(__('The music video has been saved.'));
