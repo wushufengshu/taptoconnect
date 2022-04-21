@@ -43,7 +43,7 @@ class UserCardsController extends AppController
     {
         $this->disableAutoRender();
         $users = $this->Users->find()->contain(['UserCards' => ['sort' => ['expiration_date' => 'ASC']]])->all();
-        $currentDate = new FrozenDate('2023-04-22');
+        $currentDate = new FrozenDate(date('Y-m-d'));
         foreach ($users as $user) {
 
             foreach ($user->user_cards as $userCard) {
