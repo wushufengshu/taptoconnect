@@ -59,7 +59,7 @@
                       "<font color='white' size='3px'><i class='fas fa-cloud-download-alt'></i> </font>",
                       ['action' => 'exportcsv'], 
                       ['class' => 'float-right btn btn-success float-left mr-2 ',
-                      'title' => 'Download CSV',
+                      'title' => 'Download CSV (All Cards Data)',
                       'escape' => false ]) 
                     ?>
 
@@ -102,7 +102,7 @@
                       <table class="table table-bordered table-hover fs--1 mb-0" id="tableExample2">
                         <thead class="bg-200 text-900">
                           <tr>
-                            <th colspan="12"><button type="submit" name="export_selected" class="btn btn-success float-right mr-2"><i class='fas fa-cloud-download-alt'></i> Download/Export Checked</button></th>
+                            <th colspan="12"><button type="submit" name="export_selected" class="btn btn-success float-right mr-2"><i class='fas fa-cloud-download-alt'></i> Download CSV (Selected)</button></th>
                           </tr>
                           <tr>
                             <th>Select All&nbsp;<input type="checkbox" onclick="toggle(this);"></th>

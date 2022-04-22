@@ -18,9 +18,117 @@ class VouchersController extends AppController
      */
     public function index()
     {
-        $vouchers = $this->paginate($this->Vouchers);
+        $this->Authorization->skipAuthorization();
 
-        $this->set(compact('vouchers'));
+        //$vouchers = $this->paginate($this->Vouchers);
+        $vouchers = $this->Vouchers->find()->order(['id' => 'desc'])->all();
+
+            $voucher = $this->Vouchers->newEmptyEntity();
+            if ($this->request->is('post') && isset($_POST['generate'])) {
+                
+                $voucher = $this->Vouchers->patchEntity($voucher, $this->request->getData());
+                $quantity = $_POST['quantity'];
+                //dd($quantity);
+                for ($i=0; $i < $quantity; $i++) { 
+
+                    $voucher_code = $this->Vouchers->generate_vcode(); //call function from VouchersTable Model to generate unique code for voucher code
+                    $status = 0;
+                    $created = date('Y-m-d H:i:s');
+
+                    $insertquery = $this->connection->execute("
+                        INSERT INTO vouchers(
+                       voucher_code,status,created) 
+                        SELECT * FROM 
+                        (SELECT '$voucher_code') AS tmp1,
+                        (SELECT '$status') AS tmp2,
+                        (SELECT '$created') AS tmp3
+                        WHERE NOT EXISTS 
+                        (SELECT 
+                        voucher_code,status,created
+                        FROM 
+                        vouchers 
+                        WHERE 
+                        voucher_code = '$voucher_code' 
+                        )
+                        ");
+                }
+                        if($insertquery) {
+                        $this->Flash->success(__('Voucher Code data has been saved.'));
+                        return $this->redirect(['controller' => 'Vouchers','action' => 'index']);//redirect to voucher main
+                        }
+                        else{
+                        $this->Flash->error(__('Voucher Code data could not be saved. Please, try again.'));
+                        }
+                
+            }
+
+            if(isset($_POST['export_selected']) && isset($_POST['checked_item']) ){
+
+                $checkboxes = $_POST['checked_item'];
+
+                for($i = 0; $i < count($checkboxes); $i++){
+           
+                    $checked_item = $_POST['checked_item'][$i];
+
+                        $voucher_list = $this->Vouchers
+                        ->find()
+                        ->select([
+                            'id', 'voucher_code', 'status', 'created'
+                        ])
+                        ->where(['id' => $checked_item])
+                        ->all();
+
+                        $delimiter = ","; 
+                        $f = fopen('php://output', 'w');
+
+                        $flag = false;
+                        foreach ($voucher_list as $key => $value) {
+
+                        $arr =array(
+                            'Id' => $value['id'],
+                            'Voucher Code' => $value['voucher_code'],
+                            'Status - 0-Available/1-Used' => $value['status'], 
+                            'Created' => $value['created']);
+                        
+                        if(!$flag) { 
+                           // display field/column names as first row 
+                           fputcsv($f, array_keys($arr), ',', '"');
+                           $flag = true; 
+                         } 
+
+                        fputcsv($f, array_values($arr), ',', '"');
+
+                        //$lineData = array($value['id'],$value['voucher_code'], $value['status'], $value['created']); 
+                        //fputcsv($f, $lineData, $delimiter);
+                        
+                        }
+                        fclose($f) or die("Can't close php://output");
+
+                        $filename = "VOUCHER_DATA_".date("Y_m_d_H_i_s").".csv";
+                       // Set headers to download file rather than displayed 
+                        header('Content-Type: text/csv'); 
+                        header('Content-Disposition: attachment; filename="' . $filename . '";'); 
+        
+                  }
+                  exit();
+            }
+
+        $this->set(compact('vouchers','voucher'));
+    }
+
+    public function exportcsv(){
+
+        $this->Authorization->skipAuthorization();
+
+        $filename = "VOUCHERS_DATA_".date("Y_m_d_H_i_s").".csv";
+        $this->response = $this->response->withDownload($filename);
+        $vouchers = $this->Vouchers->find()->all();
+        $_serialize = 'vouchers';
+        $_header = ['Voucher Code', 'Status - 0-Available/1-Used', 'Created'];
+        $_extract = ['voucher_code', 'status', 'created'];
+
+        $this->viewBuilder()->setClassName('CsvView.Csv');
+        $this->set(compact('vouchers', '_serialize', '_header', '_extract'));
     }
 
     /**
@@ -32,6 +140,8 @@ class VouchersController extends AppController
      */
     public function view($id = null)
     {
+        $this->Authorization->skipAuthorization();
+
         $voucher = $this->Vouchers->get($id, [
             'contain' => ['UserCards'],
         ]);
@@ -46,6 +156,8 @@ class VouchersController extends AppController
      */
     public function add()
     {
+        $this->Authorization->skipAuthorization();
+
         $voucher = $this->Vouchers->newEmptyEntity();
         if ($this->request->is('post')) {
             $voucher = $this->Vouchers->patchEntity($voucher, $this->request->getData());
@@ -68,6 +180,8 @@ class VouchersController extends AppController
      */
     public function edit($id = null)
     {
+        $this->Authorization->skipAuthorization();
+        
         $voucher = $this->Vouchers->get($id, [
             'contain' => [],
         ]);
@@ -92,6 +206,8 @@ class VouchersController extends AppController
      */
     public function delete($id = null)
     {
+        $this->Authorization->skipAuthorization();
+        
         $this->request->allowMethod(['post', 'delete']);
         $voucher = $this->Vouchers->get($id);
         if ($this->Vouchers->delete($voucher)) {
@@ -102,4 +218,6 @@ class VouchersController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+
 }

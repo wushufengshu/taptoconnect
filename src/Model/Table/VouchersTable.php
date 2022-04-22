@@ -67,12 +67,20 @@ class VouchersTable extends Table
         $validator
             ->scalar('voucher_code')
             ->maxLength('voucher_code', 255)
-            ->allowEmptyString('voucher_code');
+            //->allowEmptyString('voucher_code');
+            ->notEmptyString('voucher_code');
 
         $validator
             ->integer('status')
             ->notEmptyString('status');
 
         return $validator;
+    }
+
+    public function generate_vcode()
+    {
+        $str1 = str_shuffle(random_bytes(20) . sha1("Ub1v3L0XpHiL1pPiN3iNc!"));
+        $str2 = date("Y-m-d H:i:s") . md5($str1);
+        return strtoupper(strrev(substr(str_shuffle(md5(base64_encode($str2))), 0, 6))); //generate unique code for serial code
     }
 }
