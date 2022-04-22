@@ -148,25 +148,29 @@ class UsersController extends AppController
                 $currentDate = new FrozenDate(date('Y-m-d'));
                 //get currently used card 
                 $currentcard = $this->UserCards->find('all')->where(['user_id' => $user->id, 'status' => 1, 'expiration_date' <= $currentDate])->first();
-                $currentcard = $this->UserCards->patchEntity($currentcard, ['status' => 2]);
-                $currentcard->status = 2;
-                if ($this->UserCards->save($currentcard)) {
-                    $expiration_date = $currentcard->expiration_date->addDay()->addYear();
+                $expiration_date = $currentDate->addYear();
+                if ($currentcard) {
+                    $currentcard = $this->UserCards->patchEntity($currentcard, ['status' => 2]);
+                    $currentcard->status = 2;
 
-                    $usercards = $this->UserCards->newEmptyEntity();
-                    // condition kapag nagka new subscription si user based on status
-                    $usercards = $this->UserCards->patchEntity($usercards, ['user_id' => $user->id, 'card_id' => $card->id, 'expiration_date' => $expiration_date, 'status' => 1]);
-                    if ($this->UserCards->exists([$user->id, 'card_id' => $card->id])) {
-                        $this->Flash->error(__('The card has already been activated.'));
-                    } elseif ($this->UserCards->save($usercards)) {
-                        $user->card_id = $card->id;
-                        if ($this->Users->save($user)) {
-                            $this->Flash->success(__('The card is now activated and linked to user.'));
-                            return $this->redirect(['controller' => 'Users', 'action' => 'login']);
-                        }
-                    } else {
-                        $this->Flash->error(__('The card could not be saved. Please, try again.'));
+                    if ($this->UserCards->save($currentcard)) {
+                        $expiration_date = $currentcard->expiration_date->addDay()->addYear();
                     }
+                }
+
+                $usercards = $this->UserCards->newEmptyEntity();
+                // condition kapag nagka new subscription si user based on status
+                $usercards = $this->UserCards->patchEntity($usercards, ['user_id' => $user->id, 'card_id' => $card->id, 'expiration_date' => $expiration_date, 'status' => 1]);
+                if ($this->UserCards->exists([$user->id, 'card_id' => $card->id])) {
+                    $this->Flash->error(__('The card has already been activated.'));
+                } elseif ($this->UserCards->save($usercards)) {
+                    $user->card_id = $card->id;
+                    if ($this->Users->save($user)) {
+                        $this->Flash->success(__('The card is now activated and linked to user.'));
+                        return $this->redirect(['controller' => 'Users', 'action' => 'login']);
+                    }
+                } else {
+                    $this->Flash->error(__('The card could not be saved. Please, try again.'));
                 }
             }
         }
