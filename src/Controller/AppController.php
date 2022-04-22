@@ -99,6 +99,7 @@ class AppController extends Controller
         $this->loadModel('Meetings');
         $this->loadModel('Cards');
         $this->loadModel('UserCards');
+        $this->loadModel('UserVouchers');
     }
 
 

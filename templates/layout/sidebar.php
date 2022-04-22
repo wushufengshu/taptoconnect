@@ -66,16 +66,30 @@ $dashb = lcfirst($this->request->getParam('action'));
                 </a>
             </li>
 
-            <li class="nav-item">
-                <?php $path = '/vouchers'; ?>
-                <a href="<?php echo $this->Url->build(($path)); ?>" role="button" data-bs-toggle="" aria-expanded="false" class="nav-link  
+            <?php if ($identity->role_id == 1) : ?>
+                <li class="nav-item">
+                    <?php $path = '/vouchers'; ?>
+                    <a href="<?php echo $this->Url->build(($path)); ?>" role="button" data-bs-toggle="" aria-expanded="false" class="nav-link  
                     <?php echo ($currentPath == 'vouchers') ?  'active' : ''; ?>">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-icon"><span class="far fas fa-gift"></span></span>
+                            <span class="nav-link-text ps-1">Vouchers</span>
+                        </div>
+                    </a>
+                </li>
+            <?php endif; ?>
+
+            <li class="nav-item">
+                <?php $path = '/uservouchers'; ?>
+                <a href="<?php echo $this->Url->build(($path)); ?>" role="button" data-bs-toggle="" aria-expanded="false" class="nav-link  
+                    <?php echo ($currentPath == 'uservouchers') ?  'active' : ''; ?>">
                     <div class="d-flex align-items-center">
                         <span class="nav-link-icon"><span class="far fas fa-gift"></span></span>
-                        <span class="nav-link-text ps-1">Vouchers</span>
+                        <span class="nav-link-text ps-1">User Vouchers</span>
                     </div>
                 </a>
             </li>
+
         </ul>
 
     </div>

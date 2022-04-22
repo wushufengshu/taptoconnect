@@ -490,6 +490,21 @@ class UsersController extends AppController
     {
 
         $this->Authorization->skipAuthorization();
+        $user = $this->Users->get($this->Authentication->getIdentity()->getIdentifier(), [
+            'contain' => [],
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $user = $this->Users->patchEntity($user, $this->request->getData());
+            $user->latitude = $this->request->getData('latitude');
+            $user->longitude = $this->request->getData('longitude');
+            if ($this->Users->save($user)) {
+                $this->Flash->success(__('The map details has been saved.'));
+
+                return $this->redirect(['action' => 'profile']);
+            }
+            $this->Flash->error(__('The map details could not be saved. Please, try again.'));
+        }
+        $this->set(compact('user'));
     }
     public function serial($serial_code)
     {

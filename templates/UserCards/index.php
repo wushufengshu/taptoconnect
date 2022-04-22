@@ -43,8 +43,9 @@
                         <table class="table table-bordered table-hover fs--1 mb-0">
                             <thead class="bg-200 text-900">
                                 <tr>
-
-                                    <th class="sort" data-sort="name">Name</th>
+                                    <?php if ($identity->role_id == 1) { ?>
+                                        <th class="sort" data-sort="name">Name</th>
+                                    <?php } ?>
                                     <th class="sort" data-sort="serialcardno">Card Serial Code</th>
                                     <th class="sort" data-sort="verificationcardno">Verification Code</th>
                                     <th class="sort" data-sort="expiration_date">Expiration Date</th>
@@ -80,7 +81,10 @@
                                     }
                                     ?>
                                     <tr class="<?php echo $tr_class; ?>">
-                                        <td class="name"><?= $userCard->user->firstname . ' ' . $userCard->user->lastname  ?></td>
+
+                                        <?php if ($identity->role_id == 1) { ?>
+                                            <td class="name"><?= $userCard->user->firstname . ' ' .  $this->Common->get_starred($userCard->user->lastname) ?></td>
+                                        <?php } ?>
                                         <td class="serialcardno"><?= $userCard->card->serial_code  ?></td>
                                         <td class="verificationcardno"><?= $userCard->card->verification_code  ?></td>
                                         <td class="expiration_date"><?= h($userCard->expiration_date) ?></td>
