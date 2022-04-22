@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Log\Log;
+use Cake\I18n\FrozenDate;
 use PHPMailer\PHPMailer\Exception;
 use Cake\Http\Exception\NotFoundException;
 
@@ -123,7 +124,7 @@ class UsersController extends AppController
             $token = $loggedinuser->token;
         }
 
-        $user = $this->Users->findByToken($token)->first();
+        $user = $this->Users->findByToken($token)->contain(['UserCards'])->first();
         $this->request->allowMethod(['get', 'post']);
         if ($this->request->is(['patch', 'post', 'put'])) {
 
@@ -144,23 +145,28 @@ class UsersController extends AppController
             if ($card->verification_code != $request->getData('verification_code')) {
                 $this->Flash->error(__('Could not activate card. Please try again.'));
             } else {
-                $expiration_date = date('Y-m-d', strtotime('+1 year'));
-                // $user->card_id = $card->id;
-                // $user->serial_code = $request->getData('serial_code');
-                // $user->verification_code = $request->getData('verification_code');
-                // $user->activated = 1;
-                // $user->expiration_date = $expiration_date;
+                $currentDate = new FrozenDate(date('Y-m-d'));
+                //get currently used card 
+                $currentcard = $this->UserCards->find('all')->where(['user_id' => $user->id, 'status' => 1, 'expiration_date' <= $currentDate])->first();
+                $currentcard = $this->UserCards->patchEntity($currentcard, ['status' => 2]);
+                $currentcard->status = 2;
+                if ($this->UserCards->save($currentcard)) {
+                    $expiration_date = $currentcard->expiration_date->addDay()->addYear();
 
-                $usercards = $this->UserCards->newEmptyEntity();
-                // condition kapag nagka new subscription si user based on status
-                $usercards = $this->UserCards->patchEntity($usercards, ['user_id' => $user->id, 'card_id' => $card->id, 'expiration_date' => $expiration_date, 'status' => 1]);
-                if ($this->UserCards->exists([$user->id, 'card_id' => $card->id])) {
-                    $this->Flash->error(__('The card has already been activated.'));
-                } elseif ($this->UserCards->save($usercards)) {
-                    $this->Flash->success(__('The card is now activated and linked to user.'));
-                    return $this->redirect(['controller' => 'Users', 'action' => 'login']);
-                } else {
-                    $this->Flash->error(__('The card could not be saved. Please, try again.'));
+                    $usercards = $this->UserCards->newEmptyEntity();
+                    // condition kapag nagka new subscription si user based on status
+                    $usercards = $this->UserCards->patchEntity($usercards, ['user_id' => $user->id, 'card_id' => $card->id, 'expiration_date' => $expiration_date, 'status' => 1]);
+                    if ($this->UserCards->exists([$user->id, 'card_id' => $card->id])) {
+                        $this->Flash->error(__('The card has already been activated.'));
+                    } elseif ($this->UserCards->save($usercards)) {
+                        $user->card_id = $card->id;
+                        if ($this->Users->save($user)) {
+                            $this->Flash->success(__('The card is now activated and linked to user.'));
+                            return $this->redirect(['controller' => 'Users', 'action' => 'login']);
+                        }
+                    } else {
+                        $this->Flash->error(__('The card could not be saved. Please, try again.'));
+                    }
                 }
             }
         }
@@ -659,10 +665,10 @@ class UsersController extends AppController
         $contactno = $user->contactno; //mobiile no
         $address = $user->address;
         $website = $user->website;
-        
+
         $filename = $fullname . "-" . date("Y-m-d H:i:s") . ".vcf";
 
-        $generated_text = $this->Users->generate_vcard($fullname, $firstname, $lastname, $company, $job_title, $business_no, $home_no, $fax_no, $contactno, $email, $website, $address );
+        $generated_text = $this->Users->generate_vcard($fullname, $firstname, $lastname, $company, $job_title, $business_no, $home_no, $fax_no, $contactno, $email, $website, $address);
         header('Content-Type: text/vcard;charset=utf-8;');
         header('Content-Disposition: attachment; filename="' . $filename);
         echo $generated_text; //required/should be displayed for printing/getting data
