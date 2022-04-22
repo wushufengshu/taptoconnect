@@ -26,7 +26,7 @@ class CardsController extends AppController
     public function index()
     {
         //$cards = $this->paginate($this->Cards);
-        $cards = $this->Cards->find()->all();
+        $cards = $this->Cards->find()->order(['id' => 'desc'])->all();
 
         if(isset($_POST["submit"])){
 
@@ -134,30 +134,56 @@ class CardsController extends AppController
                 
             }
 
-            if(isset($_POST['export_selected'])){
+            if(isset($_POST['export_selected']) && isset($_POST['checked_item']) ){
 
-                for($i = 0; $i < count($_POST['checked_item']); $i++){
-  
-                  $checked_item = $_POST['checked_item'][$i];
-                  //dd($checked_item);
+                $checkboxes = $_POST['checked_item'];
 
-                    $filename = "CARDS_DATA_".date("Y_m_d_H_i_s").".csv";
-                    $this->response = $this->response->withDownload($filename);
+                for($i = 0; $i < count($checkboxes); $i++){
+           
+                    $checked_item = $_POST['checked_item'][$i];
 
-                    $card_list = $this->Cards
-                    ->find('all')
-                    ->select([
-                        'id', 'serial_code', 'verification_code', 'card_link', 'created'
-                    ])
-                    ->where(['id' => $checked_item]);
+                        $card_list = $this->Cards
+                        ->find()
+                        ->select([
+                            'id', 'serial_code', 'verification_code', 'card_link', 'created'
+                        ])
+                        ->where(['id' => $checked_item])
+                        ->all();
 
-                    $_serialize = 'card_list';
-                    $_header = ['Serial Code', 'Verification Code', 'Card Link', 'Created'];
-                    $_extract = ['serial_code', 'verification_code', 'card_link', 'created'];
+                        $delimiter = ","; 
+                        $f = fopen('php://output', 'w');
 
-                    $this->viewBuilder()->setClassName('CsvView.Csv');
-                    $this->set(compact('card_list', '_serialize', '_header', '_extract'));
-                }
+                        $flag = false;
+                        foreach ($card_list as $key => $value) {
+
+                        $arr =array(
+                            'Id' => $value['id'],
+                            'Serial Code' => $value['serial_code'],
+                            'Verification Code' => $value['verification_code'], 
+                            'Card Link' => $value['card_link'], 
+                            'Created' => $value['created']);
+                        
+                        if(!$flag) { 
+                           // display field/column names as first row 
+                           fputcsv($f, array_keys($arr), ',', '"');
+                           $flag = true; 
+                         } 
+
+                        fputcsv($f, array_values($arr), ',', '"');
+
+                        //$lineData = array($value['id'],$value['serial_code'], $value['verification_code'], $value['card_link'], $value['created']); 
+                        //fputcsv($f, $lineData, $delimiter);
+                        
+                        }
+                        fclose($f) or die("Can't close php://output");
+
+                        $filename = "CARD_DATA_".date("Y_m_d_H_i_s").".csv";
+                       // Set headers to download file rather than displayed 
+                        header('Content-Type: text/csv'); 
+                        header('Content-Disposition: attachment; filename="' . $filename . '";'); 
+        
+                  }
+                  exit();
             }
         
 
@@ -167,7 +193,8 @@ class CardsController extends AppController
     public function exportcsv(){
     $filename = "CARDS_DATA_".date("Y_m_d_H_i_s").".csv";
     $this->response = $this->response->withDownload($filename);
-    $cards = $this->Cards->find();
+    $cards = $this->Cards->find()->all();
+    //dd($cards);
     $_serialize = 'cards';
     $_header = ['Serial Code', 'Verification Code', 'Card Link', 'Created'];
     $_extract = ['serial_code', 'verification_code', 'card_link', 'created'];
