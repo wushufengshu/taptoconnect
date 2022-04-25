@@ -21,10 +21,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                ...
+                I agree to the collection and processing of my data, for the purpose of signing up to Ubivelox Philippines' products. I understand that the collection and use of this data, which may include personal information and sensitive personal information, shall be in accordance with the Data Privacy Act of 2012.
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn " data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="acceptprivacypolicy">Accept</button>
             </div>
         </div>
     </div>
@@ -203,6 +204,11 @@
 <script>
     $(document).ready(function() {
         $("#exampleModal").modal('show');
+
+        $('#acceptprivacypolicy').click(function() {
+            $('#bootstrap-wizard-wizard-privacy').prop('checked', true);
+            $("#exampleModal").modal('hide');
+        })
     });
 
     const foo = document.querySelector('#thumbsupli')
