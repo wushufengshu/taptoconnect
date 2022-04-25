@@ -266,7 +266,7 @@
                     <div class="card-header bg-light d-flex justify-content-between">
                         <h5 class="mb-0">Office</h5>
                     </div>
-                    <div class="card-body fs--1 pb-0">
+                    <div class="card-body fs--1 pb-0 pt-0 px-3">
                         <div class="row">
                             <input type="hidden" id="latitude" value="<?= $user->latitude ?>">
                             <input type="hidden" id="longitude" value="<?= $user->longitude ?>">
@@ -331,6 +331,11 @@
                 transparent: true,
                 filter: getFilterColor(),
             });
+
+            var myIcon = L.icon({
+                iconUrl: '/vendors/leaflet/images/marker-icon.png',
+                iconSize: [15, 15],
+            });
             var map = L.map("map", {
                 center: L.latLng(10.737, 0),
                 zoom: 0,
@@ -340,6 +345,16 @@
                 dragging: !L.Browser.mobile,
                 tap: !L.Browser.mobile,
             }).setView([12.8797, 121.7740], 5);
+
+            var inputLatitude = document.getElementById("latitude").value;
+            var inputLongitude = document.getElementById("longitude").value;
+
+
+            var theMarker = L.marker([inputLatitude, inputLongitude], {
+                icon: myIcon
+            }).addTo(map);
+
+
             var mcg = L.markerClusterGroup({
                 chunkedLoading: false,
                 spiderfyOnMaxZoom: false,

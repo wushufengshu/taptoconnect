@@ -18,7 +18,7 @@ $dashb = lcfirst($this->request->getParam('action'));
         <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">
 
             <li class="nav-item">
-                <?php ($identity->role_id == 1) ? $path = '/dashboard'  : $path = '/'; ?>
+                <?php ($identity->role_id == 1) ? $path = '#'  : $path = '#'; ?>
                 <a href="<?php echo $this->Url->build(($path)); ?>" role="button" data-bs-toggle="" aria-expanded="false" class="nav-link  
             <?php
             if ($currentPath == 'dashboard') {

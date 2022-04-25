@@ -42,6 +42,7 @@
             setTimeout(fn, 1);
         }
     };
+
     /* -------------------------------------------------------------------------- */
 
     /*                                   leaflet                                  */
@@ -77,6 +78,11 @@
                 transparent: true,
                 filter: getFilterColor(),
             });
+
+            var myIcon = L.icon({
+                iconUrl: '/vendors/leaflet/images/marker-icon.png',
+                iconSize: [15, 15],
+            });
             var map = L.map("map", {
                 center: L.latLng(10.737, 0),
                 zoom: 0,
@@ -86,12 +92,22 @@
                 dragging: !L.Browser.mobile,
                 tap: !L.Browser.mobile,
             }).setView([12.8797, 121.7740], 5);
+
+            var inputLatitude = document.getElementById("latitude").value;
+            var inputLongitude = document.getElementById("longitude").value;
+
+
             var mcg = L.markerClusterGroup({
                 chunkedLoading: false,
                 spiderfyOnMaxZoom: false,
             });
             var popup = L.popup();
             var theMarker = {};
+
+            var theMarker = L.marker([inputLatitude, inputLongitude], {
+                icon: myIcon
+            }).addTo(map);
+
 
             function onMapClick(e) {
                 // popup
@@ -103,9 +119,12 @@
                 };
 
                 //Add a marker to show where you clicked. 
-                theMarker = new L.marker(e.latlng).addTo(map);
-                document.getElementById("latitude").value = e.latlng.lat;
-                document.getElementById("longitude").value = e.latlng.lng;
+                theMarker = L.marker(e.latlng, {
+                    icon: myIcon
+                }).addTo(map);
+                var inputLatitude = document.getElementById("latitude").value = e.latlng.lat;
+                var inputLongitude = document.getElementById("longitude").value = e.latlng.lng;
+                console.log(inputLatitude);
             }
 
             map.on('click', onMapClick);

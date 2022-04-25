@@ -11,6 +11,24 @@
         -moz-appearance: textfield;
     }
 </style>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Privacy Policy</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row justify-content-center pt-6">
     <div class="col-sm-10 col-lg-7 col-xxl-5">
         <a class="d-flex flex-center mb-4" href="/users/login">
@@ -66,7 +84,10 @@
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="privacy" required="required" id="bootstrap-wizard-wizard-privacy" data-wizard-validate-privacy="true" />
-                                <label class="form-check-label" for="bootstrap-wizard-wizard-privacy">I accept the <a href="#!">terms </a>and <a href="#!">privacy policy</a></label>
+                                <label class="form-check-label" for="bootstrap-wizard-wizard-privacy">I accept the <a href="#!">terms </a>and
+                                    <a href="#!" data-bs-toggle="modal" data-bs-target="#exampleModal">privacy policy</a></label>
+
+
                             </div>
                         </form>
                     </div>
@@ -180,6 +201,10 @@
 </div>
 <script src="/jquery/jquery.min.js?n=1"></script>
 <script>
+    $(document).ready(function() {
+        $("#exampleModal").modal('show');
+    });
+
     const foo = document.querySelector('#thumbsupli')
     foo.addEventListener('click', (event) => {
         event.preventDefault();
@@ -268,7 +293,7 @@
             prevButton.classList.add("d-none"); // on button click tab change
             //
             nextButton.addEventListener("click", function() {
-                if ((!inputUsername.value || !(inputEmail.value && validatePattern(emailPattern, inputEmail.value)) || !inputPassword.value) && form.className.includes("needs-validation")) {
+                if ((!inputUsername.value || !(inputEmail.value && validatePattern(emailPattern, inputEmail.value)) || !inputPassword.value || !inputPrivacy.checked) && form.className.includes("needs-validation")) {
                     form.classList.add("was-validated");
                 } else {
                     count += 1;
@@ -341,7 +366,7 @@
                 tabToggleButtonEl.forEach(function(item, index) {
                     /* eslint-disable */
                     item.addEventListener("show.bs.tab", function(e) {
-                        if ((!inputUsername || !(inputEmail.value && validatePattern(emailPattern, inputEmail.value)) || !inputPassword.value) && form.className.includes("needs-validation")) {
+                        if ((!inputUsername.value || !(inputEmail.value && validatePattern(emailPattern, inputEmail.value)) || !inputPassword.value || !inputPrivacy.checked) && form.className.includes("needs-validation")) {
                             e.preventDefault();
                             form.classList.add("was-validated");
                             return null;
