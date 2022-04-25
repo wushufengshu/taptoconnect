@@ -20,8 +20,6 @@ class UsersController extends AppController
     public function initialize(): void
     {
         parent::initialize();
-        $this->loadModel('Cards');
-        $this->loadModel('UserCards');
     }
 
     public function beforeFilter(\Cake\Event\EventInterface $event)
@@ -116,7 +114,12 @@ class UsersController extends AppController
         }
         $this->set(compact('user'));
     }
+    public function extendviavoucher($voucher)
+    {
 
+        $this->Authorization->skipAuthorization();
+        dd(1);
+    }
     public function activatecard($token = null)
     {
         $this->Authorization->skipAuthorization();
@@ -553,8 +556,9 @@ class UsersController extends AppController
             } else {
                 throw new NotFoundException();
             }
+        } else {
+            throw new NotFoundException();
         }
-
 
         $this->render('/Users/view');
     }
@@ -587,8 +591,28 @@ class UsersController extends AppController
 
         //binding method 
         $this->request->allowMethod(['get', 'post']);
-        if ($this->request->is(['patch', 'post', 'put'])) {
+        if ($this->request->is('post') && isset($_POST['extendviavoucher'])) {
+            //codes here for extending card via voucher  
 
+            $voucher = $this->Vouchers->findByVoucherCode($this->request->getData('voucher_code'))->first();
+            if ($voucher) {
+                if ($voucher->status == 1) {
+
+                    $this->Flash->error(__('Sorry, entered voucher is already in use. Please try again'));
+                } else {
+                    $vouchertouse = $this->Vouchers->patchEntity($voucher, ['status' => 1]);
+                    $voucher = $this->Vouchers->save($vouchertouse);
+
+                    $userVoucher = $this->UserVouchers->newEntity(['user_id' => $this->Authentication->getIdentity()->getIdentifier(), 'voucher_id' => $voucher->id]);
+                    $this->UserVouchers->save($userVoucher);
+                    $this->Flash->success(__('Voucher is now in use.'));
+                    return $this->redirect(['action' => 'token']);
+                }
+            } else {
+                $this->Flash->error(__('Entered voucher is not found. Please try again'));
+            }
+        } elseif ($this->request->is(['patch', 'post', 'put'])) {
+            //this code is for linking card to user or add new card to user  
             $this->bindusertocard($this->request, $userbytoken);
         }
 

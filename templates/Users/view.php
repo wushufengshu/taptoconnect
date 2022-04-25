@@ -49,10 +49,10 @@
                     <div class="row">
                         <div class="col-lg-8">
                             <h4 class="mb-1">Your subscription is about to expire!</h4>
-                            <p>Hi, we would like to notify you that your subscription is soon to be expired. Please renew your subscription now.</p>
+                            <p>Hi, we would like to notify you that your subscription is soon to be expired. Please extend your subscription now using voucher.</p>
 
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                New subscription
+                                Use voucher
                             </button>
 
                             <!-- Modal -->
@@ -60,12 +60,12 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Add new subscription</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Extens subscription</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
 
-                                            <?= $this->element('forms/activatecard') ?>
+                                            <?= $this->element('forms/extendviavoucher') ?>
                                         </div>
                                     </div>
                                 </div>
