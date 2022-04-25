@@ -17,6 +17,7 @@ class UserCardsController extends AppController
     public function initialize(): void
     {
         parent::initialize();
+        $this->Authentication->addUnauthenticatedActions(['checkusersubscription']);
         $this->Authorization->skipAuthorization();
     }
     /**
@@ -58,8 +59,8 @@ class UserCardsController extends AppController
                 }
             }
         }
-        $this->Flash->success(__('User\'s cards are successfully scanned'));
-        return $this->redirect(['action' => 'index']);
+        // $this->Flash->success(__('User\'s cards are successfully scanned'));
+        // return $this->redirect(['action' => 'index']);
     }
 
     // public function scanusercard_id(){
