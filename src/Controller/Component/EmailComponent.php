@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Controller\Component;
 
-use Cake\Controller\Component;
-use Cake\Controller\ComponentRegistry;
-
-
-use PHPMailer\PHPMailer\PHPMailer;
+use Cake\Mailer\Mailer;
 use PHPMailer\PHPMailer\SMTP;
+
+
+use Cake\Controller\Component;
 use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+use Cake\Controller\ComponentRegistry;
 
 // require 'vendor/autoload.php';
 
@@ -29,7 +30,6 @@ class EmailComponent extends Component
     public function initialize(array $_defaultConfig): void
     {
     }
-
     public function send_verification_email($user)
     {
         $mail = new PHPMailer(true);
@@ -40,30 +40,28 @@ class EmailComponent extends Component
         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
         $mail->Username   = getEnv('EMAIL_USERNAME');                     //SMTP username
         $mail->Password   = getEnv('EMAIL_PASSWORD');                     //SMTP password
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+        $mail->SMTPSecure = 'ssl';            //Enable implicit TLS encryption
         $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
         //Recipients
         //put into .env file 
         $mail->setFrom(getEnv('EMAIL_USERNAME'), 'UB Tap');
         $mail->addAddress($user->email, $user->firstname . ' ' . $user->lastname);     //Add a recipient 
-        $mail->addReplyTo('info@ubitap.com', 'Information');
+        $mail->addReplyTo('info@ubtap.com', 'Information');
 
 
         //Content
         $mail->isHTML(true);                                  //Set email format to HTML
         $mail->Subject = 'UBTap Card Activation';
         $mail->Body    = 'Dear ' . ucfirst($user->firstname) . ',
-
-        Please click this link: http://taptoconnect.local:8080/users/activatecard/' . $user->token . ' to verify/activate your account.
+        Please click this link: https://ubtap.myubplus.com.ph/users/activatecard/' . $user->token . ' to verify/activate your account.
         
         UB Tap team';
         $mail->AltBody = 'Dear ' . ucfirst($user->firstname) . ',
-
-        Please click this link: http://taptoconnect.local:8080/users/activatecard/' . $user->token . ' to verify/activate your account.
+        Please click this link: https://ubtap.myubplus.com.ph/users/activatecard/' . $user->token . ' to verify/activate your account.
         
         UB Tap team';
- 
+
         return $mail;
         // if (!$mail->send()) {
         //     return ['error' => true, 'message' => 'Mailer error: ' . $mail->ErrorInfo];

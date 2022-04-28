@@ -231,17 +231,17 @@ return [
              * The keys host, port, timeout, username, password, client and tls
              * are used in SMTP transports
              */
-            'host' => 'localhost',
-            'port' => 25,
-            'timeout' => 30,
+            'host' => 'smtp.mail.yahoo.com',
+            'port' => 465,
             /*
              * It is recommended to set these options through your environment or app_local.php
              */
-            //'username' => null,
-            //'password' => null,
+            'username' => 'ubpdev@ubivelox.com.ph',
+            'password' => 'bdhobvphrinwdmqn',
             'client' => null,
             'tls' => false,
             'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
+            'log' => true
         ],
     ],
 
