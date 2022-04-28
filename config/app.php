@@ -236,8 +236,6 @@ return [
             /*
              * It is recommended to set these options through your environment or app_local.php
              */
-            'username' => 'ubpdev@ubivelox.com.ph',
-            'password' => 'bdhobvphrinwdmqn',
             'client' => null,
             'tls' => false,
             'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
