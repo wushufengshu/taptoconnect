@@ -53,14 +53,21 @@ class EmailComponent extends Component
         //Content
         $mail->isHTML(true);                                  //Set email format to HTML
         $mail->Subject = 'UBTap Card Activation';
+        $link = "https://ubtap.myubplus.com.ph/users/activatecard/".$user->token;
+
         $mail->Body    = 'Dear ' . ucfirst($user->firstname) . ',
-        Please click this link: https://ubtap.myubplus.com.ph/users/activatecard/' . $user->token . ' to verify/activate your account.
-        
-        UB Tap team';
+        <br><br>
+        Please click this link: <a href="'.$link.' target="_blank" >'.$link.'</a>'.' to verify/activate your account.
+        <br><br>
+
+        <strong>UBIVELOX - UBTap Team</strong>';
+
         $mail->AltBody = 'Dear ' . ucfirst($user->firstname) . ',
-        Please click this link: https://ubtap.myubplus.com.ph/users/activatecard/' . $user->token . ' to verify/activate your account.
-        
-        UB Tap team';
+        <br><br>
+        Please click this link: <a href="'.$link.' target="_blank" >'.$link.'</a>'.' to verify/activate your account.
+        <br><br>
+
+        <strong>UBIVELOX - UBTap Team</strong>';
 
         return $mail;
         // if (!$mail->send()) {
