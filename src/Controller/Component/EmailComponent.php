@@ -47,7 +47,7 @@ class EmailComponent extends Component
         //put into .env file 
         $mail->setFrom(getEnv('EMAIL_USERNAME'), 'UB Tap');
         $mail->addAddress($user->email, $user->firstname . ' ' . $user->lastname);     //Add a recipient 
-        $mail->addReplyTo('info@ubitap.com', 'Information');
+        $mail->addReplyTo('info@ubtap.com', 'Information');
 
 
         //Content
@@ -56,7 +56,6 @@ class EmailComponent extends Component
         $link = "https://ubtap.myubplus.com.ph/users/activatecard/".$user->token;
 
         $mail->Body    = 'Dear ' . ucfirst($user->firstname) . ',
-<<<<<<< HEAD
         <br><br>
         Please click this link: <a href="'.$link.' target="_blank" >'.$link.'</a>'.' to verify/activate your account.
         <br><br>
@@ -70,7 +69,6 @@ class EmailComponent extends Component
 
         <strong>UBIVELOX - UBTap Team</strong>';
 
-=======
 
         Please click this link: http://taptoconnect.local:8080/users/activatecard/' . $user->token . ' to verify/activate your account.
         
@@ -81,7 +79,6 @@ class EmailComponent extends Component
         
         UB Tap team';
  
->>>>>>> parent of 43932c9 (fixed email sending on user registration)
         return $mail;
         // if (!$mail->send()) {
         //     return ['error' => true, 'message' => 'Mailer error: ' . $mail->ErrorInfo];

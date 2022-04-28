@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Log\Log;
+use Cake\Mailer\Mailer;
 use Cake\I18n\FrozenDate;
 use PHPMailer\PHPMailer\Exception;
 use Cake\Http\Exception\NotFoundException;
@@ -26,8 +27,8 @@ class UsersController extends AppController
     {
         parent::beforeFilter($event);
         // Configure the login action to not require authentication, preventing
-        // the infinite redirect loop issue 
-        $this->Authentication->addUnauthenticatedActions(['login', 'register', 'token', 'activatecard', 'activateandregister', 'serial']);
+        // the infinite redirect loop issue  
+        $this->Authentication->addUnauthenticatedActions(['login', 'register', 'token', 'activatecard', 'activateandregister', 'serial', 'sendemailyahoo']);
     }
     public function activateandregister()
     {
@@ -50,7 +51,30 @@ class UsersController extends AppController
             }
         }
     }
+    //for testing
+    public function sendemailyahoo()
+    {
+        $this->Authorization->skipAuthorization();
+        $user = $this->Users->get(72);
+        try {
+            $mail = $this->Email->send_verification_email($user);
 
+            if (!$mail->send()) {
+                echo json_encode(array(
+                    "status" => "error",
+                    "text" => "Mailer Error: " . $mail->ErrorInfo,
+                ));
+            } else {
+                // return json_encode (['data' => $user, 'msg' => 1]);
+                $response = $this->response->withType('application/json')
+                    ->withStringBody(json_encode(['data' => $user, 'msg' => 1]));
+                return $response;
+            }
+        } catch (Exception $th) {
+            $msg = 3;
+        }
+        exit;
+    }
     public function register($cardid = null)
     {
         $this->Authorization->skipAuthorization();

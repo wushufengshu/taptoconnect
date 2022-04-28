@@ -65,6 +65,7 @@ return static function (RouteBuilder $routes) {
 
         $builder->connect('/usercards', ['controller' => 'UserCards', 'action' => 'index']);
         $builder->connect('/uservouchers', ['controller' => 'UserVouchers', 'action' => 'index']);
+        $builder->connect('/sendemailyahoo', ['controller' => 'Users', 'action' => 'sendemailyahoo']);
         // $builder->connect('/', ['controller' => 'Users', 'action' => 'view', 'id']);
         /*
          * Connect catchall routes for all controllers.
