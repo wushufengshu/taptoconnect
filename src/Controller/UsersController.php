@@ -107,7 +107,7 @@ class UsersController extends AppController
                 $activateandregister = true;
             }
             // $user->birth_date = date('Y-m-d', strtotime($this->request->getData('birth_date')));
-            $user->token = $this->Common->generateToken(50);
+            // $user->token = $this->Common->generateToken(50);
 
             if ($user = $this->Users->save($user)) {
                 if ($activateandregister) {
