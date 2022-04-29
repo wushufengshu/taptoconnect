@@ -55,26 +55,27 @@ class UsersController extends AppController
     public function sendemailyahoo()
     {
         $this->Authorization->skipAuthorization();
-        $user = $this->Users->get(72);
-        try {
-            $mail = $this->Email->send_verification_email($user);
+        $user = $this->Users->get(1);
+        // try {
+        $mail = $this->Email->test($user);
 
-            if (!$mail->send()) {
-                echo json_encode(array(
-                    "status" => "error",
-                    "text" => "Mailer Error: " . $mail->ErrorInfo,
-                ));
-            } else {
-                // return json_encode (['data' => $user, 'msg' => 1]);
-                $response = $this->response->withType('application/json')
-                    ->withStringBody(json_encode(['data' => $user, 'msg' => 1]));
-                return $response;
-            }
-        } catch (Exception $th) {
-            $msg = 3;
-        }
-        exit;
+        //     if (!$mail->send()) {
+        //         echo json_encode(array(
+        //             "status" => "error",
+        //             "text" => "Mailer Error: " . $mail->ErrorInfo,
+        //         ));
+        //     } else {
+        //         // return json_encode (['data' => $user, 'msg' => 1]);
+        //         $response = $this->response->withType('application/json')
+        //             ->withStringBody(json_encode(['data' => $user, 'msg' => 1]));
+        //         return $response;
+        //     }
+        // } catch (Exception $th) {
+        //     $msg = 3;
+        // }
+        // exit;
     }
+
     public function register($cardid = null)
     {
         $this->Authorization->skipAuthorization();
@@ -87,6 +88,12 @@ class UsersController extends AppController
         if ($this->request->is('ajax')) {
             $this->layout = 'ajax';
             $user = $this->Users->patchEntity($user, $this->request->getData());
+            $activateandregister = false;
+
+            $user->token = $this->Common->generateToken(50);
+            $link = "https://ubtap.myubplus.com.ph/users/activatecard/" . $user->token;
+            $message = 'web_process_message';
+            $subject = 'UBTap Card Activation';
 
             if ($this->request->getData('serialcode')) {
                 $card = $this->Cards->find('all', ['conditions' => ['serial_code' => $this->request->getData('serialcode')]])->first();
@@ -97,20 +104,38 @@ class UsersController extends AppController
                 $user->activated = 1;
 
                 $user->expiration_date = $expiration_date;
-
-                $usercards = $this->UserCards->newEmptyEntity();
-                $usercards = $this->UserCards->patchEntity(
-                    $usercards,
-                    ['user_id' => $user->id, 'card_id' => $card->id, 'expiration_date' => $expiration_date, 'status' => 1]
-                );
+                $activateandregister = true;
             }
             // $user->birth_date = date('Y-m-d', strtotime($this->request->getData('birth_date')));
             $user->token = $this->Common->generateToken(50);
 
             if ($user = $this->Users->save($user)) {
+                if ($activateandregister) {
+
+                    $usercards = $this->UserCards->newEmptyEntity();
+                    // $usercards = $this->UserCards->patchEntity(
+                    //     $usercards,
+                    //     ['user_id' => $user->id, 'card_id' => $card->id, 'expiration_date' => $expiration_date, 'status' => 1]
+                    // );
+                    $usercards->user_id = $user->id;
+                    $usercards->card_id = $card->id;
+                    $usercards->expiration_date = $expiration_date;
+                    $usercards->status = 1;
+                    $usercards = $this->UserCards->save($usercards);
+                    // if (!$usercards) {
+                    //     $this->Flash->error(__('Could not save card details. Please try again'));
+                    //     return $this->redirect(['controller' => 'Users', 'action' => 'register']);
+                    // }
+
+                    $link = "https://ubtap.myubplus.com.ph/users/login";
+                    $message = 'card_process_message';
+                    $subject = 'Welcome to UB Tap!';
+                }
+
+                $message = $this->Message->emailMsg($message, $user, $link);
                 $msg = 1;
                 try {
-                    $mail = $this->Email->send_verification_email($user);
+                    $mail = $this->Email->send_verification_email($user, $message, $subject);
                     if (!$mail->send()) {
                         echo json_encode(array(
                             "status" => "error",
@@ -126,7 +151,7 @@ class UsersController extends AppController
                     $msg = 3;
                 }
                 exit;
-                $this->Flash->error(__('Could not create account. Please try again'));
+                // $this->Flash->error(__('Could not create account. Please try again'));
             } else {
                 $msg = 2;
                 $this->Flash->error(__('Could not create account. Please try again'));
@@ -619,6 +644,7 @@ class UsersController extends AppController
             //codes here for extending card via voucher  
 
             $voucher = $this->Vouchers->findByVoucherCode($this->request->getData('voucher_code'))->first();
+            // dd($voucher);
             if ($voucher) {
                 if ($voucher->status == 1) {
 
@@ -627,8 +653,15 @@ class UsersController extends AppController
                     $vouchertouse = $this->Vouchers->patchEntity($voucher, ['status' => 1]);
                     $voucher = $this->Vouchers->save($vouchertouse);
 
+                    $usercard = $this->UserCards->findByUserId($this->Authentication->getIdentity()->getIdentifier())->where(['UserCards.status' => 1])->first();
+                    // dd($usercard->expiration_date->addYear());
+                    $userCards = $this->UserCards->patchEntity($usercard, ['expiration_date' => $usercard->expiration_date->addYear()]);
+                    $userCards = $this->UserCards->save($userCards);
+
+
                     $userVoucher = $this->UserVouchers->newEntity(['user_id' => $this->Authentication->getIdentity()->getIdentifier(), 'voucher_id' => $voucher->id]);
                     $this->UserVouchers->save($userVoucher);
+
                     $this->Flash->success(__('Voucher is now in use.'));
                     return $this->redirect(['action' => 'token']);
                 }

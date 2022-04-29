@@ -30,7 +30,14 @@ class EmailComponent extends Component
     {
     }
 
-    public function send_verification_email($user)
+    // public function test($user)
+    // {
+    //     $link = 'fb.com';
+    //     $return = $this->Message->emailMsg('web_process_message', $user, $link);
+    //     dd($return);
+    // }
+
+    public function send_verification_email($user, $message, $subject)
     {
         $mail = new PHPMailer(true);
         //Server settings
@@ -52,33 +59,34 @@ class EmailComponent extends Component
 
         //Content
         $mail->isHTML(true);                                  //Set email format to HTML
-        $mail->Subject = 'UBTap Card Activation';
-        $link = "https://ubtap.myubplus.com.ph/users/activatecard/".$user->token;
+        $mail->Subject = $subject;
 
-        $mail->Body    = 'Dear ' . ucfirst($user->firstname) . ',
-        <br><br>
-        Please click this link: <a href="'.$link.' target="_blank" >'.$link.'</a>'.' to verify/activate your account.
-        <br><br>
+        $mail->Body = $message;
+        $mail->AltBody = $message;
 
-        <strong>UBIVELOX - UBTap Team</strong>';
+        // $mail->Body    = 'Dear ' . ucfirst($user->firstname) . ',
+        // <br><br>
+        // Please click this link: <a href="' . $link . '>' . $link . '</a>' . ' to verify/activate your account.
+        // <br><br>
 
-        $mail->AltBody = 'Dear ' . ucfirst($user->firstname) . ',
-        <br><br>
-        Please click this link: <a href="'.$link.' target="_blank" >'.$link.'</a>'.' to verify/activate your account.
-        <br><br>
+        // <strong>UBIVELOX - UBTap Team</strong>';
 
-        <strong>UBIVELOX - UBTap Team</strong>';
+        // $mail->AltBody = 'Dear ' . ucfirst($user->firstname) . ',
+        // <br><br>
+        // Please click this link: <a href="' . $link . '>' . $link . '</a>' . ' to verify/activate your account.
+        // <br><br>
 
+        // <strong>UBIVELOX - UBTap Team</strong>';
 
-        Please click this link: http://taptoconnect.local:8080/users/activatecard/' . $user->token . ' to verify/activate your account.
-        
-        UB Tap team';
-        $mail->AltBody = 'Dear ' . ucfirst($user->firstname) . ',
+        // Please click this link: http://taptoconnect.local:8080/users/activatecard/' . $user->token . ' to verify/activate your account.
 
-        Please click this link: http://taptoconnect.local:8080/users/activatecard/' . $user->token . ' to verify/activate your account.
-        
-        UB Tap team';
- 
+        // UB Tap team';
+        // $mail->AltBody = 'Dear ' . ucfirst($user->firstname) . ',
+
+        // Please click this link: http://taptoconnect.local:8080/users/activatecard/' . $user->token . ' to verify/activate your account.
+
+        // UB Tap team';
+
         return $mail;
         // if (!$mail->send()) {
         //     return ['error' => true, 'message' => 'Mailer error: ' . $mail->ErrorInfo];

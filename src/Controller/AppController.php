@@ -82,6 +82,7 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
         $this->loadComponent('Common');
+        $this->loadComponent('Message');
         $this->loadComponent('Email');
 
         /*
