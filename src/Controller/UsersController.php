@@ -28,7 +28,7 @@ class UsersController extends AppController
         parent::beforeFilter($event);
         // Configure the login action to not require authentication, preventing
         // the infinite redirect loop issue  
-        $this->Authentication->addUnauthenticatedActions(['login', 'register', 'token', 'activatecard', 'activateandregister', 'serial', 'sendemailyahoo']);
+        $this->Authentication->addUnauthenticatedActions(['login', 'register', 'token', 'activatecard', 'activateandregister', 'serial', 'sendemailyahoo', 'generatevcard']);
     }
     public function activateandregister()
     {
@@ -750,8 +750,14 @@ class UsersController extends AppController
     public function generatevcard($id = null)
     {
         $this->Authorization->skipAuthorization();
+        if ($id) {
+            $findid = $id;
+        } else {
+            $id = $this->Authentication->getIdentity()->getIdentifier();
+        }
+        $user = $this->Users->get($id);
+        // $user = $this->Cards->findBy
 
-        $user = $this->Users->get($this->Authentication->getIdentity()->getIdentifier());
         $firstname = $user->firstname;
         $lastname = $user->lastname;
         $fullname = $user->firstname . " " . $user->lastname;
