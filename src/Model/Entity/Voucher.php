@@ -28,8 +28,10 @@ class Voucher extends Entity
      */
     protected $_accessible = [
         'voucher_code' => true,
+        'duration' => true,
         'status' => true,
         'created' => true,
+        'created_by' => true,
         'user_cards' => true,
     ];
 }

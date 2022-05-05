@@ -32,6 +32,7 @@ class Card extends Entity
         'verification_code' => true,
         'card_link' => true,
         'created' => true,
+        'created_by' => true,
         'users' => true,
     ];
 }

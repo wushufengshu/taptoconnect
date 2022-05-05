@@ -46,6 +46,7 @@ class CardsController extends AppController
                     $verification_code = $data[1];
                     $card_link = $data[2];
                     $created = date('Y-m-d H:i:s');
+                    $created_by = $this->request->getAttribute('identity')->getIdentifier();
                     /*
                     $data = array(
                         'serial_code' => $serial_code,
@@ -58,15 +59,16 @@ class CardsController extends AppController
                     */
                      $insertquery = $this->connection->execute("
                         INSERT INTO cards(
-                       serial_code,verification_code,card_link,created) 
+                       serial_code,verification_code,card_link,created,created_by) 
                         SELECT * FROM 
                         (SELECT '$serial_code') AS tmp1,
                         (SELECT '$verification_code') AS tmp2,
                         (SELECT '$card_link') AS tmp3,
-                        (SELECT '$created') AS tmp4 
+                        (SELECT '$created') AS tmp4,
+                        (SELECT '$created_by') AS tmp5 
                         WHERE NOT EXISTS 
                         (SELECT 
-                        serial_code,verification_code,card_link,created
+                        serial_code,verification_code,card_link,created,created_by
                         FROM 
                         cards 
                         WHERE 
@@ -99,22 +101,24 @@ class CardsController extends AppController
 
                     $scode = $this->Cards->generate_scode(); //call function from CardsTable Model to generate unique code for serial code
                     $vcode = $this->Cards->generate_vcode(); //call function from CardsTable Model to generate unique code for verification code
-                    $link = "http://taptoconnect.local:8080/serialcode/";
+                    $link = "https://ubtap.myubplus.com.ph/ub/";
                     $card_link = trim($link.$scode);
                     
                     $created = date('Y-m-d H:i:s');
+                    $created_by = $this->request->getAttribute('identity')->getIdentifier();
 
                     $insertquery = $this->connection->execute("
                         INSERT INTO cards(
-                       serial_code,verification_code,card_link,created) 
+                       serial_code,verification_code,card_link,created,created_by) 
                         SELECT * FROM 
                         (SELECT '$scode') AS tmp1,
                         (SELECT '$vcode') AS tmp2,
                         (SELECT '$card_link') AS tmp3,
-                        (SELECT '$created') AS tmp4 
+                        (SELECT '$created') AS tmp4,
+                        (SELECT '$created_by') AS tmp5 
                         WHERE NOT EXISTS 
                         (SELECT 
-                        serial_code,verification_code,card_link,created
+                        serial_code,verification_code,card_link,created,created_by
                         FROM 
                         cards 
                         WHERE 

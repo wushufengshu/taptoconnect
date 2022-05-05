@@ -756,7 +756,6 @@ class UsersController extends AppController
             $id = $this->Authentication->getIdentity()->getIdentifier();
         }
         $user = $this->Users->get($id);
-        // $user = $this->Cards->findBy
 
         $firstname = $user->firstname;
         $lastname = $user->lastname;
@@ -775,8 +774,12 @@ class UsersController extends AppController
         $filename = $fullname . "-" . date("Y-m-d H:i:s") . ".vcf";
 
         $generated_text = $this->Users->generate_vcard($fullname, $firstname, $lastname, $company, $job_title, $business_no, $home_no, $fax_no, $contactno, $email, $website, $address);
-        header('Content-Type: text/vcard;charset=utf-8;');
-        header('Content-Disposition: attachment; filename="' . $filename);
+        //header('Content-Type: text/vcard;charset=utf-8;');
+        $this->response->setTypeMap('vcf', ['text/vcard','charset=utf-8']);
+        //header('Content-Disposition: attachment; filename="' . $filename);
+        $this->response = $this->response->withHeader(
+            'Content-Disposition', 'attachment; filename="'.$filename
+        );
         echo $generated_text; //required/should be displayed for printing/getting data
 
         $this->set(compact('generated_text'));

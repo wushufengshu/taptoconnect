@@ -71,6 +71,10 @@ class VouchersTable extends Table
             ->notEmptyString('voucher_code');
 
         $validator
+            ->integer('duration')
+            ->notEmptyString('duration');
+
+        $validator
             ->integer('status')
             ->notEmptyString('status');
 
@@ -81,6 +85,6 @@ class VouchersTable extends Table
     {
         $str1 = str_shuffle(random_bytes(20) . sha1("Ub1v3L0XpHiL1pPiN3iNc!"));
         $str2 = date("Y-m-d H:i:s") . md5($str1);
-        return strtoupper(strrev(substr(str_shuffle(md5(base64_encode($str2))), 0, 6))); //generate unique code for serial code
+        return strtoupper(strrev(substr(str_shuffle(md5(base64_encode($str2))), 0, 12))); //generate unique code for serial code
     }
 }

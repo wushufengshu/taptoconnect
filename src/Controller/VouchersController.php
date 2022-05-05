@@ -28,23 +28,27 @@ class VouchersController extends AppController
                 
                 $voucher = $this->Vouchers->patchEntity($voucher, $this->request->getData());
                 $quantity = $_POST['quantity'];
+                $duration = $_POST['duration'];
                 //dd($quantity);
                 for ($i=0; $i < $quantity; $i++) { 
 
                     $voucher_code = $this->Vouchers->generate_vcode(); //call function from VouchersTable Model to generate unique code for voucher code
                     $status = 0;
                     $created = date('Y-m-d H:i:s');
+                    $created_by = $this->request->getAttribute('identity')->getIdentifier();
 
                     $insertquery = $this->connection->execute("
                         INSERT INTO vouchers(
-                       voucher_code,status,created) 
+                       voucher_code,duration,status,created,created_by) 
                         SELECT * FROM 
                         (SELECT '$voucher_code') AS tmp1,
-                        (SELECT '$status') AS tmp2,
-                        (SELECT '$created') AS tmp3
+                        (SELECT '$duration') AS tmp2,
+                        (SELECT '$status') AS tmp3,
+                        (SELECT '$created') AS tmp4,
+                        (SELECT '$created_by') AS tmp5
                         WHERE NOT EXISTS 
                         (SELECT 
-                        voucher_code,status,created
+                        voucher_code,duration,status,created,created_by
                         FROM 
                         vouchers 
                         WHERE 
@@ -73,7 +77,7 @@ class VouchersController extends AppController
                         $voucher_list = $this->Vouchers
                         ->find()
                         ->select([
-                            'id', 'voucher_code', 'status', 'created'
+                            'id', 'voucher_code', 'duration', 'status', 'created'
                         ])
                         ->where(['id' => $checked_item])
                         ->all();
@@ -87,6 +91,7 @@ class VouchersController extends AppController
                         $arr =array(
                             'Id' => $value['id'],
                             'Voucher Code' => $value['voucher_code'],
+                            'Duration (In Months)' => $value['duration'],
                             'Status - 0-Available/1-Used' => $value['status'], 
                             'Created' => $value['created']);
                         
@@ -124,8 +129,8 @@ class VouchersController extends AppController
         $this->response = $this->response->withDownload($filename);
         $vouchers = $this->Vouchers->find()->all();
         $_serialize = 'vouchers';
-        $_header = ['Voucher Code', 'Status - 0-Available/1-Used', 'Created'];
-        $_extract = ['voucher_code', 'status', 'created'];
+        $_header = ['Voucher Code', 'Duration (In Months)', 'Status - 0-Available/1-Used', 'Created'];
+        $_extract = ['voucher_code','duration', 'status', 'created'];
 
         $this->viewBuilder()->setClassName('CsvView.Csv');
         $this->set(compact('vouchers', '_serialize', '_header', '_extract'));
@@ -161,6 +166,7 @@ class VouchersController extends AppController
         $voucher = $this->Vouchers->newEmptyEntity();
         if ($this->request->is('post')) {
             $voucher = $this->Vouchers->patchEntity($voucher, $this->request->getData());
+            $voucher->created_by = $this->request->getAttribute('identity')->getIdentifier();
             if ($this->Vouchers->save($voucher)) {
                 $this->Flash->success(__('The voucher has been saved.'));
 

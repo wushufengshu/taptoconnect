@@ -105,7 +105,7 @@
                             <th colspan="12"><button type="submit" name="export_selected" class="btn btn-success float-right mr-2"><i class='fas fa-cloud-download-alt'></i> Download CSV (Selected)</button></th>
                           </tr>
                           <tr>
-                            <th>Select All&nbsp;<input type="checkbox" onclick="toggle(this);"></th>
+                            <th style="width: 50px;">Select All&nbsp;<input type="checkbox" onclick="toggle(this);"></th>
                             <th class="sort" data-sort="serial_code">Serial Code</th>
                             <th class="sort" data-sort="verification_code">Verification Code</th>
                             <th class="sort" data-sort="card_link">Card Link</th>
@@ -117,7 +117,7 @@
                           <?php foreach ($cards as $card): ?>
                           <tr>
                             <td><input type="checkbox" name="checked_item[]" value="<?php echo $card->id; ?>"><?php  //echo $card->id; ?></td>
-                            <td class="serial_code"><?= h($card->serial_code) ?></td>
+                            <td class="serial_code"><?= h($this->Common->put_asterisk($card->serial_code)) ?></td>
                             <td class="verification_code"><?= h($card->verification_code) ?></td>
                             <td class="card_link"><?= h($card->card_link) ?></td>
                             <td class="created"><?= h($card->created) ?></td>
